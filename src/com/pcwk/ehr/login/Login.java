@@ -6,6 +6,7 @@ public class Login {
 		// TODO Auto-generated method stub
 		System.out.println("Login ∆‰¿Ã¡ˆ");
 		System.out.println("LOGIN PAGE UPDATE DAY3!");
+		System.out.println("LOGIN PAGE UPDATE DAY4!");
 	}
 
 }
