@@ -8,5 +8,8 @@ public class Login {
 		System.out.println("LOGIN PAGE UPDATE DAY3!");
 		System.out.println("LOGIN PAGE UPDATE DAY4!");
 	}
-
+	
+	static void LoginService() {
+		System.out.println("Login method Update!");
+	}
 }
