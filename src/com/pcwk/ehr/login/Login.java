@@ -9,7 +9,9 @@ public class Login {
 		
 		System.out.println("아이디를 입력하세요.");
 		String id = s.nextLine();
-	}
+		System.out.println("비밀번호를 입력하세요.");
+		
+		}
 	public static void main(String[] args) {
 		System.out.println("Login 페이지");
 		System.out.println("LOGIN PAGE UPDATE DAY3!");
