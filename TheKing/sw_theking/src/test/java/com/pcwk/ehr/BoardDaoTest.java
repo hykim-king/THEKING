@@ -52,16 +52,18 @@ class BoardDaoTest {
         log.debug("@AfterEach - 테스트 종료");
     }
 
+    //@Disabled
     @Test
-    void testBeans() {
+    void Beans() {
         assertNotNull(context);
         assertNotNull(mapper);
         log.debug("context : {}", context);
         log.debug("mapper  : {}", mapper);
     }
 
+    //@Disabled
     @Test
-    void testDoSaveAndDelete() {
+    void doSaveAndDelete() {
         mapper.doSave(dto01);
         mapper.doSave(dto02);
         mapper.doSave(dto03);
@@ -75,8 +77,9 @@ class BoardDaoTest {
         }
     }
 
+    //@Disabled
     @Test
-    void testIncreaseViews() {
+    void IncreaseViews() {
         mapper.doSave(dto01);
         List<BoardDTO> list = mapper.doRetrieve(searchDTO);
         int boardNo = list.get(0).getBoardNo();
@@ -85,8 +88,9 @@ class BoardDaoTest {
         assertEquals(1, selected.getViews());
     }
 
+    //@Disabled
     @Test
-    void testUpdate() {
+    void doUpdate() {
         mapper.doSave(dto01);
         List<BoardDTO> list = mapper.doRetrieve(searchDTO);
         BoardDTO board = list.get(0);
@@ -99,8 +103,9 @@ class BoardDaoTest {
         assertEquals("수정된 내용입니다", updated.getContents());
     }
 
+    //@Disabled
     @Test
-    void testGetCount() {
+    void GetCount() {
         int count = mapper.getCount();
         assertTrue(count >= 0);
         log.debug("총 게시글 수: {}", count);
