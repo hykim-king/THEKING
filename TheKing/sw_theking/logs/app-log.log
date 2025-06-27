@@ -301,3 +301,145 @@
 [2025-06-27 14:10:55] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
 [2025-06-27 14:10:55] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
 [2025-06-27 14:10:55] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 14:27:31] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 14:27:31] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@6304101a, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5170bcf4, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@2812b107, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@df6620a, org.springframework.test.context.support.DirtiesContextTestExecutionListener@4e31276e, org.springframework.test.context.transaction.TransactionalTestExecutionListener@1a72a540, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@27d5a580, org.springframework.test.context.event.EventPublishingTestExecutionListener@198d6542]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - context:org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 14:27:31 GMT+09:00 2025
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==>  Preparing: DELETE FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - <==    Updates: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.saveAll - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) SELECT 'jamesol' || level AS user_id, '4321_' || level AS password, '이상무' || level AS name, '닉네임' || level AS nickname, 'jamesol' || level || '@paran.com' AS email, '0101234' || LPAD(level, 4, '0') AS mobile, '서울시 강남구' || level AS address, DECODE(MOD(level, 2), 0, 'admin', 'user') AS role, 'default_profile.png' AS profile, SYSDATE - level AS reg_date, SYSDATE AS mod_date FROM dual CONNECT BY LEVEL <= 502
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.saveAll - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.saveAll - <==    Updates: 502
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - count:502
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doRetrieve - ==>  Preparing: SELECT A.*, B.* FROM ( SELECT tt3.RNUM AS no, tt3.user_id, tt3.password, tt3.name, tt3.nickname, tt3.email, tt3.mobile, tt3.address, tt3.role, tt3.profile, TO_CHAR(tt3.reg_date, 'YYYY/MM/DD HH24:MI:SS') AS reg_dt, TO_CHAR(tt3.mod_date, 'YYYY/MM/DD HH24:MI:SS') AS mod_dt FROM ( SELECT ROWNUM AS RNUM, tt2.* FROM ( SELECT t1.* FROM user_tk t1 WHERE name LIKE ? || '%' ORDER BY t1.reg_date DESC ) tt2 WHERE ROWNUM <= (? * (? - 1) + ?) ) tt3 WHERE RNUM >= (? * (? - 1) + 1) ) A CROSS JOIN ( SELECT COUNT(*) AS total_cnt FROM user_tk WHERE name LIKE ? || '%' ) B
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doRetrieve - ==> Parameters: 이상무(String), 10(Integer), 1(Integer), 10(Integer), 10(Integer), 1(Integer), 이상무(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doRetrieve - <==      Total: 10
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol1, password=4321_1, name=이상무1, nickname=닉네임1, email=jamesol1@paran.com, mobile=01012340001, address=서울시 강남구1, role=user, profile=default_profile.png, regDt=2025/06/26 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol2, password=4321_2, name=이상무2, nickname=닉네임2, email=jamesol2@paran.com, mobile=01012340002, address=서울시 강남구2, role=admin, profile=default_profile.png, regDt=2025/06/25 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol3, password=4321_3, name=이상무3, nickname=닉네임3, email=jamesol3@paran.com, mobile=01012340003, address=서울시 강남구3, role=user, profile=default_profile.png, regDt=2025/06/24 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol4, password=4321_4, name=이상무4, nickname=닉네임4, email=jamesol4@paran.com, mobile=01012340004, address=서울시 강남구4, role=admin, profile=default_profile.png, regDt=2025/06/23 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol5, password=4321_5, name=이상무5, nickname=닉네임5, email=jamesol5@paran.com, mobile=01012340005, address=서울시 강남구5, role=user, profile=default_profile.png, regDt=2025/06/22 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol6, password=4321_6, name=이상무6, nickname=닉네임6, email=jamesol6@paran.com, mobile=01012340006, address=서울시 강남구6, role=admin, profile=default_profile.png, regDt=2025/06/21 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol7, password=4321_7, name=이상무7, nickname=닉네임7, email=jamesol7@paran.com, mobile=01012340007, address=서울시 강남구7, role=user, profile=default_profile.png, regDt=2025/06/20 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol8, password=4321_8, name=이상무8, nickname=닉네임8, email=jamesol8@paran.com, mobile=01012340008, address=서울시 강남구8, role=admin, profile=default_profile.png, regDt=2025/06/19 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol9, password=4321_9, name=이상무9, nickname=닉네임9, email=jamesol9@paran.com, mobile=01012340009, address=서울시 강남구9, role=user, profile=default_profile.png, regDt=2025/06/18 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol10, password=4321_10, name=이상무10, nickname=닉네임10, email=jamesol10@paran.com, mobile=01012340010, address=서울시 강남구10, role=admin, profile=default_profile.png, regDt=2025/06/17 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - context:org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 14:27:31 GMT+09:00 2025
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==>  Preparing: DELETE FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - <==    Updates: 502
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk01(String), 4321abc!@#(String), 이상무01(String), 이상무닉1(String), pcwk01@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), admin(String), profile(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk02(String), 1234abc!@#$(String), 이상무02(String), 이상무닉2(String), pcwk02@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), user(String), profile(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk03(String), 1234abcd!!(String), 이상무03(String), 이상무닉3(String), pcwk03@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), user(String), profile(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getAll - ==>  Preparing: SELECT user_id, password, name, nickname, email, mobile, address, role, profile, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM user_tk ORDER BY user_id
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getAll - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getAll - <==      Total: 3
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=pcwk01, password=4321abc!@#, name=이상무01, nickname=이상무닉1, email=pcwk01@naver.com, mobile=010-1111-1111, address=서울시 마포구 서교동11, role=admin, profile=profile, regDt=2025/06/27 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=pcwk02, password=1234abc!@#$, name=이상무02, nickname=이상무닉2, email=pcwk02@naver.com, mobile=010-1111-1111, address=서울시 마포구 서교동11, role=user, profile=profile, regDt=2025/06/27 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=pcwk03, password=1234abcd!!, name=이상무03, nickname=이상무닉3, email=pcwk03@naver.com, mobile=010-1111-1111, address=서울시 마포구 서교동11, role=user, profile=profile, regDt=2025/06/27 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - context:org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 14:27:31 GMT+09:00 2025
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==>  Preparing: DELETE FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - <==    Updates: 3
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk01(String), 4321abc!@#(String), 이상무01(String), 이상무닉1(String), pcwk01@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), admin(String), profile(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk02(String), 1234abc!@#$(String), 이상무02(String), 이상무닉2(String), pcwk02@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), user(String), profile(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk03(String), 1234abcd!!(String), 이상무03(String), 이상무닉3(String), pcwk03@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), user(String), profile(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==>  Preparing: SELECT user_id, password, name, nickname, email, mobile, address, role, profile, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM user_tk WHERE user_id = ?
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==> Parameters: pcwk01(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==>  Preparing: SELECT user_id, password, name, nickname, email, mobile, address, role, profile, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM user_tk WHERE user_id = ?
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==> Parameters: pcwk02(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==>  Preparing: SELECT user_id, password, name, nickname, email, mobile, address, role, profile, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM user_tk WHERE user_id = ?
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==> Parameters: pcwk03(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - context:org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 14:27:31 GMT+09:00 2025
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==>  Preparing: DELETE FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - <==    Updates: 3
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk01(String), 4321abc!@#(String), 이상무01(String), 이상무닉1(String), pcwk01@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), admin(String), profile(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doDelete - ==>  Preparing: DELETE FROM user_tk WHERE user_id = ?
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doDelete - ==> Parameters: pcwk01(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doDelete - <==    Updates: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - context:org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 14:27:31 GMT+09:00 2025
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 14:27:31 GMT+09:00 2025
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - org.apache.ibatis.binding.MapperProxy@59a79443
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - context:org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 14:27:31 GMT+09:00 2025
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==>  Preparing: DELETE FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - <==    Updates: 0
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk01(String), 4321abc!@#(String), 이상무01(String), 이상무닉1(String), pcwk01@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), admin(String), profile(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==>  Preparing: SELECT user_id, password, name, nickname, email, mobile, address, role, profile, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM user_tk WHERE user_id = ?
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==> Parameters: pcwk01(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - outVO:UserTKDTO [userId=pcwk01, password=4321abc!@#_U, name=이상무01_U, nickname=이상무닉1_U, email=pcwk01@naver.com_U, mobile=010-1111-1111_U, address=서울시 마포구 서교동11, role=admin, profile=profile_U, regDt=2025/06/27 14:27:32, modDt=2025/06/27 14:27:32]
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doUpdate - ==>  Preparing: UPDATE user_tk SET password = ?, name = ?, nickname = ?, email = ?, mobile = ?, address = ?, role = ?, profile = ?, mod_date = SYSDATE WHERE user_id = ?
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doUpdate - ==> Parameters: 4321abc!@#_U(String), 이상무01_U(String), 이상무닉1_U(String), pcwk01@naver.com_U(String), 010-1111-1111_U(String), 서울시 마포구 서교동11(String), admin(String), profile_U(String), pcwk01(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doUpdate - <==    Updates: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==>  Preparing: SELECT user_id, password, name, nickname, email, mobile, address, role, profile, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM user_tk WHERE user_id = ?
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==> Parameters: pcwk01(String)
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - <==      Total: 1
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
+[2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
