@@ -5,13 +5,14 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.pcwk.ehr.board.domain.BoardDTO;
-import com.pcwk.ehr.festival.domain.FestivalDTO;
-import com.pcwk.ehr.tour.domain.TourDTO;
+import com.pcwk.ehr.image.domain.ImageDTO;
+
 @Mapper
-public interface MainMapper {
+public interface MainMapper{
 	List<BoardDTO> getRecentNotice();
 
-	List<FestivalDTO> getRecentFestival();
+	List<ImageDTO> getRecentFestival();
 
-	List<TourDTO> getPopularTour();
+	List<ImageDTO> getPopularTour();
+
 }

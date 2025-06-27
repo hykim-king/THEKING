@@ -21,35 +21,57 @@
     </sql>
     
     <select id="doRetrieve" parameterType="SearchDTO" resultType="CommentDTO">
-    SELECT A.*, B.*
-    FROM (
-        SELECT tt3.RNUM AS no,
-               tt3.com_no,
-               tt3.user_id,
-               tt3.contents,
-               tt3.target_no,
-               tt3.table_name,
-               TO_CHAR(tt3.reg_date, 'YYYY/MM/DD HH24:MI:SS') AS reg_dt,
-               TO_CHAR(tt3.mod_date, 'YYYY/MM/DD HH24:MI:SS') AS mod_dt
-        FROM (
-            SELECT ROWNUM AS RNUM, tt2.*
-            FROM (
-                SELECT t1.*
-                FROM comments t1
-                <include refid="commentWhere"/>
-                ORDER BY t1.reg_date DESC
-            ) tt2
-            <![CDATA[
-            WHERE ROWNUM <= (#{pageSize} * (#{pageNo} - 1) + #{pageSize})
-        ) tt3
-        WHERE RNUM >= (#{pageSize} * (#{pageNo} - 1) + 1)]]>
-    ) A
-    CROSS JOIN (
-        SELECT COUNT(*) AS total_cnt
-        FROM comments
-        <include refid="commentWhere"/>
-    ) B
-</select>
+	    SELECT A.*, B.*
+	    FROM (
+	        SELECT tt3.RNUM AS no,
+	               tt3.com_no,
+	               tt3.user_id,
+	               tt3.contents,
+	               tt3.target_no,
+	               tt3.table_name,
+	               TO_CHAR(tt3.reg_date, 'YYYY/MM/DD HH24:MI:SS') AS reg_dt,
+	               TO_CHAR(tt3.mod_date, 'YYYY/MM/DD HH24:MI:SS') AS mod_dt
+	        FROM (
+	            SELECT ROWNUM AS RNUM, tt2.*
+	            FROM (
+	                SELECT t1.*
+	                FROM comments t1
+	                <include refid="commentWhere"/>
+	                ORDER BY t1.reg_date DESC
+	            ) tt2
+	            <![CDATA[
+	            WHERE ROWNUM <= (#{pageSize} * (#{pageNo} - 1) + #{pageSize})
+	        ) tt3
+	        WHERE RNUM >= (#{pageSize} * (#{pageNo} - 1) + 1)]]>
+	    ) A
+	    CROSS JOIN (
+	        SELECT COUNT(*) AS total_cnt
+	        FROM comments
+	        <include refid="commentWhere"/>
+	    ) B
+    </select>
+    
+    <insert id="saveAll">
+        INSERT INTO comments (
+        com_no,
+        user_id,
+        contents,
+        target_no,
+        table_name,
+        reg_date,
+        mod_date
+        )
+        SELECT 
+            level AS com_no,
+            'pcwk'    || level AS user_id,
+            '댓글 테스트 내용'    || level AS contents,
+            10    || level AS target_no,
+            DECODE(MOD(level, 3), 0, 'Tour', 1, 'Festival', 2, 'Board') AS table_name,
+            SYSDATE - level AS reg_date,
+            SYSDATE AS mod_date
+        FROM dual
+        <![CDATA[CONNECT BY LEVEL <= 502   ]]>                            
+    </insert>
     
     <insert id="doSave" parameterType="CommentDTO">
         INSERT INTO comments (
@@ -117,8 +139,6 @@
             table_name,
             TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt,
             TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt
-        FROM
-            comments;
         FROM comments
         ORDER BY com_no
     </select>
