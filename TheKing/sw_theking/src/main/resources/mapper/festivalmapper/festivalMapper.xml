@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcwk.ehr.mapper.FestivalMapper">
+	<resultMap id="festivalMap" type="FestivalDTO">
+	    <id property="festaNo" column="festa_no"/>
+	    <result property="name" column="name"/>
+	    <result property="subtitle" column="subtitle"/>
+	    <result property="contents" column="contents"/>
+	    <result property="views" column="views"/>
+	    <result property="address" column="address"/>
+	    <result property="tel" column="tel"/>
+	    <result property="fee" column="fee"/>
+	    <result property="regionNo" column="region_no"/>
+	    <result property="startDate" column="start_date"/>
+	    <result property="endDate" column="end_date"/>
+	    <result property="image.imageName" column="image_name"/>
+	
+	    <!-- RegionDTO 매핑 -->
+	    <association property="region" javaType="RegionDTO">
+	        <result property="regionSido" column="regionSido"/>
+	        <result property="regionGugun" column="regionGugun"/>
+	    </association>
+	    <!-- ImageDTO 매핑 -->
+	    <association property="image" javaType="ImageDTO">
+	        <result property="imageName" column="imageName"/>
+	    </association>
+	</resultMap>
+    <select id="checkRetrieve" resultMap="festivalMap">
+          SELECT *
+			  FROM (
+			    SELECT ROWNUM as rnum, tt2.*
+			    FROM (
+			      SELECT t1.*,
+			      		 t3.image_name AS imageName,
+			      		 t2.region_sido AS regionSido,
+			      		 t2.region_gugun AS regionGugun
+			      FROM festival t1
+			      JOIN region t2 ON t1.region_no = t2.region_no
+			      LEFT OUTER JOIN image t3 ON t1.festa_no = t3.target_no
+			      <where>
+			        <if test="sido != null"> 
+			          AND t2.region_sido = #{sido}
+			        </if>
+			        <if test="date != null">
+	      <![CDATA[    AND t1.start_date <= #{date}
+                       AND t1.end_date >= #{date}]]>
+			        </if>
+			      </where>
+			      ORDER BY t1.end_date DESC
+			    ) tt2
+			   <![CDATA[
+                WHERE ROWNUM <= (#{dto.pageSize} * (#{dto.pageNo} - 1) + #{dto.pageSize})                                            
+                )tt3                                                          
+                WHERE RNUM >= (#{dto.pageSize} * (#{dto.pageNo} - 1) + 1)]]>
+    </select>
+    
+    <update id="upViews" parameterType="FestivalDTO">
+        UPDATE festival
+            SET 
+                views = views+1
+        WHERE festa_no = #{festaNo}
+    </update>
+
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM FESTIVAL
+    </select>
+
+
+    <select id="doRetrieve" parameterType="SearchDTO" resultType="FestivalDTO">
+        SELECT *                                           
+		    FROM(                                                         
+		        SELECT ROWNUM as rnum,                                    
+			         tt2.*                                                    
+			        FROM(                                                     
+			            SELECT t1.*                                           
+			            FROM festival t1
+			            ORDER BY t1.end_date DESC                          
+			        )tt2                                                      
+			     <![CDATA[
+                WHERE ROWNUM <= (#{pageSize} * (#{pageNo} - 1) + #{pageSize})                                            
+			    )tt3                                                          
+			    WHERE RNUM >= (#{pageSize} * (#{pageNo} - 1) + 1)]]>
+        
+    </select>
+
+    <update id="doUpdate" parameterType="FestivalDTO">
+        UPDATE festival
+	     <set>
+	        <if test="name != null">name=#{name},</if>
+	        <if test="subtitle != null">subtitle=#{subtitle},</if>
+	        <if test="contents != null">contents=#{contents},</if>
+	        <if test="address != null">address=#{address},</if>
+	        <if test="tel != null">tel=#{tel},</if>
+	        <if test="fee != null">fee=#{fee},</if>
+	        <if test="regionNo != null">region_no=#{regionNo},</if>
+	        <if test="startDate != null">start_date=#{startDate},</if>
+	        <if test="endDate != null">end_date=#{endDate},</if>
+	    </set>
+		WHERE festa_no = #{festaNo}
+    </update>
+
+    <select id="doSelectOne" parameterType="FestivalDTO" resultType="FestivalDTO">
+        SELECT * 
+            FROM festival
+        WHERE festa_no = #{festaNo}
+    </select>
+    
+    <delete id="doDelete" parameterType="FestivalDTO">
+         DELETE FROM festival
+         WHERE festa_no = #{festaNo}
+    </delete>
+    
+    <insert id="doSave" parameterType="FestivalDTO">
+        INSERT INTO festival (
+					    festa_no,
+					    name,
+					    subtitle,
+					    contents, 
+					    address,
+					    tel,
+					    fee,
+					    region_no,
+					    start_date,
+					    end_date
+					) VALUES ( #{festaNo},
+					           #{name},
+					           #{subtitle},
+					           #{contents},
+					           #{address},
+					           #{tel},
+					           #{fee},
+					           #{regionNo},
+					           #{startDate},
+					           #{endDate} )
+    </insert>
+</mapper>
