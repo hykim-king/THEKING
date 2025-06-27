@@ -11,13 +11,14 @@
         table_name,
         reg_date,
         mod_date
-        ) VALUES ( :v0,
-           :v1,
-           :v2,
-           :v3,
-           :v4,
-           :v5,
-           :v6 );
+        ) VALUES ( 
+           ${comNo},
+           ${userId},
+           ${contents},
+           ${targetNo},
+           ${tableName},
+           SYSDATE,
+           SYSDATE );
     </insert>
 
 
