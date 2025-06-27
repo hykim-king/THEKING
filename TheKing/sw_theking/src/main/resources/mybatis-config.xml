@@ -16,8 +16,9 @@
     <typeAlias alias="TourDTO" type="com.pcwk.ehr.tour.domain.TourDTO"/>
     <typeAlias alias="RegionDTO" type="com.pcwk.ehr.region.domain.RegionDTO"/>
     <typeAlias alias="FestivalDTO" type="com.pcwk.ehr.festival.domain.FestivalDTO"/>
-    <typeAlias alias="MyMapperDTO" type="com.pcwk.ehr.mymapper.domain.MyMapperDTO"/>
     <typeAlias alias="UserDTO" type="com.pcwk.ehr.user.domain.UserDTO"/>
     <typeAlias alias="SearchDTO" type="com.pcwk.ehr.cmn.SearchDTO"/>
+    <typeAlias alias="CommentDTO" type="com.pcwk.ehr.comment.domain.CommentDTO"/>
+    <typeAlias alias="FavoritesDTO" type="com.pcwk.ehr.favorites.domain.favoritesDTO"/>
   </typeAliases>
 </configuration>
