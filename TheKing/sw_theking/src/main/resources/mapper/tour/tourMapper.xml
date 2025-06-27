@@ -207,6 +207,6 @@
     <!-- 행 개수 확인(테스트용) -->
     <select id="getCount" resultType="java.lang.Integer">
         SELECT COUNT(*) total_cnt FROM TOUR
-    </select>
+    </select>    
 
 </mapper>
