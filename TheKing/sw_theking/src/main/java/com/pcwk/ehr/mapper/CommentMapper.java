@@ -14,7 +14,7 @@ public interface CommentMapper extends WorkDiv<CommentDTO>{
 
 	int saveAll();
 	
-	List<UserDTO> getAll();
+	List<CommentDTO> getAll();
 	
 	void deleteAll() throws SQLException;
 	
