@@ -16,7 +16,7 @@ public class favoritesDTO {
 	public void setFavNo(int favNo) {
 		this.favNo = favNo;
 	}
-
+ 
 	public String getUserId() {
 		return userId;
 	}
