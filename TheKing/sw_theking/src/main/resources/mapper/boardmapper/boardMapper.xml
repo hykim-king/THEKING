@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pcwk.ehr.mapper.BoardMapper">
+
+    <!-- ResultMap -->
+    <resultMap id="boardMap" type="com.pcwk.ehr.board.domain.BoardDTO">
+        <id property="boardNo" column="board_no"/>
+        <result property="title" column="title"/>
+        <result property="contents" column="contents"/>
+        <result property="views" column="views"/>
+        <result property="boardPart" column="board_part"/>
+        <result property="regId" column="reg_id"/>
+        <result property="regDate" column="reg_date"/>
+        <result property="modDate" column="mod_date"/>
+    </resultMap>
+
+    <!-- Insert -->
+    <insert id="doSave" parameterType="com.pcwk.ehr.board.domain.BoardDTO">
+        INSERT INTO board (
+            board_no,
+            title,
+            contents,
+            views,
+            board_part,
+            reg_id,
+            reg_date,
+            mod_date
+        ) VALUES (
+            board_seq.NEXTVAL,
+            #{title},
+            #{contents},
+            0,
+            #{boardPart},
+            #{regId},
+            SYSDATE,
+            SYSDATE
+        )
+    </insert>
+
+    <!-- Update -->
+    <update id="doUpdate" parameterType="com.pcwk.ehr.board.domain.BoardDTO">
+        UPDATE board
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="contents != null">contents = #{contents},</if>
+            <if test="boardPart != null">board_part = #{boardPart},</if>
+            mod_date = SYSDATE
+        </set>
+        WHERE board_no = #{boardNo}
+    </update>
+
+    <!-- Delete -->
+    <delete id="doDelete" parameterType="int">
+        DELETE FROM board
+        WHERE board_no = #{boardNo}
+    </delete>
+
+    <!-- Select One -->
+    <select id="doSelectOne" parameterType="int" resultMap="boardMap">
+        SELECT *
+        FROM board
+        WHERE board_no = #{boardNo}
+    </select>
+
+    <!-- Retrieve with Paging using nested query like UserDTO style -->
+    <select id="doRetrieve" parameterType="com.pcwk.ehr.cmn.SearchDTO" resultMap="boardMap">
+        SELECT A.*, B.*
+        FROM (
+            SELECT tt3.rnum AS no,
+                   tt3.board_no,
+                   tt3.title,
+                   tt3.contents,
+                   tt3.views,
+                   tt3.board_part,
+                   tt3.reg_id,
+                   tt3.reg_date,
+                   tt3.mod_date
+            FROM (
+                SELECT ROWNUM AS rnum, tt2.*
+                FROM (
+                    SELECT *
+                    FROM board
+                    ORDER BY reg_date DESC
+                ) tt2
+                <![CDATA[
+                WHERE ROWNUM <= (#{pageSize} * (#{pageNo} - 1) + #{pageSize})
+            ) tt3
+            WHERE rnum >= (#{pageSize} * (#{pageNo} - 1) + 1)]]>
+        ) A
+        CROSS JOIN (
+            SELECT COUNT(*) AS total_cnt
+            FROM board
+        ) B
+    </select>
+
+    <!-- Increase Views -->
+    <update id="upViews" parameterType="int">
+        UPDATE board
+        SET views = views + 1
+        WHERE board_no = #{boardNo}
+    </update>
+
+    <!-- Count All -->
+    <select id="getCount" resultType="int">
+        SELECT COUNT(*) FROM board
+    </select>
+
+</mapper>

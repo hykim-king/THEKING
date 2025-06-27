@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcwk.ehr.mapper.UserMapper">
+    
+    <sql id="userWhere">
+        <where>
+            <if test="searchDiv !='' ">
+                <choose>
+	                <when test="searchDiv == '10'">
+	                    user_id LIKE #{searchWord} || '%'
+	                </when>
+	                <when test="searchDiv == '20'">
+	                    name LIKE #{searchWord} || '%'
+	                </when>
+	                <when test="searchDiv == '30'">
+	                    nickname LIKE #{searchWord} || '%'
+	                </when>
+                </choose>                           
+            </if>
+        </where>
+    </sql>
+    
+    <select id="isDuplicateUserId" parameterType="String" resultType="java.lang.Integer">
+        SELECT COUNT(*) 
+          FROM user_tk 
+         WHERE user_id = #{userId}
+    </select>
+    
+    <select id="isDuplicateNickname" parameterType="String" resultType="java.lang.Integer">
+        SELECT COUNT(*) 
+          FROM user_tk 
+         WHERE nickname = #{nickname}
+    </select>
+    
+    <select id="isDuplicateEmail" parameterType="String" resultType="java.lang.Integer">
+        SELECT COUNT(*) 
+          FROM user_tk 
+         WHERE email = #{email}
+    </select>
+    
+    <select id="doRetrieve" parameterType="SearchDTO" resultType="UserDTO">
+	    SELECT A.*, B.*
+	    FROM (
+	        SELECT tt3.RNUM AS no,
+	               tt3.user_id,
+	               tt3.password,
+	               tt3.name,
+	               tt3.nickname,
+	               tt3.email,
+	               tt3.mobile,
+	               tt3.address,
+	               tt3.role,
+	               tt3.profile,
+	               TO_CHAR(tt3.reg_date, 'YYYY/MM/DD HH24:MI:SS') AS reg_dt,
+	               TO_CHAR(tt3.mod_date, 'YYYY/MM/DD HH24:MI:SS') AS mod_dt
+	        FROM (
+	            SELECT ROWNUM AS RNUM, tt2.*
+	            FROM (
+	                SELECT t1.*
+	                FROM user_tk t1
+	                <include refid="userWhere"/>
+	                ORDER BY t1.reg_date DESC
+	            ) tt2
+	            <![CDATA[
+	            WHERE ROWNUM <= (#{pageSize} * (#{pageNo} - 1) + #{pageSize})
+	        ) tt3
+	        WHERE RNUM >= (#{pageSize} * (#{pageNo} - 1) + 1)]]>
+	    ) A
+	    CROSS JOIN (
+	        SELECT COUNT(*) AS total_cnt
+	        FROM user_tk
+	        <include refid="userWhere"/>
+	    ) B
+	</select>
+    
+    <insert id="saveAll">
+        INSERT INTO user_tk (
+	        user_id,
+	        password,
+	        name,
+	        nickname,
+	        email,
+	        mobile,
+	        address,
+	        role,
+	        profile,
+	        reg_date,
+	        mod_date
+	    )
+	    SELECT 
+	        'jamesol' || level AS user_id,
+	        '4321_'   || level AS password,
+	        '이상무'  || level AS name,
+	        '닉네임'  || level AS nickname,
+	        'jamesol' || level || '@paran.com' AS email,
+	        '0101234' || LPAD(level, 4, '0') AS mobile,
+	        '서울시 강남구' || level AS address,
+	        DECODE(MOD(level, 2), 0, 'admin', 'user') AS role,
+        	'default_profile.png' AS profile,
+        	SYSDATE - level AS reg_date,
+        	SYSDATE AS mod_date
+    	FROM dual
+    	<![CDATA[CONNECT BY LEVEL <= 502   ]]>                            
+    </insert>
+    
+    <update id="doUpdate" parameterType="UserDTO">
+	    UPDATE user_tk
+	    SET 
+	        password  = #{password},
+	        name      = #{name},
+	        nickname  = #{nickname},
+	        email     = #{email},
+	        mobile    = #{mobile},
+	        address   = #{address},
+	        role      = #{role},
+	        profile   = #{profile},
+	        mod_date  = SYSDATE
+	    WHERE user_id = #{userId}
+	</update>
+
+    <insert id="doSave" parameterType="UserDTO">
+	    INSERT INTO user_tk (
+	        user_id,
+	        password,
+	        name,
+	        nickname,
+	        email,
+	        mobile,
+	        address,
+	        <if test="role != null">role,</if>
+       	 	<if test="profile != null">profile,</if>
+	        reg_date,
+	        mod_date
+	    ) VALUES (
+	        #{userId},
+	        #{password},
+	        #{name},
+	        #{nickname},
+	        #{email},
+	        #{mobile},
+	        #{address},
+	        <if test="role != null">#{role},</if>
+        	<if test="profile != null">#{profile},</if>
+	        SYSDATE,
+	        SYSDATE
+	    )
+	</insert>
+    
+    <!-- id PK또는 고유값에 해당 합니다. -->
+    <resultMap type="UserDTO" id="userMap">
+        <id column="user_id" property="userId"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="nickname" property="nickname"/>
+        <result column="email" property="email"/>
+        <result column="mobile" property="mobile"/>
+        <result column="address" property="address"/>
+        <result column="role" property="role"/>
+        <result column="profile" property="profile"/>
+        <result column="regDt" property="regDt"/>
+        <result column="modDt" property="modDt"/>
+    </resultMap>
+    
+    <select id="getAll" resultType="UserDTO">
+	    SELECT
+	        user_id,
+	        password,
+	        name,
+	        nickname,
+	        email,
+	        mobile,
+	        address,
+	        role,
+	        profile,
+	        TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt,
+	        TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt
+	    FROM user_tk
+	    ORDER BY user_id
+	</select>
+    
+    <select id="doSelectOne" parameterType="UserDTO" resultMap="userMap">
+	    SELECT
+	        user_id,
+	        password,
+	        name,
+	        nickname,
+	        email,
+	        mobile,
+	        address,
+	        role,
+	        profile,
+	        TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt,
+	        TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt
+	    FROM user_tk
+	    WHERE user_id = #{userId}
+	</select>
+
+    <select id="getCount" resultType="java.lang.Integer">
+        SELECT count(*) AS totalCnt FROM user_tk
+    </select>
+    
+    <delete id="doDelete" parameterType="UserDTO">
+        DELETE FROM user_tk
+        WHERE user_id = #{userId}
+    </delete>
+
+    <delete id="deleteAll">
+        DELETE FROM user_tk
+    </delete>
+
+</mapper>

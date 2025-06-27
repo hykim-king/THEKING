@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcwk.ehr.mapper.MainMapper">
+
+
+<select id="getRecentNotice" resultType="BoardDTO">
+		SELECT ROWNUM as rnum,                                    
+		       tt2.*                                                    
+		    FROM(                                                     
+		            SELECT t1.*                                           
+		                FROM board t1
+		            WHERE t1.board_part = 10
+		            ORDER BY t1.reg_date DESC                               
+		        )tt2                                                      
+	<![CDATA[WHERE ROWNUM <=5]]>
+</select>
+</mapper>
