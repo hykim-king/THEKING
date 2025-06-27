@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -65,7 +66,7 @@ class CommentDaoTest {
 		log.debug("***************************");
 	}
 
-	@Disabled
+	//@Disabled
 	@Test
 	void beans() {
 		assertNotNull(context);
@@ -79,7 +80,7 @@ class CommentDaoTest {
 		log.debug(mapper);
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	public void doSave() throws SQLException {
 		log.debug("┌─────────────────────────┐");
@@ -105,7 +106,7 @@ class CommentDaoTest {
 
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void doDelete() throws SQLException {
 		// 1.전체삭제
@@ -151,7 +152,7 @@ class CommentDaoTest {
 		String upString = "_U";
 		
 		outVO.setComNo(outVO.getComNo());
-		outVO.setUserId(outVO.getUserId() + upString);
+		outVO.setUserId(outVO.getUserId());
 		outVO.setContents(outVO.getContents() + upString);
 		outVO.setTargetNo(outVO.getTargetNo());
 		outVO.setTableName(outVO.getTableName());
@@ -161,15 +162,77 @@ class CommentDaoTest {
 		// 5. 수정
 		flag = mapper.doUpdate(outVO);
 		assertEquals(1, flag);
-
+		
 		// 6. 수정 조회
 		CommentDTO upVO = mapper.doSelectOne(outVO);
-
+		log.debug("upVO:" + upVO);
+		
 		// 7. 4번 6번 비교
 		isSameUser(outVO, upVO);
 		System.out.println("***");
 
 	}
+	
+	//@Disabled
+	@Test
+	void doRetrieve() throws SQLException {
+		// 1. 전체삭제
+		mapper.deleteAll();
+	
+		// 2. 다건등록
+		int count = mapper.saveAll();
+		log.debug("count:" + count);
+		assertEquals(502, count);
+	
+		//paging
+		search.setPageSize(10);
+		search.setPageNo(1);
+		
+		search.setSearchDiv("10");
+		search.setSearchWord("pcwk");
+		
+		// 3. paging조회
+		List<CommentDTO> list = mapper.doRetrieve(search);
+		
+		for (CommentDTO vo : list) {
+			log.debug(vo);
+		}
+	
+		assertEquals(list.size(), 10);
+	}
+	
+	//@Disabled
+	@Test
+	public void getAll() throws SQLException {
+		// 1. 전체삭제
+		mapper.deleteAll();
+	
+		// 2. 단건등록
+		int flag = mapper.doSave(dto01);
+		assertEquals(1, flag);
+	
+		int count = mapper.getCount();
+		assertEquals(count, 1);
+	
+		mapper.doSave(dto02);
+		count = mapper.getCount();
+		assertEquals(count, 2);
+	
+		mapper.doSave(dto03);
+		count = mapper.getCount();
+		assertEquals(count, 3);
+	
+		// 5 전체 조회
+		List<CommentDTO> commentList = mapper.getAll();
+	
+		assertEquals(commentList.size(), 3);
+	
+		for (CommentDTO dto : commentList) {
+			log.debug(dto);
+		}
+
+	}
+	
 	
 	// 데이터 비교
 	public void isSameUser(CommentDTO outVO, CommentDTO dto01) {
