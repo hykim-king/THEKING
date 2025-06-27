@@ -1,18 +1,16 @@
 package com.pcwk.ehr.comment.domain;
 
-public class commentDTO {
+import com.pcwk.ehr.cmn.DTO;
+
+public class CommentDTO extends DTO {
 	
-	private String comNo      ;
-	private String userId     ;
-	private String contents   ;
-	private String targetNo   ;
-	private String tableName  ;
-	private String regDt      ;
-	private String modDt      ;
-	
-	public commentDTO() {
-	}
-	
+	private String comNo     ;
+	private String userId    ;
+	private String contents  ;
+	private String targetNo  ;
+	private String tableName ;
+	private String regDt     ;
+	private String modDt     ;
 	
 	/**
 	 * @param comNo
@@ -23,7 +21,8 @@ public class commentDTO {
 	 * @param regDt
 	 * @param modDt
 	 */
-	public commentDTO(String comNo, String userId, String contents, String targetNo, String tableName, String regDt,
+	
+	public CommentDTO(String comNo, String userId, String contents, String targetNo, String tableName, String regDt,
 			String modDt) {
 		super();
 		this.comNo = comNo;
@@ -35,6 +34,13 @@ public class commentDTO {
 		this.modDt = modDt;
 	}
 
+
+
+	/**
+	 * 
+	 */
+	public CommentDTO() {
+	}
 
 
 	/**
