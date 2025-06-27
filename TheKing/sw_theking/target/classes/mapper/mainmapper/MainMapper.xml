@@ -4,14 +4,54 @@
 
 
 <select id="getRecentNotice" resultType="BoardDTO">
-		SELECT ROWNUM as rnum,                                    
-		       tt2.*                                                    
-		    FROM(                                                     
-		            SELECT t1.*                                           
-		                FROM board t1
-		            WHERE t1.board_part = 10
-		            ORDER BY t1.reg_date DESC                               
-		        )tt2                                                      
-	<![CDATA[WHERE ROWNUM <=5]]>
+  <![CDATA[
+    SELECT *
+    FROM (
+        SELECT t1.*, ROWNUM AS rnum
+        FROM (
+            SELECT *
+            FROM board
+            WHERE board_part = 10
+            ORDER BY reg_date DESC
+        ) t1
+        WHERE ROWNUM <= 5
+    )
+  ]]>
 </select>
+
+
+<select id="getPopularTour" resultType="ImageDTO">
+  <![CDATA[
+SELECT *
+    FROM(
+        SELECT t3.*, 
+               ROWNUM
+            FROM(
+                SELECT t2.image_name AS imageName, t2.target_no AS targetNo
+                    FROM tour t1 JOIN image t2 ON t1.tour_no = t2.target_no
+                    WHERE t2.table_name = 'tour'
+                    ORDER BY t1.views DESC
+                )t3     
+)WHERE ROWNUM <= 5
+  ]]>
+</select>
+
+
+
+<select id="getRecentFestival" resultType="ImageDTO">
+  <![CDATA[
+SELECT *
+    FROM(
+        SELECT t3.*, 
+               ROWNUM
+            FROM(
+                SELECT t2.image_name AS imageName, t2.target_no AS targetNo
+                    FROM festival t1 JOIN image t2 ON t1.festa_no = t2.target_no
+                    WHERE t2.table_name = 'festival'
+                    ORDER BY t1.end_date DESC
+                )t3     
+)WHERE ROWNUM <= 5
+  ]]>
+</select>
+
 </mapper>

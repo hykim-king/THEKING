@@ -1,23 +1,18 @@
 package com.pcwk.ehr.mapper;
 
 import java.sql.SQLException;
-import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.pcwk.ehr.cmn.WorkDiv;
-import com.pcwk.ehr.comment.domain.CommentDTO;
-import com.pcwk.ehr.user.domain.UserDTO;
+import com.pcwk.ehr.image.domain.ImageDTO;
 
 @Mapper
-public interface CommentMapper extends WorkDiv<CommentDTO>{
-
+public interface ImageMapper extends WorkDiv<ImageDTO> {
 	int saveAll();
-	
-	List<CommentDTO> getAll();
 	
 	void deleteAll() throws SQLException;
 	
 	int getCount() throws SQLException;
-	
+
 }
