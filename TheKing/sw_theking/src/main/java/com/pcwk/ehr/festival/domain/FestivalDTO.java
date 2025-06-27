@@ -154,8 +154,6 @@ public class FestivalDTO extends DTO{
 
 
 
-
-
 	public FestivalDTO(int festaNo, String name, String subtitle, String contents, int views, String address,
 			String tel, int fee, int regionNo, String startDate, String endDate) {
 		super();
