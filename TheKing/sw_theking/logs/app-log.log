@@ -443,3 +443,747 @@
 [2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
 [2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
 [2025-06-27 14:27:32] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 15:45:20] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 15:45:20] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@6337c201, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5c669da8, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@31920ade, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@1d483de4, org.springframework.test.context.support.DirtiesContextTestExecutionListener@4032d386, org.springframework.test.context.transaction.TransactionalTestExecutionListener@28d18df5, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@934b6cb, org.springframework.test.context.event.EventPublishingTestExecutionListener@55cf0d14]
+[2025-06-27 15:45:20] [WARN ] org.springframework.context.support.GenericApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sqlSessionTemplate' defined in URL [file:src/main/webapp/WEB-INF/spring/root-context.xml]: Cannot resolve reference to bean 'sqlSessionFactoryBean' while setting constructor argument; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sqlSessionFactoryBean' defined in URL [file:src/main/webapp/WEB-INF/spring/root-context.xml]: Invocation of init method failed; nested exception is java.io.IOException: Failed to parse mapping resource: 'file [C:\Users\user\THEKING\TheKing\sw_theking\target\classes\mapper\mymapper\myMapper.xml]'
+[2025-06-27 15:45:20] [ERROR] org.springframework.test.context.TestContextManager - Caught exception while allowing TestExecutionListener [org.springframework.test.context.support.DependencyInjectionTestExecutionListener@1d483de4] to prepare test instance [com.pcwk.ehr.CommentDaoTest@1f12e153]
+java.lang.IllegalStateException: Failed to load ApplicationContext
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:98) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:124) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:118) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:248) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:138) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$11(ClassBasedTestDescriptor.java:378) ~[junit-jupiter-engine-5.11.0.jar:5.11.0]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:383) ~[junit-jupiter-engine-5.11.0.jar:5.11.0]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$12(ClassBasedTestDescriptor.java:378) ~[junit-jupiter-engine-5.11.0.jar:5.11.0]
+	at java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184) ~[?:1.8.0_202]
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193) ~[?:1.8.0_202]
+	at java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:175) ~[?:1.8.0_202]
+	at java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:193) ~[?:1.8.0_202]
+	at java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1382) ~[?:1.8.0_202]
+	at java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:481) ~[?:1.8.0_202]
+	at java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:471) ~[?:1.8.0_202]
+	at java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:151) ~[?:1.8.0_202]
+	at java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:174) ~[?:1.8.0_202]
+	at java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234) ~[?:1.8.0_202]
+	at java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:418) ~[?:1.8.0_202]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:377) ~[junit-jupiter-engine-5.11.0.jar:5.11.0]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$7(ClassBasedTestDescriptor.java:290) ~[junit-jupiter-engine-5.11.0.jar:5.11.0]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:289) ~[junit-jupiter-engine-5.11.0.jar:5.11.0]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$5(ClassBasedTestDescriptor.java:279) ~[junit-jupiter-engine-5.11.0.jar:5.11.0]
+	at java.util.Optional.orElseGet(Optional.java:267) ~[?:1.8.0_202]
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$6(ClassBasedTestDescriptor.java:278) ~[junit-jupiter-engine-5.11.0.jar:5.11.0]
+	at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:31) ~[junit-jupiter-engine-5.11.0.jar:5.11.0]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$1(TestMethodTestDescriptor.java:105) ~[junit-jupiter-engine-5.11.0.jar:5.11.0]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:104) ~[junit-jupiter-engine-5.11.0.jar:5.11.0]
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:68) ~[junit-jupiter-engine-5.11.0.jar:5.11.0]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$2(NodeTestTask.java:123) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:123) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:90) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at java.util.ArrayList.forEach(ArrayList.java:1257) ~[?:1.8.0_202]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at java.util.ArrayList.forEach(ArrayList.java:1257) ~[?:1.8.0_202]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54) ~[junit-platform-engine-1.11.0.jar:1.11.0]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198) ~[junit-platform-launcher-1.11.0.jar:1.11.0]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169) ~[junit-platform-launcher-1.11.0.jar:1.11.0]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93) ~[junit-platform-launcher-1.11.0.jar:1.11.0]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58) ~[junit-platform-launcher-1.11.0.jar:1.11.0]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141) [junit-platform-launcher-1.11.0.jar:1.11.0]
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57) [junit-platform-launcher-1.11.0.jar:1.11.0]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103) [junit-platform-launcher-1.11.0.jar:1.11.0]
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:94) [junit-platform-launcher-1.11.0.jar:1.11.0]
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:52) [junit-platform-launcher-1.11.0.jar:1.11.0]
+	at org.junit.platform.launcher.core.SessionPerRequestLauncher.execute(SessionPerRequestLauncher.java:70) [junit-platform-launcher-1.11.0.jar:1.11.0]
+	at org.eclipse.jdt.internal.junit5.runner.JUnit5TestReference.run(JUnit5TestReference.java:98) [.cp/:?]
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:41) [.cp/:?]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:542) [.cp/:?]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:770) [.cp/:?]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:464) [.cp/:?]
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:210) [.cp/:?]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sqlSessionTemplate' defined in URL [file:src/main/webapp/WEB-INF/spring/root-context.xml]: Cannot resolve reference to bean 'sqlSessionFactoryBean' while setting constructor argument; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sqlSessionFactoryBean' defined in URL [file:src/main/webapp/WEB-INF/spring/root-context.xml]: Invocation of init method failed; nested exception is java.io.IOException: Failed to parse mapping resource: 'file [C:\Users\user\THEKING\TheKing\sw_theking\target\classes\mapper\mymapper\myMapper.xml]'
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:342) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:113) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:681) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:189) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1372) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1222) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:209) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:591) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:127) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:60) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.delegateLoading(AbstractDelegatingSmartContextLoader.java:276) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:244) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:141) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:90) ~[spring-test-5.3.37.jar:5.3.37]
+	... 74 more
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'sqlSessionFactoryBean' defined in URL [file:src/main/webapp/WEB-INF/spring/root-context.xml]: Invocation of init method failed; nested exception is java.io.IOException: Failed to parse mapping resource: 'file [C:\Users\user\THEKING\TheKing\sw_theking\target\classes\mapper\mymapper\myMapper.xml]'
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1804) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:209) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:330) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:113) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:681) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:189) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1372) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1222) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:209) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:591) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:127) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:60) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.delegateLoading(AbstractDelegatingSmartContextLoader.java:276) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:244) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:141) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:90) ~[spring-test-5.3.37.jar:5.3.37]
+	... 74 more
+Caused by: java.io.IOException: Failed to parse mapping resource: 'file [C:\Users\user\THEKING\TheKing\sw_theking\target\classes\mapper\mymapper\myMapper.xml]'
+	at org.mybatis.spring.SqlSessionFactoryBean.buildSqlSessionFactory(SqlSessionFactoryBean.java:700) ~[mybatis-spring-2.1.2.jar:2.1.2]
+	at org.mybatis.spring.SqlSessionFactoryBean.afterPropertiesSet(SqlSessionFactoryBean.java:577) ~[mybatis-spring-2.1.2.jar:2.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1863) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:209) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:330) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:113) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:681) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:189) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1372) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1222) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:209) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:591) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:127) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:60) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.delegateLoading(AbstractDelegatingSmartContextLoader.java:276) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:244) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:141) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:90) ~[spring-test-5.3.37.jar:5.3.37]
+	... 74 more
+Caused by: org.apache.ibatis.builder.BuilderException: Error parsing Mapper XML. The XML location is 'file [C:\Users\user\THEKING\TheKing\sw_theking\target\classes\mapper\mymapper\myMapper.xml]'. Cause: org.apache.ibatis.builder.BuilderException: Error resolving class. Cause: org.apache.ibatis.type.TypeException: Could not resolve type alias 'MyMapperDTO'.  Cause: java.lang.ClassNotFoundException: Cannot find class: MyMapperDTO
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:125) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.parse(XMLMapperBuilder.java:98) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.mybatis.spring.SqlSessionFactoryBean.buildSqlSessionFactory(SqlSessionFactoryBean.java:698) ~[mybatis-spring-2.1.2.jar:2.1.2]
+	at org.mybatis.spring.SqlSessionFactoryBean.afterPropertiesSet(SqlSessionFactoryBean.java:577) ~[mybatis-spring-2.1.2.jar:2.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1863) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:209) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:330) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:113) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:681) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:189) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1372) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1222) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:209) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:591) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:127) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:60) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.delegateLoading(AbstractDelegatingSmartContextLoader.java:276) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:244) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:141) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:90) ~[spring-test-5.3.37.jar:5.3.37]
+	... 74 more
+Caused by: org.apache.ibatis.builder.BuilderException: Error resolving class. Cause: org.apache.ibatis.type.TypeException: Could not resolve type alias 'MyMapperDTO'.  Cause: java.lang.ClassNotFoundException: Cannot find class: MyMapperDTO
+	at org.apache.ibatis.builder.BaseBuilder.resolveClass(BaseBuilder.java:103) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLStatementBuilder.parseStatementNode(XMLStatementBuilder.java:78) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.buildStatementFromContext(XMLMapperBuilder.java:141) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.buildStatementFromContext(XMLMapperBuilder.java:133) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:123) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.parse(XMLMapperBuilder.java:98) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.mybatis.spring.SqlSessionFactoryBean.buildSqlSessionFactory(SqlSessionFactoryBean.java:698) ~[mybatis-spring-2.1.2.jar:2.1.2]
+	at org.mybatis.spring.SqlSessionFactoryBean.afterPropertiesSet(SqlSessionFactoryBean.java:577) ~[mybatis-spring-2.1.2.jar:2.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1863) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:209) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:330) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:113) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:681) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:189) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1372) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1222) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:209) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:591) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:127) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:60) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.delegateLoading(AbstractDelegatingSmartContextLoader.java:276) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:244) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:141) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:90) ~[spring-test-5.3.37.jar:5.3.37]
+	... 74 more
+Caused by: org.apache.ibatis.type.TypeException: Could not resolve type alias 'MyMapperDTO'.  Cause: java.lang.ClassNotFoundException: Cannot find class: MyMapperDTO
+	at org.apache.ibatis.type.TypeAliasRegistry.resolveAlias(TypeAliasRegistry.java:128) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.BaseBuilder.resolveAlias(BaseBuilder.java:132) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.BaseBuilder.resolveClass(BaseBuilder.java:101) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLStatementBuilder.parseStatementNode(XMLStatementBuilder.java:78) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.buildStatementFromContext(XMLMapperBuilder.java:141) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.buildStatementFromContext(XMLMapperBuilder.java:133) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:123) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.parse(XMLMapperBuilder.java:98) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.mybatis.spring.SqlSessionFactoryBean.buildSqlSessionFactory(SqlSessionFactoryBean.java:698) ~[mybatis-spring-2.1.2.jar:2.1.2]
+	at org.mybatis.spring.SqlSessionFactoryBean.afterPropertiesSet(SqlSessionFactoryBean.java:577) ~[mybatis-spring-2.1.2.jar:2.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1863) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:209) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:330) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:113) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:681) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:189) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1372) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1222) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:209) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:591) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:127) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:60) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.delegateLoading(AbstractDelegatingSmartContextLoader.java:276) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:244) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:141) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:90) ~[spring-test-5.3.37.jar:5.3.37]
+	... 74 more
+Caused by: java.lang.ClassNotFoundException: Cannot find class: MyMapperDTO
+	at org.apache.ibatis.io.ClassLoaderWrapper.classForName(ClassLoaderWrapper.java:226) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.io.ClassLoaderWrapper.classForName(ClassLoaderWrapper.java:103) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.io.Resources.classForName(Resources.java:322) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.type.TypeAliasRegistry.resolveAlias(TypeAliasRegistry.java:124) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.BaseBuilder.resolveAlias(BaseBuilder.java:132) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.BaseBuilder.resolveClass(BaseBuilder.java:101) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLStatementBuilder.parseStatementNode(XMLStatementBuilder.java:78) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.buildStatementFromContext(XMLMapperBuilder.java:141) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.buildStatementFromContext(XMLMapperBuilder.java:133) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.configurationElement(XMLMapperBuilder.java:123) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.apache.ibatis.builder.xml.XMLMapperBuilder.parse(XMLMapperBuilder.java:98) ~[mybatis-3.5.16.jar:3.5.16]
+	at org.mybatis.spring.SqlSessionFactoryBean.buildSqlSessionFactory(SqlSessionFactoryBean.java:698) ~[mybatis-spring-2.1.2.jar:2.1.2]
+	at org.mybatis.spring.SqlSessionFactoryBean.afterPropertiesSet(SqlSessionFactoryBean.java:577) ~[mybatis-spring-2.1.2.jar:2.1.2]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1863) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:620) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:209) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:330) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:113) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveConstructorArguments(ConstructorResolver.java:681) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:189) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1372) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1222) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:336) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:334) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:209) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:955) ~[spring-beans-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:932) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:591) ~[spring-context-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:127) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:60) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.delegateLoading(AbstractDelegatingSmartContextLoader.java:276) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:244) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:141) ~[spring-test-5.3.37.jar:5.3.37]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:90) ~[spring-test-5.3.37.jar:5.3.37]
+	... 74 more
+[2025-06-27 15:46:23] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 15:46:23] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@6337c201, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5c669da8, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@31920ade, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@1d483de4, org.springframework.test.context.support.DirtiesContextTestExecutionListener@4032d386, org.springframework.test.context.transaction.TransactionalTestExecutionListener@28d18df5, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@934b6cb, org.springframework.test.context.event.EventPublishingTestExecutionListener@55cf0d14]
+[2025-06-27 15:46:24] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 15:46:24] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 15:46:24] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 15:46:33] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 15:46:33] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@490caf5f, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@6337c201, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@5c669da8, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@31920ade, org.springframework.test.context.support.DirtiesContextTestExecutionListener@1d483de4, org.springframework.test.context.transaction.TransactionalTestExecutionListener@4032d386, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@28d18df5, org.springframework.test.context.event.EventPublishingTestExecutionListener@934b6cb]
+[2025-06-27 15:46:34] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 15:46:34] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 15:46:34] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 15:46:34] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@6d07a63d, started on Fri Jun 27 15:46:33 GMT+09:00 2025
+[2025-06-27 15:46:34] [DEBUG] com.pcwk.ehr.CommentDaoTest - org.springframework.context.support.GenericApplicationContext@6d07a63d, started on Fri Jun 27 15:46:33 GMT+09:00 2025
+[2025-06-27 15:46:34] [DEBUG] com.pcwk.ehr.CommentDaoTest - org.apache.ibatis.binding.MapperProxy@7a904f32
+[2025-06-27 15:46:34] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 15:46:34] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 15:46:34] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 15:48:07] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 15:48:07] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@6304101a, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@5170bcf4, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@2812b107, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@df6620a, org.springframework.test.context.support.DirtiesContextTestExecutionListener@4e31276e, org.springframework.test.context.transaction.TransactionalTestExecutionListener@1a72a540, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@27d5a580, org.springframework.test.context.event.EventPublishingTestExecutionListener@198d6542]
+[2025-06-27 15:48:08] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 15:48:08] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 15:48:08] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 15:48:08] [DEBUG] com.pcwk.ehr.UserDaoTest - context:org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 15:48:07 GMT+09:00 2025
+[2025-06-27 15:48:08] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==>  Preparing: DELETE FROM user_tk
+[2025-06-27 15:48:08] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==> Parameters: 
+[2025-06-27 15:48:08] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - <==    Updates: 1
+[2025-06-27 15:48:08] [DEBUG] com.pcwk.ehr.mapper.UserMapper.saveAll - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) SELECT 'jamesol' || level AS user_id, '4321_' || level AS password, '이상무' || level AS name, '닉네임' || level AS nickname, 'jamesol' || level || '@paran.com' AS email, '0101234' || LPAD(level, 4, '0') AS mobile, '서울시 강남구' || level AS address, DECODE(MOD(level, 2), 0, 'admin', 'user') AS role, 'default_profile.png' AS profile, SYSDATE - level AS reg_date, SYSDATE AS mod_date FROM dual CONNECT BY LEVEL <= 502
+[2025-06-27 15:48:08] [DEBUG] com.pcwk.ehr.mapper.UserMapper.saveAll - ==> Parameters: 
+[2025-06-27 15:48:08] [DEBUG] com.pcwk.ehr.mapper.UserMapper.saveAll - <==    Updates: 502
+[2025-06-27 15:48:08] [DEBUG] com.pcwk.ehr.UserDaoTest - count:502
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doRetrieve - ==>  Preparing: SELECT A.*, B.* FROM ( SELECT tt3.RNUM AS no, tt3.user_id, tt3.password, tt3.name, tt3.nickname, tt3.email, tt3.mobile, tt3.address, tt3.role, tt3.profile, TO_CHAR(tt3.reg_date, 'YYYY/MM/DD HH24:MI:SS') AS reg_dt, TO_CHAR(tt3.mod_date, 'YYYY/MM/DD HH24:MI:SS') AS mod_dt FROM ( SELECT ROWNUM AS RNUM, tt2.* FROM ( SELECT t1.* FROM user_tk t1 WHERE name LIKE ? || '%' ORDER BY t1.reg_date DESC ) tt2 WHERE ROWNUM <= (? * (? - 1) + ?) ) tt3 WHERE RNUM >= (? * (? - 1) + 1) ) A CROSS JOIN ( SELECT COUNT(*) AS total_cnt FROM user_tk WHERE name LIKE ? || '%' ) B
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doRetrieve - ==> Parameters: 이상무(String), 10(Integer), 1(Integer), 10(Integer), 10(Integer), 1(Integer), 이상무(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doRetrieve - <==      Total: 10
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol1, password=4321_1, name=이상무1, nickname=닉네임1, email=jamesol1@paran.com, mobile=01012340001, address=서울시 강남구1, role=user, profile=default_profile.png, regDt=2025/06/26 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol2, password=4321_2, name=이상무2, nickname=닉네임2, email=jamesol2@paran.com, mobile=01012340002, address=서울시 강남구2, role=admin, profile=default_profile.png, regDt=2025/06/25 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol3, password=4321_3, name=이상무3, nickname=닉네임3, email=jamesol3@paran.com, mobile=01012340003, address=서울시 강남구3, role=user, profile=default_profile.png, regDt=2025/06/24 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol4, password=4321_4, name=이상무4, nickname=닉네임4, email=jamesol4@paran.com, mobile=01012340004, address=서울시 강남구4, role=admin, profile=default_profile.png, regDt=2025/06/23 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol5, password=4321_5, name=이상무5, nickname=닉네임5, email=jamesol5@paran.com, mobile=01012340005, address=서울시 강남구5, role=user, profile=default_profile.png, regDt=2025/06/22 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol6, password=4321_6, name=이상무6, nickname=닉네임6, email=jamesol6@paran.com, mobile=01012340006, address=서울시 강남구6, role=admin, profile=default_profile.png, regDt=2025/06/21 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol7, password=4321_7, name=이상무7, nickname=닉네임7, email=jamesol7@paran.com, mobile=01012340007, address=서울시 강남구7, role=user, profile=default_profile.png, regDt=2025/06/20 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol8, password=4321_8, name=이상무8, nickname=닉네임8, email=jamesol8@paran.com, mobile=01012340008, address=서울시 강남구8, role=admin, profile=default_profile.png, regDt=2025/06/19 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol9, password=4321_9, name=이상무9, nickname=닉네임9, email=jamesol9@paran.com, mobile=01012340009, address=서울시 강남구9, role=user, profile=default_profile.png, regDt=2025/06/18 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=jamesol10, password=4321_10, name=이상무10, nickname=닉네임10, email=jamesol10@paran.com, mobile=01012340010, address=서울시 강남구10, role=admin, profile=default_profile.png, regDt=2025/06/17 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - context:org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 15:48:07 GMT+09:00 2025
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==>  Preparing: DELETE FROM user_tk
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - <==    Updates: 502
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk01(String), 4321abc!@#(String), 이상무01(String), 이상무닉1(String), pcwk01@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), admin(String), profile(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk02(String), 1234abc!@#$(String), 이상무02(String), 이상무닉2(String), pcwk02@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), user(String), profile(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk03(String), 1234abcd!!(String), 이상무03(String), 이상무닉3(String), pcwk03@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), user(String), profile(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getAll - ==>  Preparing: SELECT user_id, password, name, nickname, email, mobile, address, role, profile, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM user_tk ORDER BY user_id
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getAll - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getAll - <==      Total: 3
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=pcwk01, password=4321abc!@#, name=이상무01, nickname=이상무닉1, email=pcwk01@naver.com, mobile=010-1111-1111, address=서울시 마포구 서교동11, role=admin, profile=profile, regDt=2025/06/27 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=pcwk02, password=1234abc!@#$, name=이상무02, nickname=이상무닉2, email=pcwk02@naver.com, mobile=010-1111-1111, address=서울시 마포구 서교동11, role=user, profile=profile, regDt=2025/06/27 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - UserTKDTO [userId=pcwk03, password=1234abcd!!, name=이상무03, nickname=이상무닉3, email=pcwk03@naver.com, mobile=010-1111-1111, address=서울시 마포구 서교동11, role=user, profile=profile, regDt=2025/06/27 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - context:org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 15:48:07 GMT+09:00 2025
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==>  Preparing: DELETE FROM user_tk
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - <==    Updates: 3
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk01(String), 4321abc!@#(String), 이상무01(String), 이상무닉1(String), pcwk01@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), admin(String), profile(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk02(String), 1234abc!@#$(String), 이상무02(String), 이상무닉2(String), pcwk02@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), user(String), profile(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk03(String), 1234abcd!!(String), 이상무03(String), 이상무닉3(String), pcwk03@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), user(String), profile(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==>  Preparing: SELECT user_id, password, name, nickname, email, mobile, address, role, profile, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM user_tk WHERE user_id = ?
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==> Parameters: pcwk01(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==>  Preparing: SELECT user_id, password, name, nickname, email, mobile, address, role, profile, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM user_tk WHERE user_id = ?
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==> Parameters: pcwk02(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==>  Preparing: SELECT user_id, password, name, nickname, email, mobile, address, role, profile, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM user_tk WHERE user_id = ?
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==> Parameters: pcwk03(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - context:org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 15:48:07 GMT+09:00 2025
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==>  Preparing: DELETE FROM user_tk
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - <==    Updates: 3
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk01(String), 4321abc!@#(String), 이상무01(String), 이상무닉1(String), pcwk01@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), admin(String), profile(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doDelete - ==>  Preparing: DELETE FROM user_tk WHERE user_id = ?
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doDelete - ==> Parameters: pcwk01(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doDelete - <==    Updates: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - context:org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 15:48:07 GMT+09:00 2025
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 15:48:07 GMT+09:00 2025
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - org.apache.ibatis.binding.MapperProxy@64920dc2
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - context:org.springframework.context.support.GenericApplicationContext@6f19ac19, started on Fri Jun 27 15:48:07 GMT+09:00 2025
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==>  Preparing: DELETE FROM user_tk
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.deleteAll - <==    Updates: 0
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==>  Preparing: INSERT INTO user_tk ( user_id, password, name, nickname, email, mobile, address, role, profile, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - ==> Parameters: pcwk01(String), 4321abc!@#(String), 이상무01(String), 이상무닉1(String), pcwk01@naver.com(String), 010-1111-1111(String), 서울시 마포구 서교동11(String), admin(String), profile(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSave - <==    Updates: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM user_tk
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - ==> Parameters: 
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.getCount - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==>  Preparing: SELECT user_id, password, name, nickname, email, mobile, address, role, profile, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM user_tk WHERE user_id = ?
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==> Parameters: pcwk01(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - outVO:UserTKDTO [userId=pcwk01, password=4321abc!@#_U, name=이상무01_U, nickname=이상무닉1_U, email=pcwk01@naver.com_U, mobile=010-1111-1111_U, address=서울시 마포구 서교동11, role=admin, profile=profile_U, regDt=2025/06/27 15:48:09, modDt=2025/06/27 15:48:09]
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doUpdate - ==>  Preparing: UPDATE user_tk SET password = ?, name = ?, nickname = ?, email = ?, mobile = ?, address = ?, role = ?, profile = ?, mod_date = SYSDATE WHERE user_id = ?
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doUpdate - ==> Parameters: 4321abc!@#_U(String), 이상무01_U(String), 이상무닉1_U(String), pcwk01@naver.com_U(String), 010-1111-1111_U(String), 서울시 마포구 서교동11(String), admin(String), profile_U(String), pcwk01(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doUpdate - <==    Updates: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==>  Preparing: SELECT user_id, password, name, nickname, email, mobile, address, role, profile, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM user_tk WHERE user_id = ?
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - ==> Parameters: pcwk01(String)
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.mapper.UserMapper.doSelectOne - <==      Total: 1
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - @After
+[2025-06-27 15:48:09] [DEBUG] com.pcwk.ehr.UserDaoTest - ***************************
+[2025-06-27 16:09:10] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:09:10] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@5c669da8, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@31920ade, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@1d483de4, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@4032d386, org.springframework.test.context.support.DirtiesContextTestExecutionListener@28d18df5, org.springframework.test.context.transaction.TransactionalTestExecutionListener@934b6cb, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@55cf0d14, org.springframework.test.context.event.EventPublishingTestExecutionListener@3b74ac8]
+[2025-06-27 16:09:11] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:09:11] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:09:11] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:09:11] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@488d1cd7, started on Fri Jun 27 16:09:10 GMT+09:00 2025
+[2025-06-27 16:09:11] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:09:11] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:09:11] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:09:28] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:09:28] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@5c669da8, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@31920ade, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@1d483de4, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@4032d386, org.springframework.test.context.support.DirtiesContextTestExecutionListener@28d18df5, org.springframework.test.context.transaction.TransactionalTestExecutionListener@934b6cb, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@55cf0d14, org.springframework.test.context.event.EventPublishingTestExecutionListener@3b74ac8]
+[2025-06-27 16:09:29] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:09:29] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:09:29] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:09:29] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@488d1cd7, started on Fri Jun 27 16:09:28 GMT+09:00 2025
+[2025-06-27 16:09:29] [DEBUG] com.pcwk.ehr.CommentDaoTest - com.pcwk.ehr.comment.service.CommentServiceImpl@3a01773b
+[2025-06-27 16:09:29] [DEBUG] com.pcwk.ehr.CommentDaoTest - org.springframework.context.support.GenericApplicationContext@488d1cd7, started on Fri Jun 27 16:09:28 GMT+09:00 2025
+[2025-06-27 16:09:29] [DEBUG] com.pcwk.ehr.CommentDaoTest - SearchDTO [searchDiv=null, searchWord=null, toString()=DTO [no=0, totalCnt=0, pageSize=0, pageNo=0]]
+[2025-06-27 16:09:29] [DEBUG] com.pcwk.ehr.CommentDaoTest - org.apache.ibatis.binding.MapperProxy@20e3c449
+[2025-06-27 16:09:29] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:09:29] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:09:29] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:09:41] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:09:41] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@5c669da8, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@31920ade, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@1d483de4, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@4032d386, org.springframework.test.context.support.DirtiesContextTestExecutionListener@28d18df5, org.springframework.test.context.transaction.TransactionalTestExecutionListener@934b6cb, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@55cf0d14, org.springframework.test.context.event.EventPublishingTestExecutionListener@3b74ac8]
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@488d1cd7, started on Fri Jun 27 16:09:41 GMT+09:00 2025
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - ┌─────────────────────────┐
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - │ *doSave()*              │
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - └─────────────────────────┘
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==>  Preparing: DELETE FROM comments
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==> Parameters: 
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - <==    Updates: 0
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM comments
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==> Parameters: 
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - <==      Total: 1
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:09:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:09:53] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:09:53] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@5c669da8, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@31920ade, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@1d483de4, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@4032d386, org.springframework.test.context.support.DirtiesContextTestExecutionListener@28d18df5, org.springframework.test.context.transaction.TransactionalTestExecutionListener@934b6cb, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@55cf0d14, org.springframework.test.context.event.EventPublishingTestExecutionListener@3b74ac8]
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@488d1cd7, started on Fri Jun 27 16:09:53 GMT+09:00 2025
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.CommentDaoTest - ┌─────────────────────────┐
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.CommentDaoTest - │ *doSave()*              │
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.CommentDaoTest - └─────────────────────────┘
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==>  Preparing: DELETE FROM comments
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==> Parameters: 
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - <==    Updates: 0
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM comments
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==> Parameters: 
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - <==      Total: 1
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:09:54] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:10:22] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:10:22] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@5c669da8, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@31920ade, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@1d483de4, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@4032d386, org.springframework.test.context.support.DirtiesContextTestExecutionListener@28d18df5, org.springframework.test.context.transaction.TransactionalTestExecutionListener@934b6cb, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@55cf0d14, org.springframework.test.context.event.EventPublishingTestExecutionListener@3b74ac8]
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@488d1cd7, started on Fri Jun 27 16:10:22 GMT+09:00 2025
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.CommentDaoTest - ┌─────────────────────────┐
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.CommentDaoTest - │ *doSave()*              │
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.CommentDaoTest - └─────────────────────────┘
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==>  Preparing: DELETE FROM comments
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==> Parameters: 
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - <==    Updates: 0
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM comments
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==> Parameters: 
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - <==      Total: 1
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.CommentDaoTest - comment:commentDTO [comNo=1, userId=pcwk01, contents=오늘은 즐거운 금요일, targetNo=10, tableName=관광지, regDt=null, modDt=null]
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:10:23] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:10:41] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:10:41] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@5c669da8, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@31920ade, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@1d483de4, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@4032d386, org.springframework.test.context.support.DirtiesContextTestExecutionListener@28d18df5, org.springframework.test.context.transaction.TransactionalTestExecutionListener@934b6cb, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@55cf0d14, org.springframework.test.context.event.EventPublishingTestExecutionListener@3b74ac8]
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@488d1cd7, started on Fri Jun 27 16:10:41 GMT+09:00 2025
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - ┌─────────────────────────┐
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - │ *doSave()*              │
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - └─────────────────────────┘
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==>  Preparing: DELETE FROM comments
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==> Parameters: 
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - <==    Updates: 0
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM comments
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==> Parameters: 
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - <==      Total: 1
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - comment:commentDTO [comNo=1, userId=pcwk01, contents=오늘은 즐거운 금요일, targetNo=10, tableName=관광지, regDt=null, modDt=null]
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==>  Preparing: INSERT INTO comments ( com_no, user_id, contents, target_no, table_name, reg_date, mod_date ) VALUES ( 1, pcwk01, 오늘은 즐거운 금요일, 10, 관광지, SYSDATE, SYSDATE )
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==> Parameters: 
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:10:42] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:13:48] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:13:48] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@5c669da8, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@31920ade, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@1d483de4, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@4032d386, org.springframework.test.context.support.DirtiesContextTestExecutionListener@28d18df5, org.springframework.test.context.transaction.TransactionalTestExecutionListener@934b6cb, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@55cf0d14, org.springframework.test.context.event.EventPublishingTestExecutionListener@3b74ac8]
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@488d1cd7, started on Fri Jun 27 16:13:48 GMT+09:00 2025
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.CommentDaoTest - ┌─────────────────────────┐
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.CommentDaoTest - │ *doSave()*              │
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.CommentDaoTest - └─────────────────────────┘
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==>  Preparing: DELETE FROM comments
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==> Parameters: 
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - <==    Updates: 0
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM comments
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==> Parameters: 
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - <==      Total: 1
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.CommentDaoTest - comment:commentDTO [comNo=1, userId=pcwk01, contents=오늘은 즐거운 금요일, targetNo=10, tableName=관광지, regDt=null, modDt=null]
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==>  Preparing: INSERT INTO comments ( com_no, user_id, contents, target_no, table_name, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==> Parameters: 1(Integer), pcwk01(String), 오늘은 즐거운 금요일(String), 10(Integer), 관광지(String)
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:13:49] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:14:17] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:14:17] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@5c669da8, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@31920ade, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@1d483de4, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@4032d386, org.springframework.test.context.support.DirtiesContextTestExecutionListener@28d18df5, org.springframework.test.context.transaction.TransactionalTestExecutionListener@934b6cb, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@55cf0d14, org.springframework.test.context.event.EventPublishingTestExecutionListener@3b74ac8]
+[2025-06-27 16:14:18] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:14:18] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:14:18] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:14:18] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@488d1cd7, started on Fri Jun 27 16:14:18 GMT+09:00 2025
+[2025-06-27 16:14:18] [DEBUG] com.pcwk.ehr.CommentDaoTest - ┌─────────────────────────┐
+[2025-06-27 16:14:18] [DEBUG] com.pcwk.ehr.CommentDaoTest - │ *doSave()*              │
+[2025-06-27 16:14:18] [DEBUG] com.pcwk.ehr.CommentDaoTest - └─────────────────────────┘
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==>  Preparing: DELETE FROM comments
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==> Parameters: 
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - <==    Updates: 0
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM comments
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==> Parameters: 
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - <==      Total: 1
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.CommentDaoTest - comment:commentDTO [comNo=1, userId=pcwk01, contents=오늘은 즐거운 금요일, targetNo=10, tableName=TOUR, regDt=null, modDt=null]
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==>  Preparing: INSERT INTO comments ( com_no, user_id, contents, target_no, table_name, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==> Parameters: 1(Integer), pcwk01(String), 오늘은 즐거운 금요일(String), 10(Integer), TOUR(String)
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - <==    Updates: 1
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.CommentDaoTest - result:1
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:14:19] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:16:10] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:16:10] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@31920ade, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@1d483de4, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@4032d386, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@28d18df5, org.springframework.test.context.support.DirtiesContextTestExecutionListener@934b6cb, org.springframework.test.context.transaction.TransactionalTestExecutionListener@55cf0d14, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3b74ac8, org.springframework.test.context.event.EventPublishingTestExecutionListener@27adc16e]
+[2025-06-27 16:16:11] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:16:11] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:16:11] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:16:11] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@68dc098b, started on Fri Jun 27 16:16:10 GMT+09:00 2025
+[2025-06-27 16:16:11] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==>  Preparing: DELETE FROM comments
+[2025-06-27 16:16:11] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==> Parameters: 
+[2025-06-27 16:16:11] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - <==    Updates: 1
+[2025-06-27 16:16:11] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==>  Preparing: INSERT INTO comments ( com_no, user_id, contents, target_no, table_name, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 16:16:11] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==> Parameters: 1(Integer), pcwk01(String), 테스트 댓글 내용1(String), 10(Integer), 관광지(String)
+[2025-06-27 16:16:11] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:16:11] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:16:11] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:16:34] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:16:34] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@31920ade, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@1d483de4, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@4032d386, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@28d18df5, org.springframework.test.context.support.DirtiesContextTestExecutionListener@934b6cb, org.springframework.test.context.transaction.TransactionalTestExecutionListener@55cf0d14, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3b74ac8, org.springframework.test.context.event.EventPublishingTestExecutionListener@27adc16e]
+[2025-06-27 16:16:35] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:16:35] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:16:35] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:16:35] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@68dc098b, started on Fri Jun 27 16:16:34 GMT+09:00 2025
+[2025-06-27 16:16:35] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==>  Preparing: DELETE FROM comments
+[2025-06-27 16:16:35] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==> Parameters: 
+[2025-06-27 16:16:35] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - <==    Updates: 0
+[2025-06-27 16:16:35] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==>  Preparing: INSERT INTO comments ( com_no, user_id, contents, target_no, table_name, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 16:16:35] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==> Parameters: 1(Integer), pcwk01(String), 테스트 댓글 내용1(String), 10(Integer), TOUR(String)
+[2025-06-27 16:16:35] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - <==    Updates: 1
+[2025-06-27 16:16:35] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:16:35] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:16:35] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:16:42] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:16:42] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@31920ade, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@1d483de4, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@4032d386, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@28d18df5, org.springframework.test.context.support.DirtiesContextTestExecutionListener@934b6cb, org.springframework.test.context.transaction.TransactionalTestExecutionListener@55cf0d14, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3b74ac8, org.springframework.test.context.event.EventPublishingTestExecutionListener@27adc16e]
+[2025-06-27 16:16:43] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:16:43] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:16:43] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:16:43] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@68dc098b, started on Fri Jun 27 16:16:42 GMT+09:00 2025
+[2025-06-27 16:16:44] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==>  Preparing: DELETE FROM comments
+[2025-06-27 16:16:44] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==> Parameters: 
+[2025-06-27 16:16:44] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - <==    Updates: 1
+[2025-06-27 16:16:44] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==>  Preparing: INSERT INTO comments ( com_no, user_id, contents, target_no, table_name, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 16:16:44] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==> Parameters: 1(Integer), pcwk01(String), 테스트 댓글 내용1(String), 10(Integer), TOUR(String)
+[2025-06-27 16:16:44] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - <==    Updates: 1
+[2025-06-27 16:16:44] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM comments
+[2025-06-27 16:16:44] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==> Parameters: 
+[2025-06-27 16:16:44] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - <==      Total: 1
+[2025-06-27 16:16:44] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:16:44] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:16:44] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:16:52] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:16:52] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@31920ade, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@1d483de4, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@4032d386, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@28d18df5, org.springframework.test.context.support.DirtiesContextTestExecutionListener@934b6cb, org.springframework.test.context.transaction.TransactionalTestExecutionListener@55cf0d14, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@3b74ac8, org.springframework.test.context.event.EventPublishingTestExecutionListener@27adc16e]
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@68dc098b, started on Fri Jun 27 16:16:52 GMT+09:00 2025
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==>  Preparing: DELETE FROM comments
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==> Parameters: 
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - <==    Updates: 1
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==>  Preparing: INSERT INTO comments ( com_no, user_id, contents, target_no, table_name, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==> Parameters: 1(Integer), pcwk01(String), 테스트 댓글 내용1(String), 10(Integer), TOUR(String)
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - <==    Updates: 1
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM comments
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==> Parameters: 
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - <==      Total: 1
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doDelete - ==>  Preparing: DELETE FROM comments WHERE com_no = ?
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doDelete - ==> Parameters: 1(Integer)
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doDelete - <==    Updates: 1
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM comments
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==> Parameters: 
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - <==      Total: 1
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:16:53] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:23:01] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:23:01] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@1d483de4, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@4032d386, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@28d18df5, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@934b6cb, org.springframework.test.context.support.DirtiesContextTestExecutionListener@55cf0d14, org.springframework.test.context.transaction.TransactionalTestExecutionListener@3b74ac8, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@27adc16e, org.springframework.test.context.event.EventPublishingTestExecutionListener@b83a9be]
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@38ba6ce3, started on Fri Jun 27 16:23:01 GMT+09:00 2025
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==>  Preparing: DELETE FROM comments
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==> Parameters: 
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - <==    Updates: 0
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==>  Preparing: INSERT INTO comments ( com_no, user_id, contents, target_no, table_name, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==> Parameters: 1(Integer), pcwk01(String), 테스트 댓글 내용1(String), 10(Integer), TOUR(String)
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - <==    Updates: 1
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM comments
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==> Parameters: 
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - <==      Total: 1
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSelectOne - ==>  Preparing: SELECT com_no, user_id, contents, target_no, table_name, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM comments; WHERE com_no = ?
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSelectOne - ==> Parameters: 1(Integer)
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:23:02] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:23:34] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Loaded default TestExecutionListener class names from location [META-INF/spring.factories]: [org.springframework.test.context.web.ServletTestExecutionListener, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener, org.springframework.test.context.event.ApplicationEventsTestExecutionListener, org.springframework.test.context.support.DependencyInjectionTestExecutionListener, org.springframework.test.context.support.DirtiesContextTestExecutionListener, org.springframework.test.context.transaction.TransactionalTestExecutionListener, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener, org.springframework.test.context.event.EventPublishingTestExecutionListener]
+[2025-06-27 16:23:34] [INFO ] org.springframework.test.context.support.DefaultTestContextBootstrapper - Using TestExecutionListeners: [org.springframework.test.context.web.ServletTestExecutionListener@1d483de4, org.springframework.test.context.support.DirtiesContextBeforeModesTestExecutionListener@4032d386, org.springframework.test.context.event.ApplicationEventsTestExecutionListener@28d18df5, org.springframework.test.context.support.DependencyInjectionTestExecutionListener@934b6cb, org.springframework.test.context.support.DirtiesContextTestExecutionListener@55cf0d14, org.springframework.test.context.transaction.TransactionalTestExecutionListener@3b74ac8, org.springframework.test.context.jdbc.SqlScriptsTestExecutionListener@27adc16e, org.springframework.test.context.event.EventPublishingTestExecutionListener@b83a9be]
+[2025-06-27 16:23:35] [DEBUG] com.pcwk.ehr.user.controller.UserController - ┌─────────────────────────────────┐
+[2025-06-27 16:23:35] [DEBUG] com.pcwk.ehr.user.controller.UserController - │ UserController()                │
+[2025-06-27 16:23:35] [DEBUG] com.pcwk.ehr.user.controller.UserController - └─────────────────────────────────┘
+[2025-06-27 16:23:35] [DEBUG] com.pcwk.ehr.CommentDaoTest - context:org.springframework.context.support.GenericApplicationContext@38ba6ce3, started on Fri Jun 27 16:23:34 GMT+09:00 2025
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==>  Preparing: DELETE FROM comments
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - ==> Parameters: 
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.deleteAll - <==    Updates: 1
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==>  Preparing: INSERT INTO comments ( com_no, user_id, contents, target_no, table_name, reg_date, mod_date ) VALUES ( ?, ?, ?, ?, ?, SYSDATE, SYSDATE )
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - ==> Parameters: 1(Integer), pcwk01(String), 테스트 댓글 내용1(String), 10(Integer), TOUR(String)
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSave - <==    Updates: 1
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==>  Preparing: SELECT count(*) AS totalCnt FROM comments
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - ==> Parameters: 
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.getCount - <==      Total: 1
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSelectOne - ==>  Preparing: SELECT com_no, user_id, contents, target_no, table_name, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM comments WHERE com_no = ?
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSelectOne - ==> Parameters: 1(Integer)
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSelectOne - <==      Total: 1
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.CommentDaoTest - outVO:commentDTO [comNo=1, userId=pcwk01_U, contents=테스트 댓글 내용1_U, targetNo=10, tableName=TOUR, regDt=2025/06/27 16:23:36, modDt=2025/06/27 16:23:36]
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doUpdate - ==>  Preparing: UPDATE comments SET contents = ?, mod_date = SYSDATE WHERE com_no = ?
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doUpdate - ==> Parameters: 테스트 댓글 내용1_U(String), 1(Integer)
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doUpdate - <==    Updates: 1
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSelectOne - ==>  Preparing: SELECT com_no, user_id, contents, target_no, table_name, TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt, TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt FROM comments WHERE com_no = ?
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSelectOne - ==> Parameters: 1(Integer)
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.mapper.CommentMapper.doSelectOne - <==      Total: 1
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.CommentDaoTest - @After
+[2025-06-27 16:23:36] [DEBUG] com.pcwk.ehr.CommentDaoTest - ***************************

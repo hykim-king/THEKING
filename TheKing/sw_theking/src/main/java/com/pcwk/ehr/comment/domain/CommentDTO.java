@@ -4,10 +4,10 @@ import com.pcwk.ehr.cmn.DTO;
 
 public class CommentDTO extends DTO {
 	
-	private String comNo     ;
+	private int comNo     ;
 	private String userId    ;
 	private String contents  ;
-	private String targetNo  ;
+	private int targetNo  ;
 	private String tableName ;
 	private String regDt     ;
 	private String modDt     ;
@@ -22,7 +22,27 @@ public class CommentDTO extends DTO {
 	 * @param modDt
 	 */
 	
-	public CommentDTO(String comNo, String userId, String contents, String targetNo, String tableName, String regDt,
+
+
+
+
+	/**
+	 * 
+	 */
+	public CommentDTO() {
+	}
+
+
+	/**
+	 * @param comNo
+	 * @param userId
+	 * @param contents
+	 * @param targetNo
+	 * @param tableName
+	 * @param regDt
+	 * @param modDt
+	 */
+	public CommentDTO(int comNo, String userId, String contents, int targetNo, String tableName, String regDt,
 			String modDt) {
 		super();
 		this.comNo = comNo;
@@ -35,26 +55,38 @@ public class CommentDTO extends DTO {
 	}
 
 
-
-	/**
-	 * 
-	 */
-	public CommentDTO() {
-	}
-
-
 	/**
 	 * @return the comNo
 	 */
-	public String getComNo() {
+	public int getComNo() {
 		return comNo;
 	}
+
+
 	/**
 	 * @param comNo the comNo to set
 	 */
-	public void setComNo(String comNo) {
+	public void setComNo(int comNo) {
 		this.comNo = comNo;
 	}
+
+
+	/**
+	 * @return the targetNo
+	 */
+	public int getTargetNo() {
+		return targetNo;
+	}
+
+
+	/**
+	 * @param targetNo the targetNo to set
+	 */
+	public void setTargetNo(int targetNo) {
+		this.targetNo = targetNo;
+	}
+
+
 	/**
 	 * @return the userId
 	 */
@@ -79,18 +111,7 @@ public class CommentDTO extends DTO {
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
-	/**
-	 * @return the targetNo
-	 */
-	public String getTargetNo() {
-		return targetNo;
-	}
-	/**
-	 * @param targetNo the targetNo to set
-	 */
-	public void setTargetNo(String targetNo) {
-		this.targetNo = targetNo;
-	}
+
 	/**
 	 * @return the tableName
 	 */

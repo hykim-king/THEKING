@@ -61,11 +61,11 @@
         reg_date,
         mod_date
         ) VALUES ( 
-           ${comNo},
-           ${userId},
-           ${contents},
-           ${targetNo},
-           ${tableName},
+           #{comNo},
+           #{userId},
+           #{contents},
+           #{targetNo},
+           #{tableName},
            SYSDATE,
            SYSDATE )
     </insert>
@@ -73,16 +73,16 @@
     <delete id="doDelete" parameterType="CommentDTO">
         DELETE FROM comments
          WHERE
-        com_no = ${comNo}
+        com_no = #{comNo}
     </delete>
     
     <update id="doUpdate" parameterType="CommentDTO">
         UPDATE comments
         SET
-            contents   = ${contents},
+            contents   = #{contents},
             mod_date   = SYSDATE
         WHERE
-            com_no = ${comNo}
+            com_no = #{comNo}
         
     </update>
     
@@ -96,7 +96,7 @@
 		    TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt,
             TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt
 		FROM
-		    comments;
+		    comments
 		WHERE com_no = #{comNo}
     </select>
     
