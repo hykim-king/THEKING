@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pcwk.ehr.mapper.ImageMapper">
+    <insert id="doSave" parameterType="ImageDTO">
+        <selectKey keyProperty="imageId" order="BEFORE" resultType="int">
+            SELECT image_seq.NEXTVAL FROM dual
+        </selectKey>
+    
+		INSERT INTO image (
+		    image_id,
+		    target_no,
+		    table_name,
+		    image_name,
+		    image_url,
+		    save_name,
+		    reg_date
+		) VALUES ( #{imageId, jdbcType=INTEGER},
+		           #{targetNo, jdbcType=INTEGER},
+		           #{tableName, jdbcType=VARCHAR},
+		           #{imageName, jdbcType=VARCHAR},
+		           #{imageUrl, jdbcType=VARCHAR},
+		           #{saveName, jdbcType=VARCHAR},
+		           SYSDATE )
+    
+    </insert>
+    
+    <update id="doUpdate" parameterType="ImageDTO">
+		UPDATE image
+		SET
+		    image_name = #{imageName},
+		    image_url = #{imageUrl}, 
+		    save_name = #{saveName}, 
+		    reg_date = SYSDATE		    
+		WHERE image_id = #{imageId} 
+    </update>
+    
+    <select id="doSelectOne" parameterType="ImageDTO">
+		SELECT
+		    image_id,
+		    target_no,
+		    table_name,
+		    image_name,
+		    image_url,
+		    save_name,
+		    reg_date
+		FROM
+		    image
+		WHERE image_id = #{imageId} 
+    </select>
+    <!-- 전체 조회(테스트용) -->
+    <select id="doRetrieve">
+        SELECT A.*, B.*
+        FROM (
+            SELECT tt3.RNUM AS no,
+                   tt3.image_id,
+                   tt3.target_no,
+                   tt3.table_name,
+                   tt3.image_name,
+                   tt3.image_url,
+                   tt3.save_name,
+                   TO_CHAR(tt3.reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDate
+
+            FROM (
+                SELECT ROWNUM AS RNUM, tt2.*
+                FROM (
+                    SELECT t1.*
+                    FROM image t1
+                    ORDER BY t1.reg_date DESC
+                ) tt2
+                <![CDATA[
+                WHERE ROWNUM <= (#{pageSize} * (#{pageNo} - 1) + #{pageSize})
+            ) tt3
+            WHERE RNUM >= (#{pageSize} * (#{pageNo} - 1) + 1)]]>
+        ) A
+        CROSS JOIN (
+            SELECT COUNT(*) AS total_cnt
+            FROM user_tk      
+        ) B 
+    </select>
+    <delete id="doDelete" parameterType="ImageDTO">
+		DELETE FROM image
+		WHERE image_id = #{imageId}
+    </delete>
+    <delete id="deleteAll" parameterType="java.lang.String">
+        DELETE FROM image
+    </delete>
+    <select id="getCount" >
+        SELECT count(*) AS totalCnt FROM image
+    </select>
+    <insert id="saveAll">
+        INSERT INTO image (
+            image_id,
+            target_no,
+            table_name,
+            image_name,
+            image_url,
+            save_name,
+            reg_date
+        )
+        SELECT 
+            level AS imageId,
+            MOD(level, 3) AS targetNo,
+            'A' || MOD(level, 3) AS tableName,
+            '이미지명'  || level AS imageName,
+            'URL' || level AS imageUrl,
+            '저장이름' || level AS saveName,
+            SYSDATE - level AS regDate
+        FROM dual
+        <![CDATA[CONNECT BY LEVEL <= 502   ]]>                            
+    </insert>   
+
+</mapper>
