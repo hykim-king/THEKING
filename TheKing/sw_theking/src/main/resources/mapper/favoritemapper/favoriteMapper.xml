@@ -1,9 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pcwk.ehr.mapper.FavoriteMapper">
+<mapper namespace="com.pcwk.ehr.mapper.FavoritesMapper">
 
-<select id="doSave" resultType="java.lang.Integer">
-    INSERT INTO favorites VALUES(fav_no_seq.nextval,#{userId}, )
+<select id="getTourCount" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM favorites
+	WHERE user_id = #{userId}
+		AND table_name = 'tour'
 </select>
+
+<select id="getFestaCount" resultType="java.lang.Integer">
+	SELECT COUNT(*) FROM favorites
+	WHERE user_id = #{userId}
+		AND table_name = 'festival'
+</select>
+
+<select id="doSelectOne" parameterType="FavoritesDTO" resultType="FavoritesDTO">
+	SELECT *
+		FROM favorites
+	 WHERE user_id = #{userId}
+		AND target_no = #{targetNo}
+		AND table_name = #{tableName}
+</select>
+
+
+<insert id="doSave" parameterType="FavoritesDTO">
+    INSERT INTO favorites VALUES(fav_no_seq.nextval,#{userId},#{targetNo},#{tableName})
+</insert>
+
+
+<delete id="doDelete" parameterType="FavoritesDTO" >
+	DELETE FROM favorites
+	WHERE user_id = #{userId}
+	AND target_no = #{targetNo}
+	AND table_name = #{tableName}
+</delete>
 
 </mapper>
