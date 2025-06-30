@@ -47,7 +47,7 @@ class FavoritesDaoTest {
 		log.debug("context :{}", context);
 		log.debug("mapper :{}", mapper);
 	}
-	//@Disabled
+	@Disabled
 	@Test
 	void getTourCount() {
 		int count = mapper.getTourCount(dto.getUserId());
@@ -60,7 +60,7 @@ class FavoritesDaoTest {
 		log.debug("count:{}",count);
 	}
 	
-	//@Disabled
+	@Disabled
 	@Test
 	void doSelectOne() {
 		mapper.doDelete(dto);
@@ -74,7 +74,7 @@ class FavoritesDaoTest {
 		
 	}
 	
-	//@Disabled
+	@Disabled
 	@Test
 	void doSave() {
 		mapper.doSave(dto);
@@ -83,7 +83,7 @@ class FavoritesDaoTest {
 		log.debug("dto :{}",dto);
 	}
 	
-	//@Disabled
+	@Disabled
 	@Test
 	void doDeleteAnddoSave() {
 		mapper.doDelete(dto);

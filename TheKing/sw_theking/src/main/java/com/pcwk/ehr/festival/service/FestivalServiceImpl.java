@@ -56,8 +56,10 @@ public class FestivalServiceImpl implements FestivalService {
 
 	@Override
 	public List<FestivalDTO> doRetrieve(SearchDTO param) {
-		if(param == null) {
+		if(param.getPageNo()==0) {
 			param.setPageNo(1);
+		}
+		if(param.getPageSize()==0) {
 			param.setPageSize(12);
 		}
 		return mapper.doRetrieve(param);
