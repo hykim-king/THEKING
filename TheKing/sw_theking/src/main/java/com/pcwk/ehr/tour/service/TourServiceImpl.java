@@ -83,7 +83,7 @@ public class TourServiceImpl implements TourService {
 		}
 			
 		//2.정규 표현식 검사
-		if (TourValidation.isValidTel(param.getTel())) {
+		if (!TourValidation.isValidTel(param.getTel())) {
 			    throw new IllegalArgumentException("전화번호 형식이 올바르지 않습니다. (예: 010-1234-5678)");
 			}
 		//3.글자 수 확인 

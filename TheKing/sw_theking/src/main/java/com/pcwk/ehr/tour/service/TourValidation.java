@@ -15,7 +15,7 @@ public class TourValidation {
 	 * @return
 	 */
 	public static boolean isValidTel(String Tel) {
-	    return Tel != null && Tel.matches("^d{2,3}-\\d{3,4}-\\d{4}$");
+	    return Tel != null && Tel.matches("^\\d{2,3}-\\d{3,4}-\\d{4}$");
 	}
 
 }

@@ -1,5 +1,6 @@
 package com.pcwk.ehr.tour;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.sql.SQLException;
@@ -45,6 +46,7 @@ class TourServiceTest {
 	
 	List<TourDTO> tours;
 	
+	
 	TourDTO dto01;
 	TourDTO dto02;
 	TourDTO dto03;
@@ -84,10 +86,39 @@ class TourServiceTest {
 	//dosave 0
 	//doupdate 0
 	//입력값이 없는 경우 0
+	//정규식 위배하는 경우0
 	//글자수 초과하는 경우
 	//비정상적인 주소 입력
+	//@Disabled
+	@Test
+	public void regexFailure() throws SQLException {
+		mapper.deleteAll();
+		//2.등록
+		TourDTO tour2 = new TourDTO();
+		tour2.setTourNo(0);
+		tour2.setName("애버랜드");
+		tour2.setSubtitle("환상의 동화나라");
+		tour2.setContents("환상의 동화나라 애버랜드로 오세요!");
+		tour2.setAddress("경기도 용인시 애버랜드로1");
+		tour2.setHoliday("연중무휴");
+		tour2.setTime("9:00~20:00");
+		tour2.setTel("031-1111-44445");
+		tour2.setFee(45000);
+		log.debug("tour:{}", tour2);
+		
+		//실패 확인
+//		int result = tourService.doSave(tour2);
+//		log.debug("result:{}", result);
+//		assertEquals(0, result);
+		
+		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+			tourService.doSave(tour2);
+		});
+		assertEquals("전화번호 형식이 올바르지 않습니다. (예: 010-1234-5678)", exception.getMessage());
+	}
 	
 	//입력값이 없는 경우
+	@Disabled
 	@Test
 	public void inputFailure() throws SQLException {
 		log.debug("┌─────────────────────────┐");
@@ -95,10 +126,8 @@ class TourServiceTest {
 		log.debug("└─────────────────────────┘");
 		
 		mapper.deleteAll();
-		tourService.doSave(dto01);
 		//2.등록
 		TourDTO tour = new TourDTO();
-		
 		tour.setTourNo(0);
 		tour.setName("");
 		tour.setSubtitle("환상의 동화나라");
@@ -110,9 +139,15 @@ class TourServiceTest {
 		tour.setFee(45000);
 		log.debug("tour:{}", tour);
 		
-		assertThrows(DataIntegrityViolationException.class, () -> {
-			mapper.doSave(tour);
+//실패 확인
+//		int result = tourService.doSave(tour);
+//		log.debug("result:{}", result);
+//		assertEquals(0, result);
+
+		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+			tourService.doSave(tour);
 		});
+		assertEquals("관광지명을 입력해 주세요.", exception.getMessage());
 	}
 	
 	@Disabled
