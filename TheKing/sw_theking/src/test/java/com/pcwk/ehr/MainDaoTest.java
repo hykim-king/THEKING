@@ -48,7 +48,7 @@ class MainDaoTest {
 		log.debug("mapper :{}",mapper);
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void getPopularTour() {
 		List<ImageDTO> list = mapper.getPopularTour();
@@ -61,7 +61,7 @@ class MainDaoTest {
 		}
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void getRecentFestival() {
 		List<ImageDTO> list = mapper.getRecentFestival();
@@ -74,7 +74,7 @@ class MainDaoTest {
 		}
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void getRecentNotice() {
 		List<BoardDTO> list = mapper.getRecentNotice();

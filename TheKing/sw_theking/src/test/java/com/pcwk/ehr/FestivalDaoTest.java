@@ -37,6 +37,8 @@ class FestivalDaoTest {
 	FestivalMapper mapper;
 	@Autowired
 	ApplicationContext context;
+	
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		dto01 =new FestivalDTO(1, "축제1","축제 시작1" , "축제가 시작됩니다.",0, "경기도 고양시", "010-1234-1234",
@@ -186,7 +188,7 @@ class FestivalDaoTest {
 		assertNotNull(dto03);
 		
 	}
-	//@Disabled
+	@Disabled
 	@Test
 	void doSave() throws SQLException{
 		mapper.doSave(dto01);
