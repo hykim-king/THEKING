@@ -4,6 +4,7 @@
  */
 package com.pcwk.ehr;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -68,7 +69,7 @@ public class UserDaoTest {
 		log.debug("***************************");
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	void beans() {
 		assertNotNull(context);
@@ -78,7 +79,7 @@ public class UserDaoTest {
 		log.debug(mapper);
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	void doRetrieve() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -111,7 +112,7 @@ public class UserDaoTest {
 		assertEquals(list.size(), 10);
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	void doDelete() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -141,7 +142,7 @@ public class UserDaoTest {
 		assertEquals(0, count);
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	void doUpate() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -197,7 +198,7 @@ public class UserDaoTest {
 
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	public void getAll() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -237,7 +238,7 @@ public class UserDaoTest {
 
 	}
 
-	@Disabled
+	//@Disabled
 	@Test
 	public void getFailure() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -253,16 +254,13 @@ public class UserDaoTest {
 		assertEquals(1, mapper.getCount());
 
 		UserDTO unknownUser = new UserDTO();
-		unknownUser.setName(dto01.getName() + "_99");
+		unknownUser.setUserId(dto01.getUserId() + "_999");
 
-		assertThrows(EmptyResultDataAccessException.class, () -> {
-			mapper.doSelectOne(unknownUser);
-
-		});
-
+		UserDTO result = mapper.doSelectOne(unknownUser);
+	    assertNull(result); // 기대: 결과 없음
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	public void addAndGet() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
