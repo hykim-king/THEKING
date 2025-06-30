@@ -85,7 +85,7 @@ class FestivalDaoTest {
 	}
 	
 	
-	//@Disabled
+	@Disabled
 	@Test
 	void upView(){
 		//삭제
@@ -105,7 +105,7 @@ class FestivalDaoTest {
 	}
 	
 	
-	//@Disabled
+	@Disabled
 	@Test
 	void getCount() throws SQLException {
 		int count = mapper.getCount();
@@ -117,7 +117,7 @@ class FestivalDaoTest {
 	}
 	
 	
-	//@Disabled
+	@Disabled
 	@Test
 	void doRetrieve() {
 
@@ -130,7 +130,7 @@ class FestivalDaoTest {
 		}
 	}
 	
-	//@Disabled
+	@Disabled
 	@Test
 	void doUpdate() {
 		//삭제
@@ -157,7 +157,7 @@ class FestivalDaoTest {
 		
 	}
 	
-	//@Disabled
+	@Disabled
 	@Test
 	void doSelectOne() {
 		FestivalDTO outVO = mapper.doSelectOne(dto01);
@@ -173,7 +173,7 @@ class FestivalDaoTest {
 		log.debug("outVO :{}",outVO);
 	}
 	
-	//@Disabled
+	@Disabled
 	@Test
 	void deleteAnddoSave() throws SQLException {
 		mapper.doDelete(dto01);

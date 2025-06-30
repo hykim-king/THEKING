@@ -3,6 +3,7 @@ package com.pcwk.ehr.festival.service;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,15 +41,14 @@ public class FestivalServiceImpl implements FestivalService {
 	}
 
 	@Override
-	public List<FestivalDTO> checkRetrieve(String sido, String date, SearchDTO param) {
-		if(sido.equals("")) {
-			sido = null;
-		}
-		if(date.equals("")) {
-			date = null;
-		}
-		if(param == null) {
+	public List<FestivalDTO> checkRetrieve(@Param("sido")String sido,
+										@Param("date")String date, SearchDTO param) {
+
+
+		if(param.getPageNo()==0) {
 			param.setPageNo(1);
+		}
+		if(param.getPageSize()==0) {
 			param.setPageSize(12);
 		}
 		return mapper.checkRetrieve(sido, date, param);
@@ -56,6 +56,10 @@ public class FestivalServiceImpl implements FestivalService {
 
 	@Override
 	public List<FestivalDTO> doRetrieve(SearchDTO param) {
+		if(param == null) {
+			param.setPageNo(1);
+			param.setPageSize(12);
+		}
 		return mapper.doRetrieve(param);
 	}
 
