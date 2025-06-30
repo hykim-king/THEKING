@@ -79,15 +79,15 @@ class UserServiceTest {
 		users = Arrays.asList(
 				
 				new UserDTO("pcwk01", "pcwk01234!", "이상무", "이상무01", "pcwk01@gmail.com", 
-						"010-1111-1111","서울시 마포구 서교동 21-1","user","profile", "사용안함", "사용안함"),
+						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"),
 				new UserDTO("pcwk02", "pcwk01234!", "이상무", "이상무01", "pcwk02@gmail.com", 
-						"010-1111-1111","서울시 마포구 서교동 21-1","user","profile", "사용안함", "사용안함"),
+						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"),
 				new UserDTO("pcwk03", "pcwk01234!", "이상무", "이상무01", "pcwk03@gmail.com", 
-						"010-1111-1111","서울시 마포구 서교동 21-1","user","profile", "사용안함", "사용안함"),
+						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"),
 				new UserDTO("pcwk04", "pcwk01234!", "이상무", "이상무01", "pcwk04@gmail.com", 
-						"010-1111-1111","서울시 마포구 서교동 21-1","user","profile", "사용안함", "사용안함"),
+						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"),
 				new UserDTO("admin", "admin123!", "관리자", "관리자", "admin01@gmail.com", 
-						"010-1111-1111","서울시 마포구 서교동 21-1","user","profile", "사용안함", "사용안함"));
+						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"));
 	}
 
 	/**
@@ -157,7 +157,6 @@ class UserServiceTest {
 		user.setMobile("010-1234-5678");
 		user.setAddress("서울시 마포구 서교동 22-1");
 		user.setRole("user");
-		user.setProfile("default.png");
 		log.debug("user:{}", user);
 		
 		int result = userService.doSave(user);
@@ -166,7 +165,7 @@ class UserServiceTest {
 
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void beans() {
 		assertNotNull(mapper);
