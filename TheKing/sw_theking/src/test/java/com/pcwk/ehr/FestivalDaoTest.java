@@ -70,8 +70,8 @@ class FestivalDaoTest {
 	@Test
 	void checkRetrieve() {
 		//null or 값  
-		String sido = null;
-		String date ="2025-06-26";
+		String sido = "경기도"; //ex) 경기도, 서울특별시, 강원특별시, null
+		String date ="2025-06-26"; // 6월 7월 중 아무날짜
 		searchDTO.setPageNo(1);
 		searchDTO.setPageSize(10);
 		List<FestivalDTO> list = mapper.checkRetrieve(sido, date, searchDTO);
@@ -83,7 +83,7 @@ class FestivalDaoTest {
 	}
 	
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void upView(){
 		//삭제
@@ -103,7 +103,7 @@ class FestivalDaoTest {
 	}
 	
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void getCount() throws SQLException {
 		int count = mapper.getCount();
@@ -115,7 +115,7 @@ class FestivalDaoTest {
 	}
 	
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void doRetrieve() {
 
@@ -128,7 +128,7 @@ class FestivalDaoTest {
 		}
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void doUpdate() {
 		//삭제
@@ -155,7 +155,7 @@ class FestivalDaoTest {
 		
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void doSelectOne() {
 		FestivalDTO outVO = mapper.doSelectOne(dto01);
@@ -171,7 +171,7 @@ class FestivalDaoTest {
 		log.debug("outVO :{}",outVO);
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void deleteAnddoSave() throws SQLException {
 		mapper.doDelete(dto01);
@@ -186,7 +186,7 @@ class FestivalDaoTest {
 		assertNotNull(dto03);
 		
 	}
-	@Disabled
+	//@Disabled
 	@Test
 	void doSave() throws SQLException{
 		mapper.doSave(dto01);
