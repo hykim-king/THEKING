@@ -52,9 +52,9 @@ public class UserDaoTest {
 
 		log.debug("context:" + context);
 
-		dto01 = new UserDTO("pcwk01", "4321abc!@#" ,"이상무01", "이상무닉1", "pcwk01@naver.com", "010-1111-1111", "서울시 마포구 서교동11","admin", "profile", "사용안함", "사용안함");
-		dto02 = new UserDTO("pcwk02", "1234abc!@#$","이상무02", "이상무닉2", "pcwk02@naver.com", "010-1111-1111", "서울시 마포구 서교동11","user" , "profile", "사용안함", "사용안함");
-		dto03 = new UserDTO("pcwk03", "1234abcd!!" ,"이상무03", "이상무닉3", "pcwk03@naver.com", "010-1111-1111", "서울시 마포구 서교동11","user" , "profile", "사용안함", "사용안함");
+		dto01 = new UserDTO("pcwk01", "4321abc!@#" ,"이상무01", "이상무닉1", "pcwk01@naver.com", "010-1111-1111", "서울시 마포구 서교동11","admin",  "사용안함", "사용안함");
+		dto02 = new UserDTO("pcwk02", "1234abc!@#$","이상무02", "이상무닉2", "pcwk02@naver.com", "010-1111-1111", "서울시 마포구 서교동11","user" ,  "사용안함", "사용안함");
+		dto03 = new UserDTO("pcwk03", "1234abcd!!" ,"이상무03", "이상무닉3", "pcwk03@naver.com", "010-1111-1111", "서울시 마포구 서교동11","user" ,  "사용안함", "사용안함");
 
 		search = new SearchDTO();
 	}
@@ -181,7 +181,6 @@ public class UserDaoTest {
 		outVO.setNickname(outVO.getNickname() + upString);
 		outVO.setEmail(outVO.getEmail() + upString);
 		outVO.setMobile(outVO.getMobile() + upString);
-		outVO.setProfile(outVO.getProfile() + upString);
 
 		log.debug("outVO:" + outVO);
 
@@ -314,6 +313,5 @@ public class UserDaoTest {
 	    assertEquals(outVO.getMobile(), dto01.getMobile());
 	    assertEquals(outVO.getAddress(), dto01.getAddress());
 	    assertEquals(outVO.getRole(), dto01.getRole());
-	    assertEquals(outVO.getProfile(), dto01.getProfile());
 	}
 }
