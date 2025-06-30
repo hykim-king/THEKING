@@ -18,7 +18,7 @@ public interface FestivalMapper extends WorkDiv<FestivalDTO>{
 	int getCount() throws SQLException;
 	//조회수 증가
 	int upViews(FestivalDTO dto);
-	
+	//지역별, 날짜별 조회
 	List<FestivalDTO> checkRetrieve(@Param("sido") String sido,
             						@Param("date") String date,
             						@Param("dto")SearchDTO dto);
