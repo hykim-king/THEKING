@@ -33,7 +33,7 @@ public class TourServiceImpl implements TourService {
 	}
 //	관광지명은 필수값0
 //	상세 내용 필수값0
-//	관광지 주소 필수값0 -> 비정상적인 주소는 어떻게 확인하지?
+//	관광지 주소 필수값0 
 //	연락처 형식0
 //	관광지면 30자 이하0
 //	소제목 50자 이하0
@@ -83,7 +83,7 @@ public class TourServiceImpl implements TourService {
 		}
 			
 		//2.정규 표현식 검사
-		if (TourValidation.isValidTel(param.getTel())) {
+		if (!TourValidation.isValidTel(param.getTel())) {
 			    throw new IllegalArgumentException("전화번호 형식이 올바르지 않습니다. (예: 010-1234-5678)");
 			}
 		//3.글자 수 확인 
