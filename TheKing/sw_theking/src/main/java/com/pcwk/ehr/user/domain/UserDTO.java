@@ -4,6 +4,7 @@ import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.region.domain.RegionDTO;
 
 public class UserDTO extends DTO {
+	private int userNo;
 	private String userId;
 	private String password;
 	private String name;
@@ -20,23 +21,10 @@ public class UserDTO extends DTO {
 		
 	}
 	
-	
-	
-	/**
-	 * @param userId
-	 * @param password
-	 * @param name
-	 * @param nickname
-	 * @param email
-	 * @param mobile
-	 * @param address
-	 * @param role
-	 * @param regDt
-	 * @param modDt
-	 */
-	public UserDTO(String userId, String password, String name, String nickname, String email, String mobile,
-			String address, String role, String regDt, String modDt) {
+	public UserDTO(int userNo, String userId, String password, String name, String nickname, String email,
+			String mobile, String address, String role, String regDt, String modDt) {
 		super();
+		this.userNo = userNo;
 		this.userId = userId;
 		this.password = password;
 		this.name = name;
@@ -49,23 +37,22 @@ public class UserDTO extends DTO {
 		this.modDt = modDt;
 	}
 
+	public int getUserNo() {
+		return userNo;
+	}
 
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
+	}
 
-	/**
-	 * @return the userId
-	 */
 	public String getUserId() {
 		return userId;
 	}
-	/**
-	 * @param userId the userId to set
-	 */
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	/**
-	 * @return the password
-	 */
+
 	public String getPassword() {
 		return password;
 	}
@@ -175,12 +162,17 @@ public class UserDTO extends DTO {
 
 
 
+
+
 	@Override
 	public String toString() {
-		return "UserDTO [userId=" + userId + ", password=" + password + ", name=" + name + ", nickname=" + nickname
-				+ ", email=" + email + ", mobile=" + mobile + ", address=" + address + ", role=" + role + ", regDt="
-				+ regDt + ", modDt=" + modDt + "]";
+		return "UserDTO [userNo=" + userNo + ", userId=" + userId + ", password=" + password + ", name=" + name
+				+ ", nickname=" + nickname + ", email=" + email + ", mobile=" + mobile + ", address=" + address
+				+ ", role=" + role + ", regDt=" + regDt + ", modDt=" + modDt + "]";
 	}
+
+
+
 	
 	
 }
