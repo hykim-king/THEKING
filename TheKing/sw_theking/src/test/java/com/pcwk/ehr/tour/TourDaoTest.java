@@ -46,7 +46,7 @@ class TourDaoTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-        log.debug("context: {}", context);
+        log.debug("context: {}", context); 
 
         dto01 = new TourDTO(0, "관광지1", "소제목1", "상세내용1", 0,
                 "서울특별시 서대문구 123", "토요일", "09:00-16:00", "010-1111-2222", 100000, 0, null);
