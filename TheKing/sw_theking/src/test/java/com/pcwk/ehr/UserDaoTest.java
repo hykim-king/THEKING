@@ -69,7 +69,7 @@ public class UserDaoTest {
 		log.debug("***************************");
 	}
 
-	@Disabled
+	//@Disabled
 	@Test
 	void beans() {
 		assertNotNull(context);
@@ -79,7 +79,7 @@ public class UserDaoTest {
 		log.debug(mapper);
 	}
 
-	@Disabled
+	//@Disabled
 	@Test
 	void doRetrieve() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -112,7 +112,7 @@ public class UserDaoTest {
 		assertEquals(list.size(), 10);
 	}
 
-	@Disabled
+	//@Disabled
 	@Test
 	void doDelete() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -142,7 +142,7 @@ public class UserDaoTest {
 		assertEquals(0, count);
 	}
 
-	@Disabled
+	//@Disabled
 	@Test
 	void doUpate() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -197,7 +197,7 @@ public class UserDaoTest {
 
 	}
 
-	@Disabled
+	//@Disabled
 	@Test
 	public void getAll() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -259,7 +259,7 @@ public class UserDaoTest {
 	    assertNull(result); // 기대: 결과 없음
 	}
 
-	@Disabled
+	//@Disabled
 	@Test
 	public void addAndGet() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성

@@ -100,42 +100,6 @@ class UserServiceTest {
 		log.debug("└─────────────────────────────────────────────────────────┘");
 	}
 
-	
-	@Disabled
-	@Test
-	void upgradeAllOrNothing() throws SQLException {
-		log.debug("┌─────────────────────────────────┐");
-		log.debug("│ upgradeAllOrNothing()           │");
-		log.debug("└─────────────────────────────────┘");
-		// 매번 동일한 결과가 도출 되도록 작성
-		// 1.전체삭제
-		// 2.5명 사용자 모두 입력
-		// 3.등업
-		// 3.1 예외
-		
-		try {
-			// 1.
-			mapper.deleteAll();
-			assertEquals(0, mapper.getCount());
-
-			// 2.
-			for (UserDTO dto : users) {
-				mapper.doSave(dto);
-			}
-			assertEquals(5, mapper.getCount());
-
-			// 3.
-//			testUserService.upgradeLevels();
-
-		} catch (Exception e) {
-			log.debug("┌─────────────────────────────────┐");
-			log.debug("│ Exception()                     │" + e.getMessage());
-			log.debug("└─────────────────────────────────┘");
-		}
-		
-//		checkLevel(users.get(1), false);
-	}
-
 	//@Disabled
 	@Test
 	public void doSave() throws SQLException {

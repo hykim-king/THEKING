@@ -78,7 +78,7 @@ class UserControllerTest {
 		
 	}
 
-	@Disabled
+	//@Disabled
 	@Test
 	void doLogin() throws Exception {
 	    log.debug("┌───────────────────────────────┐");
@@ -119,7 +119,7 @@ class UserControllerTest {
 	  	assertEquals("pcwk01님 환영합니다.",resultMessage.getMessage());
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void deleteUser() throws SQLException {
 
@@ -215,7 +215,7 @@ class UserControllerTest {
 		assertEquals("user/user_list", viewName);
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void doDelete() throws Exception {
 		log.debug("┌───────────────────────────┐");
@@ -265,7 +265,7 @@ class UserControllerTest {
 		assertEquals("pcwk01님이 삭제 되었습니다.",resultMessage.getMessage());
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void beans() {
 		assertNotNull(webApplicationContext);
