@@ -21,7 +21,7 @@ public interface FestivalService {
 	//조건별 리스트 조회
 	List<FestivalDTO> checkRetrieve(@Param("sido") String sido,
 									@Param("date") String date,
-									@Param("dto")SearchDTO param);
+									SearchDTO param);
 	//리스트 조회
 	List<FestivalDTO> doRetrieve(SearchDTO param);
 	//총 축제 건수 

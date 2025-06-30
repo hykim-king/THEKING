@@ -22,4 +22,5 @@ public interface FestivalMapper extends WorkDiv<FestivalDTO>{
 	List<FestivalDTO> checkRetrieve(@Param("sido") String sido,
             						@Param("date") String date,
             						@Param("dto")SearchDTO dto);
+	
 }
