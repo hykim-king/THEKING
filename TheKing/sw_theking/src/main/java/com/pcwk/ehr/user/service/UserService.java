@@ -17,5 +17,7 @@ public interface UserService {
 	UserDTO doSelectOne(UserDTO param) throws SQLException;
 
 	int doSave(UserDTO param) throws SQLException;
+	
+	UserDTO doLogin(UserDTO loginUserId)throws SQLException;
 
 }

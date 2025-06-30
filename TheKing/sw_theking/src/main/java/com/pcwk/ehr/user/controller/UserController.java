@@ -123,14 +123,15 @@ public class UserController {
 	    // 1. 서비스에서 로그인 검증 (아이디, 비밀번호 체크)
 		UserDTO loginUserId = new UserDTO();
 		loginUserId.setUserId(userId);
-		UserDTO loginUser = userService.doSelectOne(loginUserId);
+		log.debug("userId 전달값 확인: {}", loginUserId);
+		UserDTO loginUser = userService.doLogin(loginUserId);
 		log.debug("loginUser: {}", loginUser);
 
 		String message = "";
 		// 2.로그인 실패 시
 		if (loginUser == null || password == null || !password.equals(loginUser.getPassword())) {
-			message = "아이디 또는 비밀번호가 올바르지 않습니다.";
-			return message; // 로그인 페이지로 이동
+			MessageDTO failMessage = new MessageDTO(0, "아이디 또는 비밀번호가 올바르지 않습니다.");
+		    return new Gson().toJson(failMessage);
 	    }
 		
 		// 3.로그인 성공 시

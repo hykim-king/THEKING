@@ -78,15 +78,15 @@ class UserServiceTest {
 
 		users = Arrays.asList(
 				
-				new UserDTO("pcwk01", "pcwk01234!", "이상무", "이상무01", "pcwk01@gmail.com", 
+				new UserDTO(0,"pcwk01", "pcwk01234!", "이상무", "이상무01", "pcwk01@gmail.com", 
 						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"),
-				new UserDTO("pcwk02", "pcwk01234!", "이상무", "이상무01", "pcwk02@gmail.com", 
+				new UserDTO(0,"pcwk02", "pcwk01234!", "이상무", "이상무01", "pcwk02@gmail.com", 
 						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"),
-				new UserDTO("pcwk03", "pcwk01234!", "이상무", "이상무01", "pcwk03@gmail.com", 
+				new UserDTO(0,"pcwk03", "pcwk01234!", "이상무", "이상무01", "pcwk03@gmail.com", 
 						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"),
-				new UserDTO("pcwk04", "pcwk01234!", "이상무", "이상무01", "pcwk04@gmail.com", 
+				new UserDTO(0,"pcwk04", "pcwk01234!", "이상무", "이상무01", "pcwk04@gmail.com", 
 						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"),
-				new UserDTO("admin", "admin123!", "관리자", "관리자", "admin01@gmail.com", 
+				new UserDTO(0,"admin", "admin123!", "관리자", "관리자", "admin01@gmail.com", 
 						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"));
 	}
 

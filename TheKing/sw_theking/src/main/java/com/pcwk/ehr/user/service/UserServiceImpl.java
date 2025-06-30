@@ -51,6 +51,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public UserDTO doLogin(UserDTO param) throws SQLException {
+		return mapper.doLogin(param);
+	}
+	
+	@Override
 	public int doSave(UserDTO param) throws SQLException {
 		// 1. 정규표현식 검사
 		if (!UserValidation.isValidUserId(param.getUserId())) {
@@ -81,11 +86,5 @@ public class UserServiceImpl implements UserService {
 	    return mapper.doSave(param);
 	}
 
-
-	
-	
-	
-	
-	
 }
 // class 끝
