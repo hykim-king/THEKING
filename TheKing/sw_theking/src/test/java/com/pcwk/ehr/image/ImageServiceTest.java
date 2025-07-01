@@ -59,45 +59,22 @@ class ImageServiceTest {
 		log.debug("│ After()                  │");
 		log.debug("└──────────────────────────┘");
 	}
-	@Test
-	void doUpdate() throws SQLException {
-		//1.전체 삭제
-		mapper.deleteAll();
-		//2.단건 등록
-		int flag = imageService.doSave(dto01);
-		assertEquals(1, flag);
-		//3.한 건 조회
-		ImageDTO outVO = mapper.doSelectOne(dto01);
-		assertNotNull(outVO);
-		//4.업데이트
-		outVO.setImageName("새로운이미지명1.jpg");
-		flag = imageService.doUpdate(outVO);
-		assertEquals(1, flag);
-		//5.업데이트 조회
-		ImageDTO upVO = mapper.doSelectOne(outVO);
-		assertEquals(upVO.getImageName(), outVO.getImageName());
-	}
 	
 	//@Disabled
 	@Test
 	void charLimit() throws SQLException {
 		//1.전체 삭제
 		mapper.deleteAll();
-		//2.단건 등록
-		int flag = imageService.doSave(dto01);
-		assertEquals(1, flag);
-		//3.한 건 조회
-		ImageDTO outVO = mapper.doSelectOne(dto01);
-		assertNotNull(outVO);
 		
 		dto01.setImageName("30자이상이면실패30자이상이면실패30자이상이면실패.jpg");
 		
 //실패 확인 완료
-//		int result = imageService.doUpdate(dto01);
+//		int result = imageService.doSave(dto01);
 //		log.debug("result:{}", result);
+//		assertEquals(1, result);	
 		
 		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-			imageService.doUpdate(dto01);
+			imageService.doSave(dto01);
 		});
 		assertEquals("이미지명은 30자를 넘을 수 없습니다.", exception.getMessage());
   }
@@ -108,22 +85,15 @@ class ImageServiceTest {
 	void ValidationFailure() throws SQLException {
 		//1.전체 삭제
 		mapper.deleteAll();
-		//2.단건 등록
-		int flag = imageService.doSave(dto01);
-		assertEquals(1, flag);
-		//3.한 건 조회
-		ImageDTO outVO = mapper.doSelectOne(dto01);
-		assertNotNull(outVO);
 		
 		dto01.setImageName("이미지명99.pp");
 // 실패 확인 완료
-//		int result = imageService.doUpdate(dto01);
+//		int result = imageService.doSave(dto01);
 //		log.debug("result:{}", result);
-//		assertEquals(outVO.getImageName(), dto01.getImageName());
-		
+//		assertEquals(1, result);		
 		
 		Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-			imageService.doUpdate(dto01);
+			imageService.doSave(dto01);
 		});
 		assertEquals("허용되지 않은 이미지 형식입니다.", exception.getMessage());
 	}

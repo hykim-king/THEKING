@@ -12,7 +12,7 @@ public interface TourService {
 
 	int doDelete(TourDTO param);
 
-	int doUpdate(TourDTO param);
+	int doUpdate(TourDTO param) throws SQLException;
 
 	TourDTO doSelectOne(TourDTO param) throws SQLException;
 

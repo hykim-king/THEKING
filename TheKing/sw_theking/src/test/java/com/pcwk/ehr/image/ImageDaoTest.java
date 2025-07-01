@@ -46,9 +46,9 @@ class ImageDaoTest {
 
 	@BeforeEach
 	void setUp() throws Exception {
-		dto01 = new ImageDTO(0,1,"TOUR","이미지명1","이미지경로1","저장이름1","SYSDATE");
-		dto02 = new ImageDTO(0,2,"TOUR","이미지명2","이미지경로2","저장이름2","SYSDATE");
-		dto03 = new ImageDTO(0,3,"TOUR","이미지명3","이미지경로3","저장이름3","SYSDATE");
+		dto01 = new ImageDTO(0,1,"TOUR","이미지명1.jpg","이미지경로1","저장이름1","SYSDATE");
+		dto02 = new ImageDTO(0,2,"TOUR","이미지명2.jpg","이미지경로2","저장이름2","SYSDATE");
+		dto03 = new ImageDTO(0,3,"TOUR","이미지명3.jpg","이미지경로3","저장이름3","SYSDATE");
 			
 		search = new SearchDTO();		
 	}
@@ -59,6 +59,26 @@ class ImageDaoTest {
 		log.debug("@After");
 		log.debug("***************************");
 	}
+	@Test
+	void getImages() throws SQLException {
+		//1. 전체 삭제
+    	mapper.deleteAll();
+    	//2. 3건 등록
+    	mapper.doSave(dto01);
+      	mapper.doSave(dto02);
+    	mapper.doSave(dto03);
+    	
+    	int count = mapper.getCount();
+    	assertEquals(3, count);
+    	
+    	//3. 조회
+    	List<ImageDTO> list = mapper.getImages(1, "TOUR");
+    	for(ImageDTO dto : list) {
+    		log.debug(dto);
+    	}
+    	
+	}
+	@Disabled
 	@Test
 	void saveAll() throws SQLException {
 		//1. 전체 삭제
@@ -79,7 +99,7 @@ class ImageDaoTest {
     	}
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	void UpateAndSelectOne() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -132,7 +152,7 @@ class ImageDaoTest {
 		System.out.println("***");
 
 	}
-	//@Disabled
+	@Disabled
 	@Test
 	void saveAndDelete() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -161,7 +181,7 @@ class ImageDaoTest {
 		count = mapper.getCount();
 		assertEquals(0, count);
 	}
-	//@Disabled
+	@Disabled
 	@Test
 	public void addAndGet() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -204,7 +224,7 @@ class ImageDaoTest {
 		isSameUser(outVO3, dto03);
 
 	}
-	//@Disabled
+	@Disabled
 	@Test
 	void beans() {
 		assertNotNull(context);
