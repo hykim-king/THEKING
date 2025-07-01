@@ -1,8 +1,6 @@
 package com.pcwk.ehr;
 
-import static org.junit.Assert.assertNotNull;
-
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,23 +14,25 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pcwk.ehr.board.domain.BoardDTO;
-import com.pcwk.ehr.image.domain.ImageDTO;
-import com.pcwk.ehr.mapper.MainMapper;
+import com.pcwk.ehr.favorites.domain.FavoritesDTO;
+import com.pcwk.ehr.favorites.service.FavoritesService;
+
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/root-context.xml",
 		"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" })
-class MainDaoTest {
+class FavoritesServiceTest {
 	Logger log = LogManager.getLogger(getClass());
-	
+
 	@Autowired
 	ApplicationContext context;
-	
 	@Autowired
-	MainMapper mapper;
-	
+	FavoritesService service;
+
+	FavoritesDTO dto;
+
 	@BeforeEach
 	void setUp() throws Exception {
+		dto = new FavoritesDTO(20,"pcwk01",144,"festival");
 	}
 
 	@AfterEach
@@ -42,49 +42,58 @@ class MainDaoTest {
 	@Test
 	void beans() {
 		assertNotNull(context);
-		assertNotNull(mapper);
-		
-		log.debug("context :{}",context);
-		log.debug("mapper :{}",mapper);
+		assertNotNull(service);
+
+		log.debug("context:{}", context);
+		log.debug("service:{}", service);
 	}
-	
+
 	//@Disabled
 	@Test
-	void getPopularTour() {
-		List<ImageDTO> list = mapper.getPopularTour();
-		
-		assertNotNull(list);
-		log.debug("list:{}",list);
-		
-		for(ImageDTO dto : list) {
-			log.debug(dto);
-		}
+	void getTourCount() {
+		int count = service.getTourCount(dto.getUserId());
+		log.debug("count:{}", count);
 	}
-	
+
+	// @Disabled
+	@Test
+	void getFestaCount() {
+		int count = service.getFestaCount(dto.getUserId());
+		log.debug("count:{}", count);
+	}
+
 	//@Disabled
 	@Test
-	void getRecentFestival() {
-		List<ImageDTO> list = mapper.getRecentFestival();
-		
-		assertNotNull(list);
-		log.debug("list:{}",list);
-		
-		for(ImageDTO dto : list) {
-			log.debug(dto);
-		}
+	void doSelectOne() {
+		service.doDelete(dto);
+
+		service.doSave(dto);
+		assertNotNull(dto);
+
+		FavoritesDTO outVO = service.doSelectOne(dto);
+		assertNotNull(outVO);
+		log.debug("outVO :{}", outVO);
+
 	}
-	
+
 	//@Disabled
 	@Test
-	void getRecentNotice() {
-		List<BoardDTO> list = mapper.getRecentNotice();
-		
-		log.debug(list);
-		assertNotNull(list);
-		
-		for(BoardDTO dto :list) {
-			log.debug(dto);
-		}
+	void doSave() {
+		service.doSave(dto);
+		assertNotNull(dto);
+
+		log.debug("dto :{}", dto);
+	}
+
+	//@Disabled
+	@Test
+	void doDeleteAnddoSave() {
+		service.doDelete(dto);
+
+		service.doSave(dto);
+		assertNotNull(dto);
+
+		log.debug("dto :{}", dto);
 	}
 
 }

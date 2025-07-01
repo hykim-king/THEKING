@@ -4,6 +4,7 @@ import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.region.domain.RegionDTO;
 
 public class UserDTO extends DTO {
+	private int userNo;
 	private String userId;
 	private String password;
 	private String name;
@@ -12,7 +13,6 @@ public class UserDTO extends DTO {
 	private String mobile;
 	private String address;
 	private String role;
-	private String profile;
 	private String regDt;
 	private String modDt;
 	
@@ -20,22 +20,11 @@ public class UserDTO extends DTO {
 	public UserDTO() {
 		
 	}
-	/**
-	 * @param userId
-	 * @param password
-	 * @param name
-	 * @param nickname
-	 * @param email
-	 * @param mobile
-	 * @param address
-	 * @param role
-	 * @param profile
-	 * @param regDt
-	 * @param modDt
-	 */
-	public UserDTO(String userId, String password, String name, String nickname, String email, String mobile,
-			String address, String role, String profile, String regDt, String modDt) {
+	
+	public UserDTO(int userNo, String userId, String password, String name, String nickname, String email,
+			String mobile, String address, String role, String regDt, String modDt) {
 		super();
+		this.userNo = userNo;
 		this.userId = userId;
 		this.password = password;
 		this.name = name;
@@ -44,27 +33,26 @@ public class UserDTO extends DTO {
 		this.mobile = mobile;
 		this.address = address;
 		this.role = role;
-		this.profile = profile;
 		this.regDt = regDt;
 		this.modDt = modDt;
 	}
-	
-	
-	/**
-	 * @return the userId
-	 */
+
+	public int getUserNo() {
+		return userNo;
+	}
+
+	public void setUserNo(int userNo) {
+		this.userNo = userNo;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
-	/**
-	 * @param userId the userId to set
-	 */
+
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	/**
-	 * @return the password
-	 */
+
 	public String getPassword() {
 		return password;
 	}
@@ -146,18 +134,7 @@ public class UserDTO extends DTO {
 	public void setRole(String role) {
 		this.role = role;
 	}
-	/**
-	 * @return the profile
-	 */
-	public String getProfile() {
-		return profile;
-	}
-	/**
-	 * @param profile the profile to set
-	 */
-	public void setProfile(String profile) {
-		this.profile = profile;
-	}
+
 	/**
 	 * @return the regDt
 	 */
@@ -182,15 +159,20 @@ public class UserDTO extends DTO {
 	public void setModDt(String modDt) {
 		this.modDt = modDt;
 	}
+
+
+
+
+
 	@Override
 	public String toString() {
-		return "UserTKDTO [userId=" + userId + ", password=" + password + ", name=" + name + ", nickname=" + nickname
-				+ ", email=" + email + ", mobile=" + mobile + ", address=" + address + ", role=" + role + ", profile="
-				+ profile + ", regDt=" + regDt + ", modDt=" + modDt + "]";
+		return "UserDTO [userNo=" + userNo + ", userId=" + userId + ", password=" + password + ", name=" + name
+				+ ", nickname=" + nickname + ", email=" + email + ", mobile=" + mobile + ", address=" + address
+				+ ", role=" + role + ", regDt=" + regDt + ", modDt=" + modDt + "]";
 	}
 
-	
-	
+
+
 	
 	
 }

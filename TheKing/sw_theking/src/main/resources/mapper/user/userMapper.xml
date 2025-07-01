@@ -42,6 +42,7 @@
 	    SELECT A.*, B.*
 	    FROM (
 	        SELECT tt3.RNUM AS no,
+	               tt3.user_no,
 	               tt3.user_id,
 	               tt3.password,
 	               tt3.name,
@@ -50,7 +51,6 @@
 	               tt3.mobile,
 	               tt3.address,
 	               tt3.role,
-	               tt3.profile,
 	               TO_CHAR(tt3.reg_date, 'YYYY/MM/DD HH24:MI:SS') AS reg_dt,
 	               TO_CHAR(tt3.mod_date, 'YYYY/MM/DD HH24:MI:SS') AS mod_dt
 	        FROM (
@@ -75,6 +75,7 @@
     
     <insert id="saveAll">
         INSERT INTO user_tk (
+            user_no,
 	        user_id,
 	        password,
 	        name,
@@ -83,11 +84,11 @@
 	        mobile,
 	        address,
 	        role,
-	        profile,
 	        reg_date,
 	        mod_date
 	    )
 	    SELECT 
+	        user_no_seq.NEXTVAL AS user_no,
 	        'jamesol' || level AS user_id,
 	        '4321_'   || level AS password,
 	        '이상무'  || level AS name,
@@ -96,7 +97,6 @@
 	        '0101234' || LPAD(level, 4, '0') AS mobile,
 	        '서울시 강남구' || level AS address,
 	        DECODE(MOD(level, 2), 0, 'admin', 'user') AS role,
-        	'default_profile.png' AS profile,
         	SYSDATE - level AS reg_date,
         	SYSDATE AS mod_date
     	FROM dual
@@ -106,6 +106,7 @@
     <update id="doUpdate" parameterType="UserDTO">
 	    UPDATE user_tk
 	    SET 
+	        user_id   = #{userId},
 	        password  = #{password},
 	        name      = #{name},
 	        nickname  = #{nickname},
@@ -113,13 +114,16 @@
 	        mobile    = #{mobile},
 	        address   = #{address},
 	        role      = #{role},
-	        profile   = #{profile},
 	        mod_date  = SYSDATE
-	    WHERE user_id = #{userId}
+	    WHERE user_no = #{userNo}
 	</update>
 
     <insert id="doSave" parameterType="UserDTO">
-	    INSERT INTO user_tk (
+        <selectKey keyProperty="userNo" resultType="int" order="BEFORE">
+            SELECT tour_no_seq.NEXTVAL FROM dual
+        </selectKey>	    
+        INSERT INTO user_tk (
+            user_no,
 	        user_id,
 	        password,
 	        name,
@@ -128,10 +132,10 @@
 	        mobile,
 	        address,
 	        <if test="role != null">role,</if>
-       	 	<if test="profile != null">profile,</if>
 	        reg_date,
 	        mod_date
 	    ) VALUES (
+	        #{userNo},
 	        #{userId},
 	        #{password},
 	        #{name},
@@ -140,7 +144,6 @@
 	        #{mobile},
 	        #{address},
 	        <if test="role != null">#{role},</if>
-        	<if test="profile != null">#{profile},</if>
 	        SYSDATE,
 	        SYSDATE
 	    )
@@ -148,7 +151,8 @@
     
     <!-- id PK또는 고유값에 해당 합니다. -->
     <resultMap type="UserDTO" id="userMap">
-        <id column="user_id" property="userId"/>
+        <id column="user_no" property="userNo"/>
+        <result column="user_id" property="userId"/>
         <result column="password" property="password"/>
         <result column="name" property="name"/>
         <result column="nickname" property="nickname"/>
@@ -156,13 +160,13 @@
         <result column="mobile" property="mobile"/>
         <result column="address" property="address"/>
         <result column="role" property="role"/>
-        <result column="profile" property="profile"/>
         <result column="regDt" property="regDt"/>
         <result column="modDt" property="modDt"/>
     </resultMap>
     
     <select id="getAll" resultType="UserDTO">
 	    SELECT
+	        user_no,
 	        user_id,
 	        password,
 	        name,
@@ -171,15 +175,15 @@
 	        mobile,
 	        address,
 	        role,
-	        profile,
 	        TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt,
 	        TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt
 	    FROM user_tk
-	    ORDER BY user_id
+	    ORDER BY user_no
 	</select>
     
     <select id="doSelectOne" parameterType="UserDTO" resultMap="userMap">
 	    SELECT
+	        user_no,
 	        user_id,
 	        password,
 	        name,
@@ -188,7 +192,23 @@
 	        mobile,
 	        address,
 	        role,
-	        profile,
+	        TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt,
+	        TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt
+	    FROM user_tk
+	    WHERE user_no = #{userNo}
+	</select>
+
+	<select id="doLogin" parameterType="String" resultMap="userMap">
+	    SELECT
+	        user_no,
+	        user_id,
+	        password,
+	        name,
+	        nickname,
+	        email,
+	        mobile,
+	        address,
+	        role,
 	        TO_CHAR(reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt,
 	        TO_CHAR(mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt
 	    FROM user_tk
@@ -201,7 +221,7 @@
     
     <delete id="doDelete" parameterType="UserDTO">
         DELETE FROM user_tk
-        WHERE user_id = #{userId}
+        WHERE user_no = #{userNo}
     </delete>
 
     <delete id="deleteAll">

@@ -1,6 +1,6 @@
 package com.pcwk.ehr;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
 
@@ -16,23 +16,28 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.pcwk.ehr.board.domain.BoardDTO;
-import com.pcwk.ehr.image.domain.ImageDTO;
-import com.pcwk.ehr.mapper.MainMapper;
+import com.pcwk.ehr.cmn.SearchDTO;
+import com.pcwk.ehr.festival.domain.FestivalDTO;
+import com.pcwk.ehr.festival.service.FestivalService;
+import com.pcwk.ehr.festival.service.FestivalServiceImpl;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/root-context.xml",
 		"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" })
-class MainDaoTest {
+class FestivalServiceTest {
+
 	Logger log = LogManager.getLogger(getClass());
 	
 	@Autowired
 	ApplicationContext context;
 	
 	@Autowired
-	MainMapper mapper;
+	FestivalService service;
+	
+	SearchDTO dto;
 	
 	@BeforeEach
 	void setUp() throws Exception {
+		dto = new SearchDTO();
 	}
 
 	@AfterEach
@@ -42,49 +47,32 @@ class MainDaoTest {
 	@Test
 	void beans() {
 		assertNotNull(context);
-		assertNotNull(mapper);
+		assertNotNull(service);
 		
-		log.debug("context :{}",context);
-		log.debug("mapper :{}",mapper);
+		log.debug("context:{}",context);
+		log.debug("service:{}",service);
+	}
+	//@Disabled
+	@Test
+	void doRetrieve() {
+		List<FestivalDTO> list = service.doRetrieve(dto);
+		assertNotNull(list);
+		for(FestivalDTO outVO : list) {
+			log.debug(list);
+		}
+		
 	}
 	
 	//@Disabled
 	@Test
-	void getPopularTour() {
-		List<ImageDTO> list = mapper.getPopularTour();
-		
+	void checkRetrieve() {
+
+		List<FestivalDTO> list = service.checkRetrieve(null, null, dto);
 		assertNotNull(list);
-		log.debug("list:{}",list);
-		
-		for(ImageDTO dto : list) {
-			log.debug(dto);
+		for(FestivalDTO outVO :list) {
+			log.debug("outVO:{}",outVO);
 		}
-	}
-	
-	//@Disabled
-	@Test
-	void getRecentFestival() {
-		List<ImageDTO> list = mapper.getRecentFestival();
 		
-		assertNotNull(list);
-		log.debug("list:{}",list);
-		
-		for(ImageDTO dto : list) {
-			log.debug(dto);
-		}
-	}
-	
-	//@Disabled
-	@Test
-	void getRecentNotice() {
-		List<BoardDTO> list = mapper.getRecentNotice();
-		
-		log.debug(list);
-		assertNotNull(list);
-		
-		for(BoardDTO dto :list) {
-			log.debug(dto);
-		}
 	}
 
 }

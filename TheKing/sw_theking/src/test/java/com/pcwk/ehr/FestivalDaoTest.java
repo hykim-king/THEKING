@@ -37,6 +37,8 @@ class FestivalDaoTest {
 	FestivalMapper mapper;
 	@Autowired
 	ApplicationContext context;
+	
+	
 	@BeforeEach
 	void setUp() throws Exception {
 		dto01 =new FestivalDTO(1, "축제1","축제 시작1" , "축제가 시작됩니다.",0, "경기도 고양시", "010-1234-1234",
@@ -70,8 +72,8 @@ class FestivalDaoTest {
 	@Test
 	void checkRetrieve() {
 		//null or 값  
-		String sido = null;
-		String date ="2025-06-26";
+		String sido = "경기도"; //ex) 경기도, 서울특별시, 강원특별시, null
+		String date ="2025-06-26"; // 6월 7월 중 아무날짜
 		searchDTO.setPageNo(1);
 		searchDTO.setPageSize(10);
 		List<FestivalDTO> list = mapper.checkRetrieve(sido, date, searchDTO);

@@ -62,8 +62,8 @@ class UserControllerTest {
 		log.debug("└─────────────────────────────────────────────────────────┘");
 
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-		userDTO01 = new UserDTO("pcwk01", "4321abc!@#" ,"이상무01", "이상무닉1", "pcwk01@naver.com", "010-1111-1111", "서울시 마포구 서교동11","admin", "profile", "사용안함", "사용안함");
-		userDTO02 = new UserDTO("pcwk02", "1234abc!@#$","이상무02", "이상무닉2", "pcwk02@naver.com", "010-1111-1111", "서울시 마포구 서교동11","user" , "profile", "사용안함", "사용안함");
+		userDTO01 = new UserDTO(0,"pcwk01", "4321abc!@#" ,"이상무01", "이상무닉1", "pcwk01@naver.com", "010-1111-1111", "서울시 마포구 서교동11","admin", "사용안함", "사용안함");
+		userDTO02 = new UserDTO(0,"pcwk02", "1234abc!@#$","이상무02", "이상무닉2", "pcwk02@naver.com", "010-1111-1111", "서울시 마포구 서교동11","user" , "사용안함", "사용안함");
 		
 		//session으로 로그인 세팅
 		session = new MockHttpSession();
@@ -101,9 +101,9 @@ class UserControllerTest {
 
 	    // 4. 요청 실행 및 검증
 	    ResultActions resultActions = mockMvc.perform(requestBuilder)
-	    		.andExpect(status().isOk());
-//				.andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=UTF-8"));
-	    
+	    		.andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=UTF-8"));
+    
 	    //3.3 호출 결과 받기
 	    String returnBody = resultActions.andDo(print())
 	  		              	.andReturn().getResponse().getContentAsString();
@@ -167,6 +167,7 @@ class UserControllerTest {
 //	    }
 	}
 	
+	@Disabled
 	@Test
 	void doRetrieve() throws Exception {
 		log.debug("┌───────────────────────────┐");

@@ -78,16 +78,16 @@ class UserServiceTest {
 
 		users = Arrays.asList(
 				
-				new UserDTO("pcwk01", "pcwk01234!", "이상무", "이상무01", "pcwk01@gmail.com", 
-						"010-1111-1111","서울시 마포구 서교동 21-1","user","profile", "사용안함", "사용안함"),
-				new UserDTO("pcwk02", "pcwk01234!", "이상무", "이상무01", "pcwk02@gmail.com", 
-						"010-1111-1111","서울시 마포구 서교동 21-1","user","profile", "사용안함", "사용안함"),
-				new UserDTO("pcwk03", "pcwk01234!", "이상무", "이상무01", "pcwk03@gmail.com", 
-						"010-1111-1111","서울시 마포구 서교동 21-1","user","profile", "사용안함", "사용안함"),
-				new UserDTO("pcwk04", "pcwk01234!", "이상무", "이상무01", "pcwk04@gmail.com", 
-						"010-1111-1111","서울시 마포구 서교동 21-1","user","profile", "사용안함", "사용안함"),
-				new UserDTO("admin", "admin123!", "관리자", "관리자", "admin01@gmail.com", 
-						"010-1111-1111","서울시 마포구 서교동 21-1","user","profile", "사용안함", "사용안함"));
+				new UserDTO(0,"pcwk01", "pcwk01234!", "이상무", "이상무01", "pcwk01@gmail.com", 
+						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"),
+				new UserDTO(0,"pcwk02", "pcwk01234!", "이상무", "이상무01", "pcwk02@gmail.com", 
+						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"),
+				new UserDTO(0,"pcwk03", "pcwk01234!", "이상무", "이상무01", "pcwk03@gmail.com", 
+						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"),
+				new UserDTO(0,"pcwk04", "pcwk01234!", "이상무", "이상무01", "pcwk04@gmail.com", 
+						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"),
+				new UserDTO(0,"admin", "admin123!", "관리자", "관리자", "admin01@gmail.com", 
+						"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함"));
 	}
 
 	/**
@@ -98,42 +98,6 @@ class UserServiceTest {
 		log.debug("┌─────────────────────────────────────────────────────────┐");
 		log.debug("│ tearDown()                                              │");
 		log.debug("└─────────────────────────────────────────────────────────┘");
-	}
-
-	
-	@Disabled
-	@Test
-	void upgradeAllOrNothing() throws SQLException {
-		log.debug("┌─────────────────────────────────┐");
-		log.debug("│ upgradeAllOrNothing()           │");
-		log.debug("└─────────────────────────────────┘");
-		// 매번 동일한 결과가 도출 되도록 작성
-		// 1.전체삭제
-		// 2.5명 사용자 모두 입력
-		// 3.등업
-		// 3.1 예외
-		
-		try {
-			// 1.
-			mapper.deleteAll();
-			assertEquals(0, mapper.getCount());
-
-			// 2.
-			for (UserDTO dto : users) {
-				mapper.doSave(dto);
-			}
-			assertEquals(5, mapper.getCount());
-
-			// 3.
-//			testUserService.upgradeLevels();
-
-		} catch (Exception e) {
-			log.debug("┌─────────────────────────────────┐");
-			log.debug("│ Exception()                     │" + e.getMessage());
-			log.debug("└─────────────────────────────────┘");
-		}
-		
-//		checkLevel(users.get(1), false);
 	}
 
 	//@Disabled
@@ -157,7 +121,6 @@ class UserServiceTest {
 		user.setMobile("010-1234-5678");
 		user.setAddress("서울시 마포구 서교동 22-1");
 		user.setRole("user");
-		user.setProfile("default.png");
 		log.debug("user:{}", user);
 		
 		int result = userService.doSave(user);
@@ -166,7 +129,7 @@ class UserServiceTest {
 
 	}
 	
-	@Disabled
+	//@Disabled
 	@Test
 	void beans() {
 		assertNotNull(mapper);
