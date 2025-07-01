@@ -69,7 +69,7 @@ public class UserDaoTest {
 		log.debug("***************************");
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	void beans() {
 		assertNotNull(context);
@@ -79,7 +79,7 @@ public class UserDaoTest {
 		log.debug(mapper);
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	void doRetrieve() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -112,7 +112,7 @@ public class UserDaoTest {
 		assertEquals(list.size(), 10);
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	void doDelete() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -142,7 +142,7 @@ public class UserDaoTest {
 		assertEquals(0, count);
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	void doUpate() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -197,7 +197,7 @@ public class UserDaoTest {
 
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	public void getAll() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -237,7 +237,7 @@ public class UserDaoTest {
 
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	public void getFailure() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -259,7 +259,7 @@ public class UserDaoTest {
 	    assertNull(result); // 기대: 결과 없음
 	}
 
-	//@Disabled
+	@Disabled
 	@Test
 	public void addAndGet() throws SQLException {
 		// 매번 동일한 결과가 도출 되도록 작성
@@ -302,6 +302,31 @@ public class UserDaoTest {
 		isSameUser(outVO3, dto03);
 
 	}
+	
+	//변경 할 지도
+	@Disabled
+	@Test
+    void getUserImage() throws Exception {
+		//1. 전체 삭제
+		mapper.deleteAll();
+		//2. 단건 등록
+		log.debug("before: {}", dto01);
+		int flag = mapper.doSave(dto01);
+		log.debug("after: {}", dto01);
+		log.debug("flag: {}", flag);
+		assertEquals(1, flag);
+		
+        UserDTO user = mapper.getUserImage(dto01);
+        int userNo = user.getUserNo();
+        assertEquals(userNo, user.getUserNo());
+        
+        // 프로필 이미지가 있는지 없는지 체크
+        log.debug("프로필 이미지 이름: " + user.getProfileImage());
+
+        // 추가로 필요한 필드 검증 가능
+        assertNotNull(user.getUserId(), "id가 널값");
+        assertNotNull(user.getName(), "이름이 널값");
+    }
 
 	// 데이터 비교
 	public void isSameUser(UserDTO outVO, UserDTO dto01) {
