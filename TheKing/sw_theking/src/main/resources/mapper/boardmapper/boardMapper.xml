@@ -16,7 +16,7 @@
     </resultMap>
 
     <!-- Insert -->
-    <insert id="doSave" parameterType="com.pcwk.ehr.board.domain.BoardDTO">
+    <insert id="doSave" parameterType="BoardDTO">
         INSERT INTO board (
             board_no,
             title,
@@ -39,7 +39,7 @@
     </insert>
 
     <!-- Update -->
-    <update id="doUpdate" parameterType="com.pcwk.ehr.board.domain.BoardDTO">
+    <update id="doUpdate" parameterType="BoardDTO">
         UPDATE board
         <set>
             <if test="title != null">title = #{title},</if>
@@ -51,20 +51,20 @@
     </update>
 
     <!-- Delete -->
-    <delete id="doDelete" parameterType="int">
+    <delete id="doDelete" parameterType="BoardDTO">
         DELETE FROM board
         WHERE board_no = #{boardNo}
     </delete>
 
     <!-- Select One -->
-    <select id="doSelectOne" parameterType="int" resultMap="boardMap">
+    <select id="doSelectOne" parameterType="BoardDTO" resultMap="boardMap">
         SELECT *
         FROM board
         WHERE board_no = #{boardNo}
     </select>
 
     <!-- Retrieve with Paging using nested query like UserDTO style -->
-    <select id="doRetrieve" parameterType="com.pcwk.ehr.cmn.SearchDTO" resultMap="boardMap">
+    <select id="doRetrieve" parameterType="SearchDTO" resultMap="boardMap">
         SELECT A.*, B.*
         FROM (
             SELECT tt3.rnum AS no,

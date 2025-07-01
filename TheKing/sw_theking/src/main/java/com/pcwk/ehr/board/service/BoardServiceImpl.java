@@ -20,39 +20,39 @@ public class BoardServiceImpl implements BoardService {
     BoardMapper boardMapper;
 
     @Override
-    public int insertBoard(BoardDTO dto) {
-        log.debug("insertBoard 호출: {}", dto);
-        return boardMapper.doSave(dto);
+    public int doSave(BoardDTO param) {
+        log.debug("doSave 호출: {}", param);
+        return boardMapper.doSave(param);
     }
 
     @Override
-    public int updateBoard(BoardDTO dto) {
-        log.debug("updateBoard 호출: {}", dto);
-        return boardMapper.doUpdate(dto);
+    public int doUpdate(BoardDTO param) {
+        log.debug("doUpdate 호출: {}", param);
+        return boardMapper.doUpdate(param);
     }
 
     @Override
-    public int deleteBoard(int boardNo) {
-        log.debug("deleteBoard 호출: boardNo={}", boardNo);
-        return boardMapper.doDelete(boardNo);
+    public int doDelete(BoardDTO param) {
+        log.debug("doDelete 호출: {}", param);
+        return boardMapper.doDelete(param);
     }
 
     @Override
-    public BoardDTO getBoard(int boardNo) {
-        log.debug("getBoard 호출: boardNo={}", boardNo);
-        return boardMapper.doSelectOne(boardNo);
+    public BoardDTO doSelectOne(BoardDTO param) {
+        log.debug("doSelectOne 호출: {}", param);
+        return boardMapper.doSelectOne(param);
     }
 
     @Override
-    public List<BoardDTO> getBoardList(SearchDTO search) {
-        log.debug("getBoardList 호출: {}", search);
-        return boardMapper.doRetrieve(search);
+    public List<BoardDTO> doRetrieve(SearchDTO param) {
+        log.debug("doRetrieve 호출: {}", param);
+        return boardMapper.doRetrieve(param);
     }
 
     @Override
-    public int increaseViews(int boardNo) {
-        log.debug("increaseViews 호출: boardNo={}", boardNo);
-        return boardMapper.upViews(boardNo);
+    public int increaseViews(BoardDTO param) {
+        log.debug("increaseViews 호출: {}", param);
+        return boardMapper.upViews(param.getBoardNo());
     }
 
     @Override
