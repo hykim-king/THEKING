@@ -2,6 +2,7 @@ package com.pcwk.ehr.user.service;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -11,13 +12,21 @@ import org.springframework.mail.MailSender;
 import org.springframework.stereotype.Service;
 
 import com.pcwk.ehr.cmn.SearchDTO;
+import com.pcwk.ehr.cmn.WorkDiv;
+import com.pcwk.ehr.festival.domain.FestivalDTO;
+import com.pcwk.ehr.image.domain.ImageDTO;
+import com.pcwk.ehr.mapper.FavoritesMapper;
+import com.pcwk.ehr.mapper.ImageMapper;
 import com.pcwk.ehr.mapper.UserMapper;
+import com.pcwk.ehr.tour.domain.TourDTO;
 import com.pcwk.ehr.user.domain.UserDTO;
 
 @Service
 public class UserServiceImpl implements UserService {
 	Logger log = LogManager.getLogger(getClass());
 
+	String uuid8 = UUID.randomUUID().toString().substring(0, 8);
+	
 	@Qualifier("dummyMailService") //bean id로 특정 빈 주입
 	@Autowired
 	private MailSender mailSender;
@@ -25,10 +34,20 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserMapper mapper;
 	
+	@Autowired
+	private ImageMapper imageMapper;
+
+	@Autowired
+	private FavoritesMapper favoritesMapper;
 	
 	public UserServiceImpl() {
 	}
-
+	
+	@Autowired
+    public UserServiceImpl(UserMapper userMapper, FavoritesMapper favoritesMapper) {
+        this.mapper = userMapper;
+        this.favoritesMapper = favoritesMapper;
+    }
 	
 	@Override
 	public List<UserDTO> doRetrieve(SearchDTO param) {
@@ -55,6 +74,7 @@ public class UserServiceImpl implements UserService {
 		return mapper.doLogin(param);
 	}
 	
+	
 	@Override
 	public int doSave(UserDTO param) throws SQLException {
 		// 1. 정규표현식 검사
@@ -78,13 +98,38 @@ public class UserServiceImpl implements UserService {
 	    if (UserValidation.isDuplicateNickname(mapper, param.getNickname())) {
 	        throw new IllegalArgumentException("이미 존재하는 닉네임입니다.");
 	    }
-	    if (UserValidation.isDuplicateUserId(mapper, param.getEmail())) {
+	    if (UserValidation.isDuplicateEmail(mapper, param.getEmail())) {
 	        throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
 	    }
 
 	    // 3. 저장
-	    return mapper.doSave(param);
+	    int result = mapper.doSave(param);
+	    
+	    // 4. profileImage가 있을 경우 저장
+	    if (param.getProfileImage() != null && !param.getProfileImage().isEmpty()) {
+	    	String safeRegDt = param.getRegDt().replaceAll("[/:\\s]", "_");	
+	        ImageDTO image = new ImageDTO();
+	        image.setTargetNo(param.getUserNo());     // 방금 생성된 user_no
+	        image.setTableName("user_tk");               // 고정값
+	        image.setImageName(param.getProfileImage().replaceAll(" ", "_"));
+	        image.setSaveName(safeRegDt + "_" + uuid8 +"_" + param.getProfileImage());
+	        image.setImageUrl("/resources/images/" + image.getImageName());        // 등록자 ID
+	        image.setRegDate(param.getRegDt());
+	        
+	        imageMapper.doSave(image);
+	    }
+	    return result;
 	}
+
+	@Override
+    public List<TourDTO> getFavoriteTours(String userId) {
+        return favoritesMapper.getFavoriteTours(userId);
+    }
+
+    @Override
+    public List<FestivalDTO> getFavoriteFestivals(String userId) {
+        return favoritesMapper.getFavoriteFestivals(userId);
+    }
 
 }
 // class 끝
