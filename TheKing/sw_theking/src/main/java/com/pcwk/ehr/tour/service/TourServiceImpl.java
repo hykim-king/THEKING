@@ -33,7 +33,7 @@ public class TourServiceImpl implements TourService {
 
 	@Autowired
 	ImageMapper imageMapper;
-	
+
 	@Autowired
 	ImageService imageService;
 
@@ -55,36 +55,47 @@ public class TourServiceImpl implements TourService {
 		// 2.관광지 유효성 검사
 		RegionDTO region = parseAddress(param.getAddress());
 		param.setRegion(region);
-		
-		//3.1 이미지가 추가 되는경우(DBx list0)
-		//3.2 이미지가 삭제 되는 경우(DB0 listx)
-		//3.3 이미지가 삭제된 후 추가 되는 경우
-		
-		//3.기존 리스트 조회
-	    List<String> newImages = param.getTourImage(); // 새로 등록할 이미지 목록
-	    if (newImages == null) newImages = new ArrayList<>(); //
-	    
-	    int result = tourMapper.doSave(param);
-	    if (result > 0 && param.getTourNo() != null) {
-	    List<ImageDTO> existingImages = imageMapper.getImages(param.getTourNo(), "TOUR");
-	    
-	    Set<String> existingImageNames = new HashSet<>(); //이미 존재하는 이름 
-	    Set<String> newImageSet = new HashSet<>(newImages); //새로 넘어온 이름
-	    
-	    //기존에 있던 이름 set에 저장
-	    for (ImageDTO image : existingImages) {
-	        existingImageNames.add(image.getImageName());
-	    }
-	    //기존에 있는데 새롭게 추가된 것에 없을 경우
-	    //이름으로 조회하는 게 의미가 있나?
-	    for (ImageDTO image : existingImages) {
-	    	if(!newImageSet.contains(image.getImageName())){
-	    		imageService.doDelete(image);
-	    	}
-	    }
-	    }
-		
 
+		// 3.1 이미지가 추가 되는경우(DBx list0)
+		// 3.2 이미지가 삭제 되는 경우(DB0 listx)
+		// 3.3 이미지가 삭제된 후 추가 되는 경우
+
+		// 3.기존 리스트 조회
+		List<String> newImages = param.getTourImage(); // 새로 등록할 이미지 목록
+		if (newImages == null)
+			newImages = new ArrayList<>();
+
+		int result = tourMapper.doSave(param);
+		if (result > 0 && param.getTourNo() != null) {
+			List<ImageDTO> existingImages = imageMapper.getImages(param.getTourNo(), "TOUR");
+
+			Set<String> existingImageNames = new HashSet<>(); // 이미 존재하는 이름 (DB)
+			Set<String> newImageSet = new HashSet<>(newImages); // 새로 넘어온 이름(현재LIST)
+
+			// 기존에 있던 이름 set에 저장
+			for (ImageDTO image : existingImages) {
+				existingImageNames.add(image.getImageName());
+			}
+			// 기존에 있는데 새롭게 추가된 것에 없을 경우
+			for (ImageDTO image : existingImages) {// DB존재
+				if (!newImageSet.contains(image.getImageName())) {// list없음
+					imageService.doDelete(image);// 삭제
+				}
+			}
+			for (String imageName2 : newImageSet) {
+				if (!existingImageNames.contains(imageName2)) {
+					for (String imageName : newImages) {
+
+						ImageDTO image = new ImageDTO();
+						image.setTargetNo(param.getTourNo());
+						image.setTableName("TOUR");
+						image.setImageName(imageName);
+
+						imageService.doSave(image);
+					}
+				}
+			}
+		}
 		return tourMapper.doUpdate(param);
 	}
 
@@ -102,11 +113,10 @@ public class TourServiceImpl implements TourService {
 		// 2.관광지 유효성 검사
 		RegionDTO region = parseAddress(param.getAddress());
 		param.setRegion(region);
-		
 
 		// 3.이미지가 있을 경우 저장
 		int result = tourMapper.doSave(param);
-		
+
 		if (result > 0 && param.getTourNo() != null) {
 			List<String> newImages = param.getTourImage(); // 새로 등록할 이미지 목록
 			if (newImages != null && !newImages.isEmpty()) {
@@ -123,7 +133,7 @@ public class TourServiceImpl implements TourService {
 
 		return result;
 	}
-	
+
 //	private void saveOrUpdateTourImages(TourDTO param) throws SQLException {
 //	    List<String> newImages = param.getTourImage(); // 새로 등록할 이미지 목록
 //	    if (newImages == null) newImages = new ArrayList<>();
