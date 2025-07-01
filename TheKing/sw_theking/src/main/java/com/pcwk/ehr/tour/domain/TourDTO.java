@@ -1,5 +1,7 @@
 package com.pcwk.ehr.tour.domain;
 
+import java.util.List;
+
 import com.pcwk.ehr.image.domain.ImageDTO;
 import com.pcwk.ehr.region.domain.RegionDTO;
 
@@ -19,10 +21,11 @@ public class TourDTO  {
 	private RegionDTO region;
 	private ImageDTO image;
 	
+	private List<String> tourImage; //상세 페이지 -관광 이미지 저장 공간
+	
 	
 	public TourDTO() {}
 	
-
 
 	public TourDTO(Integer tourNo, String name, String subtitle, String contents, int views, String address,
 			String holiday, String time, String tel, int fee, Integer regionNo, RegionDTO region) {
@@ -41,6 +44,15 @@ public class TourDTO  {
 		this.region = region;
 	}
 
+
+	public List<String> getTourImage() {
+		return tourImage;
+	}
+
+
+	public void setTourImage(List<String> tourImage) {
+		this.tourImage = tourImage;
+	}
 
 
 	public RegionDTO getRegion() {
@@ -202,5 +214,8 @@ public class TourDTO  {
 				+ ", views=" + views + ", address=" + address + ", holiday=" + holiday + ", time=" + time + ", tel="
 				+ tel + ", fee=" + fee + ", regionNo=" + regionNo + ", region=" + region + ", image=" + image + "]";
 	}
+
+
+
 
 }
