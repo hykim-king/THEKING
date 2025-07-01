@@ -20,6 +20,7 @@ public class FestivalServiceImpl implements FestivalService {
 	@Autowired
 	FestivalMapper mapper;
 	
+	
 	@Override
 	public int doSave(FestivalDTO param) {
 		return mapper.doSave(param);
@@ -31,13 +32,17 @@ public class FestivalServiceImpl implements FestivalService {
 	}
 
 	@Override
-	public int doDelete(FestivalDTO param) {
-		return mapper.doDelete(param);
+	public int doDelete(int festaNo) {
+		FestivalDTO dto = new FestivalDTO();
+		dto.setFestaNo(festaNo);
+		return mapper.doDelete(dto);
 	}
 
 	@Override
-	public FestivalDTO doSelectOne(FestivalDTO param) {
-		return mapper.doSelectOne(param);
+	public FestivalDTO doSelectOne(int festaNo) {
+		FestivalDTO dto = new FestivalDTO();
+		dto.setFestaNo(festaNo);
+		return mapper.doSelectOne(dto);
 	}
 
 	@Override
@@ -45,12 +50,13 @@ public class FestivalServiceImpl implements FestivalService {
 										@Param("date")String date, SearchDTO param) {
 
 
-		if(param.getPageNo()==0) {
-			param.setPageNo(1);
+		if(sido.equals("")) {
+			sido = null;
 		}
-		if(param.getPageSize()==0) {
-			param.setPageSize(12);
+		if(date.equals("")) {
+			date = null;
 		}
+		
 		return mapper.checkRetrieve(sido, date, param);
 	}
 
@@ -71,8 +77,10 @@ public class FestivalServiceImpl implements FestivalService {
 	}
 
 	@Override
-	public int upViews(FestivalDTO param) {
-		return mapper.upViews(param);
+	public int upViews(int festaNo) {
+		FestivalDTO dto = new FestivalDTO();
+		dto.setFestaNo(festaNo);
+		return mapper.upViews(dto);
 	}
 
 }
