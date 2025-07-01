@@ -15,7 +15,7 @@ public class UserDTO extends DTO {
 	private String role;
 	private String regDt;
 	private String modDt;
-	
+	private String profileImage;
 	
 	public UserDTO() {
 		
@@ -35,6 +35,14 @@ public class UserDTO extends DTO {
 		this.role = role;
 		this.regDt = regDt;
 		this.modDt = modDt;
+	}
+
+	public String getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(String profileImage) {
+		this.profileImage = profileImage;
 	}
 
 	public int getUserNo() {

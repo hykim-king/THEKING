@@ -2,6 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcwk.ehr.mapper.FavoritesMapper">
 
+<!-- 즐겨찾기한 관광지 목록 조회 -->
+<select id="getFavoriteTours" parameterType="string" resultType="TourDTO">
+    SELECT
+        t.*
+    FROM favorites f
+    JOIN tour t ON f.target_no = t.tour_no
+    WHERE f.user_id = #{userId}
+      AND f.table_name = 'tour'
+</select>
+
+<!-- 즐겨찾기한 축제 목록 조회 -->
+<select id="getFavoriteFestivals" parameterType="string" resultType="FestivalDTO">
+    SELECT
+        f2.*
+    FROM favorites f
+    JOIN festival f2 ON f.target_no = f2.festival_no
+    WHERE f.user_id = #{userId}
+      AND f.table_name = 'festival'
+</select>
+
 <select id="getTourCount" resultType="java.lang.Integer">
 	SELECT COUNT(*) FROM favorites
 	WHERE user_id = #{userId}
@@ -14,7 +34,7 @@
 		AND table_name = 'festival'
 </select>
 
-<select id="doSelectOne" parameterType="FavoritesDTO" resultType="FavoritesDTO">
+<select id="doSelectOne" parameterType="FavoritesDTO" resultMap="favoritesMap">
 	SELECT *
 		FROM favorites
 	 WHERE user_id = #{userId}
@@ -35,4 +55,11 @@
 	AND table_name = #{tableName}
 </delete>
 
+<resultMap type="FavoritesDTO" id="favoritesMap">
+    <id column="fav_no" property="favNo"/>
+    <result column="user_id" property="userId"/>
+    <result column="target_no" property="targetNo"/>
+    <result column="table_name" property="tableName"/>
+</resultMap>
+    
 </mapper>

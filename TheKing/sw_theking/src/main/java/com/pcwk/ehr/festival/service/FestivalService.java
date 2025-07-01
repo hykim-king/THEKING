@@ -15,9 +15,9 @@ public interface FestivalService {
 	//수정
 	int doUpdate(FestivalDTO param);
 	//삭제
-	int doDelete(FestivalDTO param);
+	int doDelete(int festaNo);
 	//단건 조회
-	FestivalDTO doSelectOne(FestivalDTO param);
+	FestivalDTO doSelectOne(int festaNo);
 	//조건별 리스트 조회
 	List<FestivalDTO> checkRetrieve(@Param("sido") String sido,
 									@Param("date") String date,
@@ -27,5 +27,5 @@ public interface FestivalService {
 	//총 축제 건수 
 	int getCount() throws SQLException;
 	//조회수 증가
-	int upViews(FestivalDTO param);
+	int upViews(int festaNo);
 }
