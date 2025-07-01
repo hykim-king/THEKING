@@ -1,5 +1,6 @@
 package com.pcwk.ehr.festival.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.UploadContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +17,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.pcwk.ehr.cmn.FileUtil;
 import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.festival.domain.FestivalDTO;
 import com.pcwk.ehr.festival.service.FestivalService;
+import com.pcwk.ehr.image.domain.ImageDTO;
+import com.pcwk.ehr.mapper.ImageMapper;
 
 @Controller
 @RequestMapping("/festival")
@@ -27,6 +34,9 @@ public class FestivalController {
 
 	@Autowired
 	FestivalService service;
+	
+	@Autowired
+	ImageMapper imageMapper;
 
 	public FestivalController() {
 		log.debug("┌─────────────────────────────────┐");
@@ -95,10 +105,24 @@ public class FestivalController {
 
 	//이미지 등록 해야함
 	@PostMapping("doSave.do")
-	public String doSave(FestivalDTO dto, HttpServletResponse response) throws IOException {
+	public String doSave(@RequestParam(value = "image", required = false)MultipartFile file, FestivalDTO dto, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		int flag = service.doSave(dto);
-
+		
 		if (flag == 1) {
+			//이미지 저장
+//			if(file!=null&&file.isEmpty()) {
+//				String uploadDir = request.getServletContext().getRealPath("/images");
+//			    String savedFilename = FileUtil.saveFileWithUUID(file, uploadDir);
+//			    
+//			    ImageDTO imageDTO = new ImageDTO();
+//			    imageDTO.setImageName(file.getOriginalFilename());
+//			    imageDTO.setImageUrl("/images/");
+//			    imageDTO.setSaveName(savedFilename);
+//			    imageDTO.setTableName("festival");
+//			    imageDTO.setTargetNo(dto.getFestaNo());
+//			    
+//			    imageMapper.doSave(imageDTO);
+//			}		    
 			return "redirect:/festival/";
 		} else {
 			// 직접 alert와 자바스크립트 출력
@@ -125,6 +149,41 @@ public class FestivalController {
 			out.flush();
 			return null; // 이미 응답을 직접 작성했기 때문에 리턴 null
 		}
+	}
+	
+	@PostMapping("test.do")
+	public String imageTest(@RequestParam(value = "image", required = false)MultipartFile file, HttpServletRequest request) {
+		log.debug("확인");
+		log.debug("file:{}",file);
+		if(file!=null&&!file.isEmpty()) {
+			log.debug("이미지 전송");
+			String uploadDir = "C:/Users/user/git/THEKING/TheKing/sw_theking/src/main/resources/images";
+		    String savedFilename = FileUtil.saveFileWithUUID(file, uploadDir);
+		    log.debug("uploadDir:{}",uploadDir);
+		    ImageDTO imageDTO = new ImageDTO();
+		    imageDTO.setImageName(file.getOriginalFilename());
+		    imageDTO.setImageUrl("/images/");
+		    imageDTO.setSaveName(savedFilename);
+		    imageDTO.setTableName("festival");
+		    imageDTO.setTargetNo(142);
+		    log.debug("imageDTO:{}",imageDTO);
+		    imageMapper.doSave(imageDTO);
+		}	
+		
+		return null;
+	}
+	@GetMapping("test.do")
+	public String imageTest() {
+		String projectRoot = System.getProperty("user.dir");
+	    String uploadDir = projectRoot + File.separator + "src"
+	                                  + File.separator + "main"
+	                                  + File.separator + "webapp"
+	                                  + File.separator + "images";
+	    
+	    log.debug("projectRoot:{}",projectRoot);
+	    log.debug("uploadDir:{}",uploadDir);
+		log.debug("이미지 페이지 이동");
+		return "/festival/test";
 	}
 
 }
