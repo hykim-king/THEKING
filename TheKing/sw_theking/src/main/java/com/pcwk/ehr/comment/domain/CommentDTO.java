@@ -1,6 +1,7 @@
 package com.pcwk.ehr.comment.domain;
 
 import com.pcwk.ehr.cmn.DTO;
+import com.pcwk.ehr.user.domain.UserDTO;
 
 public class CommentDTO extends DTO {
 	
@@ -12,6 +13,9 @@ public class CommentDTO extends DTO {
 	private String regDt     ;
 	private String modDt     ;
 	
+	private UserDTO userDTO;
+	private String userName;
+	private String userNickname;
 	/**
 	 * @param comNo
 	 * @param userId
