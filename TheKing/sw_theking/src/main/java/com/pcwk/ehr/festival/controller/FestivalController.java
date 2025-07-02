@@ -157,7 +157,7 @@ public class FestivalController {
 		log.debug("file:{}",file);
 		if(file!=null&&!file.isEmpty()) {
 			log.debug("이미지 전송");
-			String uploadDir = "C:/Users/user/git/THEKING/TheKing/sw_theking/src/main/resources/images";
+			String uploadDir = "C:/Users/user/THEKING/TheKing/sw_theking/src/main/resources/images";
 		    String savedFilename = FileUtil.saveFileWithUUID(file, uploadDir);
 		    log.debug("uploadDir:{}",uploadDir);
 		    ImageDTO imageDTO = new ImageDTO();
