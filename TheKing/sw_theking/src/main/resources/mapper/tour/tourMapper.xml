@@ -117,7 +117,7 @@
 					            </otherwise>
 					        </choose>
 					    </if>
-	                     <if test="search.searchDiv !='' ">             
+	                     <if test="search.searchWord !='' ">             
 			                 t.name LIKE '%'|| #{search.searchWord} || '%'
 			            </if>  
 		            </where>

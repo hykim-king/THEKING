@@ -39,10 +39,9 @@ public class ImageServiceImpl implements ImageService {
 	@Override
 	public int doUpdate(ImageDTO param) {
 		
-	    return mapper.doSave(param);
+	    return mapper.doUpdate(param);
 		}
 	
-
 	@Override
 	public int doSave(ImageDTO param) throws SQLException {
 		
