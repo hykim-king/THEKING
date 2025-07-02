@@ -2,6 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcwk.ehr.mapper.CommentMapper">
     
+    <!-- 즐겨찾기한 관광지 목록 조회 -->
+<select id="getCommentsTours" parameterType="string" resultType="CommentDTO">
+    SELECT
+        c.*
+    FROM comments c
+    JOIN tour t ON c.target_no = t.tour_no
+    WHERE c.user_id = #{userId}
+      AND c.table_name = 'tour'
+</select>
+
     <sql id="commentWhere">
         <where>
             <if test="searchDiv !='' ">
