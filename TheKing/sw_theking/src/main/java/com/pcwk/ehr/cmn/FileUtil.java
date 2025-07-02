@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -28,7 +30,7 @@ public class FileUtil {
             if (dotIndex > 0 && dotIndex < originalFilename.length() - 1) {
                 extension = originalFilename.substring(dotIndex);
             }
-
+            
             // 3. UUID 생성 + 확장자 붙이기
             String uuidFilename = UUID.randomUUID().toString() + extension;
 
