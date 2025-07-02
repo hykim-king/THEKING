@@ -49,22 +49,29 @@ public class FestivalController {
 	public String main(HttpServletRequest request, Model model) {
 		SearchDTO dto = new SearchDTO();
 		List<FestivalDTO> list;
-
+		String sido = null;
+		String date = null;
+		
 		if (request.getParameter("pageNo") == null && request.getParameter("pageSize") == null) {
 			dto.setPageNo(1);
 			dto.setPageSize(12);
+		}else {
+			dto.setPageNo(Integer.parseInt(request.getParameter("pageNo")));
+			dto.setPageSize(Integer.parseInt(request.getParameter("pageSize")));
 		}
-
-		if (request.getParameter("sido") != null || request.getParameter("date") != null) {
-			String sido = request.getParameter("sido");
-			String date = request.getParameter("date");
-
-			list = service.checkRetrieve(sido, date, dto);
-		} else {
-			list = service.doRetrieve(dto);
+		
+		if (request.getParameter("sido") != null) {
+			sido = request.getParameter("sido");
 		}
+		
+		if (request.getParameter("date") != null) {
+			date = request.getParameter("date");
+		}
+		
+		list = service.checkRetrieve(sido, date, dto);
 
 		model.addAttribute("list", list);
+		
 		return "/festival/main";
 	}
 
