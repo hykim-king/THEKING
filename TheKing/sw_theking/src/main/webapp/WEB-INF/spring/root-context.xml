@@ -105,7 +105,7 @@
         <property name="driverClassName"
             value="oracle.jdbc.driver.OracleDriver" />
         <property name="jdbcUrl" 
-            value="jdbc:oracle:thin:@192.168.100.30:1522:XE" />
+            value="jdbc:oracle:thin:@218.144.130.138:1522:XE" />
         <property name="username" value="king" />
         <property name="password" value="7749" />
         <!-- Optional settings -->
