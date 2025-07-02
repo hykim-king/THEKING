@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -32,8 +33,11 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.google.gson.Gson;
 import com.pcwk.ehr.cmn.MessageDTO;
+import com.pcwk.ehr.festival.domain.FestivalDTO;
 import com.pcwk.ehr.mapper.UserMapper;
+import com.pcwk.ehr.tour.domain.TourDTO;
 import com.pcwk.ehr.user.domain.UserDTO;
+import com.pcwk.ehr.user.service.UserService;
 
 @WebAppConfiguration
 @ExtendWith(SpringExtension.class)
@@ -51,6 +55,11 @@ class UserControllerTest {
 	UserDTO userDTO02;
 	
 	MockHttpSession session;
+	FestivalDTO festival;
+	TourDTO tour;
+	
+	@Autowired
+	UserService userService;
 	
 	@Autowired
 	UserMapper userMapper;
@@ -65,6 +74,12 @@ class UserControllerTest {
 		userDTO01 = new UserDTO(0,"pcwk01", "4321abc!@#" ,"이상무01", "이상무닉1", "pcwk01@naver.com", "010-1111-1111", "서울시 마포구 서교동11","admin", "사용안함", "사용안함");
 		userDTO02 = new UserDTO(0,"pcwk02", "1234abc!@#$","이상무02", "이상무닉2", "pcwk02@naver.com", "010-1111-1111", "서울시 마포구 서교동11","user" , "사용안함", "사용안함");
 		
+		festival = new FestivalDTO(0, "축제1", "축제 시작1", "축제가 시작됩니다.", 0, "경기도 고양시", "010-1234-1234", 10000, 41280,
+				"2025-06-12", "2025-07-12");
+		
+		tour = new TourDTO(0, "관광지1", "소제목1", "상세내용1", 0,
+                "서울특별시 서대문구 123", "토요일", "09:00-16:00", "010-1111-2222", 100000, 0, null);
+                
 		//session으로 로그인 세팅
 		session = new MockHttpSession();
 		session.setAttribute("user", userDTO01);
@@ -78,6 +93,27 @@ class UserControllerTest {
 		
 	}
 
+	@Test
+	void getFavoriteFestival() throws Exception {
+		log.debug("┌───────────────────────────────┐");
+	    log.debug("│ getFavoriteFestival()         │");
+	    log.debug("└───────────────────────────────┘");
+		// 1. 테스트용 사용자 저장
+	    userMapper.deleteAll();
+	    assertEquals(0, userMapper.getCount());
+	    // 2. 사용자 등록
+	    userMapper.doSave(userDTO01); // userDTO01은 아이디/비번이 들어있는 테스트 객체
+	    assertEquals(1, userMapper.getCount());
+	   
+	    UserDTO loggedInUser = userService.doLogin(userDTO01);
+	    assertNotNull(loggedInUser);
+	    log.debug("loggedInUser:{}",loggedInUser);
+	    
+	  	//2.2 로그인 세션에 adminUser 설정
+	  	session.setAttribute("user", loggedInUser);
+	  	log.debug("session:{}",session);
+    }
+	
 	@Disabled
 	@Test
 	void doLogin() throws Exception {
