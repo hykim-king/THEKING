@@ -5,6 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.sql.SQLException;
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
@@ -17,6 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -29,6 +33,7 @@ import com.pcwk.ehr.cmn.MessageDTO;
 import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.festival.domain.FestivalDTO;
 import com.pcwk.ehr.mapper.FestivalMapper;
+import com.pcwk.ehr.user.domain.UserDTO;
 
 @WebAppConfiguration
 @ExtendWith(SpringExtension.class)
@@ -66,7 +71,89 @@ class FestivalControllerTest {
 		log.debug("│ tearDown()                                              │");
 		log.debug("└─────────────────────────────────────────────────────────┘");
 	}
+	
+	@Test
+	void main() {
+		log.debug("┌───────────────────────┐");
+		log.debug("│ main()                │");
+		log.debug("└───────────────────────┘");
+		
+	}
+	
+	@Disabled
+	@Test
+	void doSelectOne() throws Exception {
+		log.debug("┌───────────────────────┐");
+		log.debug("│ doSelectOne()         │");
+		log.debug("└───────────────────────┘");
 
+		mapper.deleteAll();
+
+		mapper.doSave(dto);
+		assertEquals(1, mapper.getCount());
+
+		int festaNo = mapper.checkSeq();
+
+		// 4.1 url호출, method: post, param
+		MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/festival/doSelectOne.do")
+				.param("festaNo", String.valueOf(festaNo));
+
+		ResultActions resultActions = mockMvc.perform(requestBuilder).andExpect(status().isOk());
+
+		// 4.1 Model 데이터 조회
+		MvcResult mvcResult = resultActions.andDo(print()).andReturn();
+
+		// 4.2
+		Map<String, Object> model = mvcResult.getModelAndView().getModel();
+		FestivalDTO outVO = (FestivalDTO) model.get("dto");
+		log.debug("outVO:{}", outVO);
+
+		// 4.3 화면
+		String viewName = mvcResult.getModelAndView().getViewName();
+		log.debug("viewName:{}", viewName);
+		assertEquals("/festival/doSelectOne", viewName);
+	}
+
+	@Disabled
+	@Test
+	void doDelete() throws Exception {
+		log.debug("┌───────────────────────┐");
+		log.debug("│ doDelete()            │");
+		log.debug("└───────────────────────┘");
+
+		mapper.deleteAll();
+
+		int flag = mapper.doSave(dto);
+		assertEquals(1, flag);
+
+		int festaNo = mapper.checkSeq();
+
+		// 2.1 url호출, method:post,param
+		MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/festival/doDelete.do")
+				.param("festaNo", String.valueOf(festaNo));
+
+		// 2.2 호출
+		ResultActions resultActions = mockMvc.perform(requestBuilder).andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=UTF-8"));
+
+		// 2.3호출 결과 받기
+		String returnBody = resultActions.andDo(print()).andReturn().getResponse().getContentAsString();
+
+		log.debug("returnBody:{}", returnBody);
+
+		// 2.4 json to MessageDTO 변환
+		MessageDTO resultMessage = new Gson().fromJson(returnBody, MessageDTO.class);
+
+		log.debug("resultMessage:{}", resultMessage.toString());
+
+		assertEquals(1, resultMessage.getMessageId());
+		assertEquals("삭제되었습니다.", resultMessage.getMessage());
+
+		int count = mapper.getCount();
+		assertEquals(0, count);
+	}
+
+	@Disabled
 	@Test
 	void doUpdate() throws Exception {
 		log.debug("┌───────────────────────┐");
