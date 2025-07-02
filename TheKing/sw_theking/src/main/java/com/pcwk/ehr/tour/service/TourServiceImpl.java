@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -39,8 +40,11 @@ public class TourServiceImpl implements TourService {
 
 	@Override
 	public List<TourDTO> doRetrieve(SearchDTO param) {
-
 		return tourMapper.doRetrieve(param);
+	}
+	@Override
+	public List<TourDTO> doRetrieve(Map<String, Object> paramMap) {
+		return tourMapper.doRetrieve(paramMap);
 	}
 
 	@Override
@@ -104,6 +108,10 @@ public class TourServiceImpl implements TourService {
 
 	@Override
 	public TourDTO doSelectOne(TourDTO param) throws SQLException {
+		//단건 조회 + 조회된 count 조회
+		int flag = tourMapper.viewsUpdate(param);
+		log.debug("flag: {}",flag);
+		
 		return tourMapper.doSelectOne(param);
 	}
 
@@ -208,5 +216,8 @@ public class TourServiceImpl implements TourService {
 
 		return region;
 	}
+
+
+
 
 }
