@@ -3,8 +3,8 @@ package com.pcwk.ehr.cmn;
 public class SearchDTO extends DTO {
 
 	private String searchDiv; //검색 구분
-	
 	private String searchWord; //검색어
+	private String div; //구분
 	
 	public SearchDTO() {
 	}
@@ -22,7 +22,7 @@ public class SearchDTO extends DTO {
 	public void setSearchDiv(String searchDiv) {
 		this.searchDiv = searchDiv;
 	}
-
+	
 	/**
 	 * @return the searchWord
 	 */
@@ -36,15 +36,18 @@ public class SearchDTO extends DTO {
 	public void setSearchWord(String searchWord) {
 		this.searchWord = searchWord;
 	}
+	
+	public String getDiv() {
+		return div;
+	}
+
+	public void setDiv(String div) {
+		this.div = div;
+	}
 
 	@Override
 	public String toString() {
-		return "SearchDTO [searchDiv=" + searchDiv + ", searchWord=" + searchWord + ", toString()=" + super.toString()
-				+ "]";
+		return "SearchDTO [searchDiv=" + searchDiv + ", searchWord=" + searchWord + ", div=" + div + "]";
 	}
-
-	
-	
-	
 	
 }

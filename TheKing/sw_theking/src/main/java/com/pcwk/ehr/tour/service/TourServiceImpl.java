@@ -39,11 +39,17 @@ public class TourServiceImpl implements TourService {
 
 	@Override
 	public List<TourDTO> doRetrieve(SearchDTO param) {
+
 		return tourMapper.doRetrieve(param);
 	}
 
 	@Override
 	public int doDelete(TourDTO param) {
+		// 이미지가 있을 경우, 이미지도 같이 삭제
+		List<ImageDTO> images = imageMapper.getImages(param.getTourNo(), "TOUR");
+		for (ImageDTO image : images) {
+			imageMapper.doDelete(image);
+		}
 		return tourMapper.doDelete(param);
 	}
 
@@ -58,41 +64,38 @@ public class TourServiceImpl implements TourService {
 
 		// 3.1 이미지가 추가 되는경우(DBx list0)
 		// 3.2 이미지가 삭제 되는 경우(DB0 listx)
-		// 3.3 이미지가 삭제된 후 추가 되는 경우
 
 		// 3.기존 리스트 조회
 		List<String> newImages = param.getTourImage(); // 새로 등록할 이미지 목록
 		if (newImages == null)
 			newImages = new ArrayList<>();
 
-		int result = tourMapper.doSave(param);
-		if (result > 0 && param.getTourNo() != null) {
+		if (param.getTourNo() != null) {
 			List<ImageDTO> existingImages = imageMapper.getImages(param.getTourNo(), "TOUR");
 
-			Set<String> existingImageNames = new HashSet<>(); // 이미 존재하는 이름 (DB)
+			Set<String> existingImageSet = new HashSet<>(); // 이미 존재하는 이름 (DB)
 			Set<String> newImageSet = new HashSet<>(newImages); // 새로 넘어온 이름(현재LIST)
 
 			// 기존에 있던 이름 set에 저장
 			for (ImageDTO image : existingImages) {
-				existingImageNames.add(image.getImageName());
+				existingImageSet.add(image.getImageName());
 			}
-			// 기존에 있는데 새롭게 추가된 것에 없을 경우
+			// 3.2 이미지가 삭제 되는 경우(DB0 listx)
 			for (ImageDTO image : existingImages) {// DB존재
 				if (!newImageSet.contains(image.getImageName())) {// list없음
 					imageService.doDelete(image);// 삭제
 				}
 			}
-			for (String imageName2 : newImageSet) {
-				if (!existingImageNames.contains(imageName2)) {
-					for (String imageName : newImages) {
+			// 3.1 이미지가 추가 되는경우(DBx list0)
+			for (String saveImageName : newImageSet) {
+				if (!existingImageSet.contains(saveImageName)) {
 
-						ImageDTO image = new ImageDTO();
-						image.setTargetNo(param.getTourNo());
-						image.setTableName("TOUR");
-						image.setImageName(imageName);
+					ImageDTO image = new ImageDTO();
+					image.setTargetNo(param.getTourNo());
+					image.setTableName("TOUR");
+					image.setImageName(saveImageName);
 
-						imageService.doSave(image);
-					}
+					imageService.doSave(image);
 				}
 			}
 		}
@@ -133,38 +136,6 @@ public class TourServiceImpl implements TourService {
 
 		return result;
 	}
-
-//	private void saveOrUpdateTourImages(TourDTO param) throws SQLException {
-//	    List<String> newImages = param.getTourImage(); // 새로 등록할 이미지 목록
-//	    if (newImages == null) newImages = new ArrayList<>();
-//
-//	    // 1. DB에서 기존 이미지 목록 조회
-//	    List<ImageDTO> existingImages = imageService.getImagesByTarget("TOUR", param.getTourNo());
-//	    Set<String> existingImageNames = existingImages.stream()
-//	        .map(ImageDTO::getImageName)
-//	        .collect(Collectors.toSet());
-//
-//	    Set<String> newImageSet = new HashSet<>(newImages);
-//
-//	    // 2. 삭제 대상 찾기 (기존에는 있었는데, 새로 넘어온 리스트엔 없는 것)
-//	    for (ImageDTO existing : existingImages) {
-//	        if (!newImageSet.contains(existing.getImageName())) {
-//	            imageService.doDelete(existing);
-//	        }
-//	    }
-
-//	    // 3. 추가 대상 찾기 (새로 넘어왔는데 기존에 없던 것)
-//	    for (String imageName : newImages) {
-//	        if (!existingImageNames.contains(imageName)) {
-//	            ImageDTO image = new ImageDTO();
-//	            image.setTargetNo(param.getTourNo());
-//	            image.setTableName("TOUR");
-//	            image.setImageName(imageName);
-//
-//	            imageService.doSave(image); // 새 이미지 추가
-//	        }
-//	    }
-//	}
 
 	/**
 	 * 입력값 검사
