@@ -34,6 +34,10 @@
 		AND table_name = 'festival'
 </select>
 
+<delete id="deleteAll">
+    DELETE FROM favorites
+</delete>
+
 <select id="doSelectOne" parameterType="FavoritesDTO" resultMap="favoritesMap">
 	SELECT *
 		FROM favorites
@@ -44,6 +48,9 @@
 
 
 <insert id="doSave" parameterType="FavoritesDTO">
+    <selectKey keyProperty="favNo" resultType="int" order="BEFORE">
+            SELECT fav_no_seq.NEXTVAL FROM dual
+    </selectKey>
     INSERT INTO favorites VALUES(fav_no_seq.nextval,#{userId},#{targetNo},#{tableName})
 </insert>
 

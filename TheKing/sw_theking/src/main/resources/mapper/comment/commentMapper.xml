@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcwk.ehr.mapper.CommentMapper">
     
-    <!-- 즐겨찾기한 관광지 목록 조회 -->
+<!-- 댓글작성한 관광지 조회 -->
 <select id="getCommentsTours" parameterType="string" resultType="CommentDTO">
     SELECT
         c.*
@@ -10,6 +10,35 @@
     JOIN tour t ON c.target_no = t.tour_no
     WHERE c.user_id = #{userId}
       AND c.table_name = 'tour'
+</select>
+
+<!-- 댓글작성한 관광지 조회 -->
+<select id="getCommentsFestival" parameterType="string" resultType="CommentDTO">
+    SELECT
+        c.*
+    FROM comments c
+    JOIN festival f ON c.target_no = f.festa_no
+    WHERE c.user_id = #{userId}
+      AND c.table_name = 'festival'
+</select>
+
+<!-- 댓글작성한 게시판 조회 -->
+<select id="getCommentsBoard" parameterType="string" resultType="CommentDTO">
+    SELECT
+        c.*
+    FROM comments c
+    JOIN board b ON c.target_no = b.board_no
+    WHERE c.user_id = #{userId}
+      AND c.table_name = 'board'
+</select>
+
+<!-- 댓글 전체 조회 -->
+<select id="getAllComments" resultMap="commentUserMap">
+    SELECT 
+        c.*, 
+        u.name, u.nickname
+    FROM comments c
+    JOIN user_tk u ON c.user_id = u.user_id
 </select>
 
     <sql id="commentWhere">
@@ -84,6 +113,9 @@
     </insert>
     
     <insert id="doSave" parameterType="CommentDTO">
+        <selectKey keyProperty="comNo" resultType="int" order="BEFORE">
+            SELECT com_no_seq.NEXTVAL FROM dual
+        </selectKey>
         INSERT INTO comments (
         com_no,
         user_id,
@@ -164,4 +196,20 @@
         <result column="modDt" property="modDt"/>
     </resultMap>
     
+    <resultMap id="commentUserMap" type="CommentDTO">
+    <id property="comNo" column="com_no"/>
+    <result property="userId" column="user_id"/>
+    <result property="contents" column="contents"/>
+    <result property="targetNo" column="target_no"/>
+    <result property="tableName" column="table_name"/>
+    <result property="regDt" column="reg_date"/>
+    <result property="modDt" column="mod_date"/>
+    <association property="userDTO" javaType="UserDTO">
+        <id property="userNo" column="user_no"/>
+        <result property="userId" column="user_id"/>
+        <result property="name" column="name"/>
+        <result property="nickname" column="nickname"/>
+        <result property="email" column="email"/>
+    </association>
+</resultMap>
 </mapper>

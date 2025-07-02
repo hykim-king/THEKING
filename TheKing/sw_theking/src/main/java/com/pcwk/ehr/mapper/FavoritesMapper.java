@@ -18,4 +18,5 @@ public interface FavoritesMapper extends WorkDiv<FavoritesDTO>{
 	int getTourCount(String userId);
 	List<TourDTO> getFavoriteTours(String userId);
 	List<FestivalDTO> getFavoriteFestivals(String userId);
+	void deleteAll();
 } 
