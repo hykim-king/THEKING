@@ -30,7 +30,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.favorites.domain.FavoritesDTO;
+import com.pcwk.ehr.festival.domain.FestivalDTO;
 import com.pcwk.ehr.mapper.FavoritesMapper;
+import com.pcwk.ehr.mapper.FestivalMapper;
 import com.pcwk.ehr.mapper.TourMapper;
 import com.pcwk.ehr.mapper.UserMapper;
 import com.pcwk.ehr.tour.domain.TourDTO;
@@ -61,6 +63,9 @@ class UserServiceTest {
 	
 	@Autowired
 	TourMapper tourMapper;
+	
+	@Autowired
+	FestivalMapper festivalMapper;
 	
 	List<UserDTO> users;
 	
@@ -142,6 +147,39 @@ class UserServiceTest {
 
 	}
 	
+	//@Disabled
+	@Test
+    public void getFavoriteFestival() throws Exception {			
+		UserDTO userTest = new UserDTO(); 
+		userTest.setUserNo(176);		
+		UserDTO user01 = mapper.doSelectOne(userTest);
+		assertNotNull(user01);		
+		log.debug("user01:{}", user01);
+
+		FestivalDTO festivalDTO = new FestivalDTO();
+		festivalDTO.setFestaNo(143);
+		FestivalDTO festival01 = festivalMapper.doSelectOne(festivalDTO);
+		log.debug("festival01:{}", festival01);
+		
+		FavoritesDTO fav = new FavoritesDTO();
+		fav.setUserId("pcwk01");
+		fav.setTargetNo(festival01.getFestaNo());
+		fav.setTableName("festival");
+		log.debug("fav:{}", fav);
+		FavoritesDTO favorite01 = favoritesMapper.doSelectOne(fav);
+		log.debug("favorite01:{}", favorite01);
+		
+        List<FestivalDTO> favoriteFestival = userService.getFavoriteFestivals(user01.getUserId());
+
+        assertNotNull(favoriteFestival, "즐겨찾기 축제 리스트 Null");
+        log.debug("favoriteTours:{}", favoriteFestival);
+        
+        for (FestivalDTO f : favoriteFestival) {
+            assertNotNull(f.getName(), "축제 이름 null");
+        }
+    }
+	
+	@Disabled
 	@Test
     public void getFavoriteTours() throws Exception {			
 		UserDTO userTest = new UserDTO(); 
@@ -156,7 +194,6 @@ class UserServiceTest {
 		log.debug("tour01:{}", tour01);
 		
 		FavoritesDTO fav = new FavoritesDTO();
-		fav.setFavNo(0);
 		fav.setUserId("pcwk01");
 		fav.setTargetNo(tour01.getTourNo());
 		fav.setTableName("tour");
@@ -164,14 +201,14 @@ class UserServiceTest {
 		FavoritesDTO favorite01 = favoritesMapper.doSelectOne(fav);
 		log.debug("favorite01:{}", favorite01);
 		
-//        List<TourDTO> favoriteTours = userService.getFavoriteTours(user.getUserId());
-//
-//        assertNotNull(favoriteTours, "즐겨찾기 관광지 리스트 Null");
-//        log.debug("favoriteTours:{}", favoriteTours);
-//        
-//        for (TourDTO t : favoriteTours) {
-//            assertNotNull(t.getName(), "관광지 이름 null");
-//        }
+        List<TourDTO> favoriteTours = userService.getFavoriteTours(user01.getUserId());
+
+        assertNotNull(favoriteTours, "즐겨찾기 관광지 리스트 Null");
+        log.debug("favoriteTours:{}", favoriteTours);
+        
+        for (TourDTO t : favoriteTours) {
+            assertNotNull(t.getName(), "관광지 이름 null");
+        }
     }
 	
 	@Disabled

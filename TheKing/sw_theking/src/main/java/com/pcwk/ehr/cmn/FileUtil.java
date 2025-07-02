@@ -14,7 +14,7 @@ public class FileUtil {
 	
     public static String saveFileWithUUID(MultipartFile file, String uploadDir) {
         if (file.isEmpty()) return null;
-
+ 
         try {
             // 1. 디렉토리 생성
             File dir = new File(uploadDir);
