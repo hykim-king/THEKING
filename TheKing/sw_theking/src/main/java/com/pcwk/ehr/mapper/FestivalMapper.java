@@ -22,5 +22,10 @@ public interface FestivalMapper extends WorkDiv<FestivalDTO>{
 	List<FestivalDTO> checkRetrieve(@Param("sido") String sido,
             						@Param("date") String date,
             						@Param("dto")SearchDTO dto);
+	//현재 시퀀스 번호 확인
+	int checkSeq();
+	
+	//전체 삭제
+	int deleteAll();
 	
 }
