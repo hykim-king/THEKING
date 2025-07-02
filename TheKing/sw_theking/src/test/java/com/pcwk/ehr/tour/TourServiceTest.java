@@ -23,6 +23,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.pcwk.ehr.board.domain.BoardDTO;
 import com.pcwk.ehr.image.domain.ImageDTO;
 import com.pcwk.ehr.image.service.ImageServiceImpl;
 import com.pcwk.ehr.mapper.ImageMapper;
@@ -66,7 +67,7 @@ class TourServiceTest {
                 "서울특별시 서대문구 123", "토요일", "09:00-16:00", "010-1111-2222", 100000, 0, null);
   
 	}
-
+	
 	@AfterEach
 	void tearDown() throws Exception {
 		log.debug("┌─────────────────────┐");
@@ -83,6 +84,24 @@ class TourServiceTest {
 	//doUpdate 이미지 추가0
 	//이미지 삭제0
 	//doDelete - 이미지가 있는 경우 삭제0
+	@Test
+	void doRetrieve() throws SQLException {
+		//1.
+		mapper.deleteAll();
+		assertEquals(0, mapper.getCount());
+		//2.
+		int flag = tourService.doSave(dto01);
+		assertEquals(1, flag);
+		log.debug("flag: {}",flag);
+		
+		TourDTO outVO = tourService.doSelectOne(dto01);
+		assertNotNull(outVO);
+		assertEquals(1,outVO.getViews());
+		log.debug("outVO: {}",outVO);
+		log.debug("outVO.getReadCnt(): {}",outVO.getViews());
+		
+	}
+	
 	@Test
 	void imageDelete() throws SQLException {
 		//1. 전체 삭제

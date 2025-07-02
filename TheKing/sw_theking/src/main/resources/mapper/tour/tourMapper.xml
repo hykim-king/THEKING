@@ -53,7 +53,7 @@
 	        fee,
 	        region_no
 	    ) VALUES (
-	        #{tourNo},
+	        #{tourNo, jdbcType=INTEGER},
 	        #{name},
 	        #{subtitle},
 	        #{contents},
@@ -172,13 +172,13 @@
             fee, 
             region_no
         FROM TOUR
-        WHERE tour_no = #{tourNo}
+        WHERE tour_no = #{tourNo, jdbcType=INTEGER}
     </select>
 
     <!-- 특정 관광지 삭제 -->
     <delete id="doDelete" parameterType="TourDTO">
         DELETE FROM TOUR
-        WHERE tour_no = #{tourNo}
+        WHERE tour_no = #{tourNo, jdbcType=INTEGER}
     </delete>
     
     <!-- 관광지 추가(테스트용) -->

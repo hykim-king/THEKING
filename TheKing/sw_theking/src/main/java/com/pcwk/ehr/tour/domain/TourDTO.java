@@ -217,5 +217,9 @@ public class TourDTO  {
 
 
 
+	}
 
-}
+
+
+
+
