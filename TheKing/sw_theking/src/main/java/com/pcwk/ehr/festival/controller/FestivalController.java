@@ -1,6 +1,5 @@
 package com.pcwk.ehr.festival.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.fileupload.UploadContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +16,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.pcwk.ehr.cmn.FileUtil;
+import com.pcwk.ehr.cmn.MessageDTO;
 import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.festival.domain.FestivalDTO;
 import com.pcwk.ehr.festival.service.FestivalService;
@@ -79,22 +80,6 @@ public class FestivalController {
 		return "/festival/doUpdate";
 	}
 
-	@GetMapping("doDelete.do")
-	public String doDelete(int festaNo, HttpServletResponse response) throws IOException {
-		int flag = service.doDelete(festaNo);
-
-		if (flag == 1) {
-			return "redirect:/festival/";
-		} else {
-			// 직접 alert와 자바스크립트 출력
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('삭제에 실패했습니다.');</script>");
-			out.flush();
-			return null; // 이미 응답을 직접 작성했기 때문에 리턴 null
-		}
-
-	}
 
 	@GetMapping("doSelectOne.do")
 	public String doSelectOne(int festaNo, Model model) {
@@ -103,12 +88,47 @@ public class FestivalController {
 		return "/festival/doSelectOne";
 	}
 
-	//이미지 등록 해야함
-	@PostMapping("doSave.do")
-	public String doSave(@RequestParam(value = "image", required = false)MultipartFile file, FestivalDTO dto, HttpServletRequest request, HttpServletResponse response) throws IOException {
-		int flag = service.doSave(dto);
+	@PostMapping(value = "doDelete.do", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String doDelete(int festaNo) {
+		log.debug("┌───────────────────────────┐");
+		log.debug("│ *doDelete()*              │");
+		log.debug("└───────────────────────────┘");
+		
+		String jsonString = "";
+		log.debug("festaNo :{}", festaNo);
+		
+		int flag = service.doDelete(festaNo);
+		String message = "";
 		
 		if (flag == 1) {
+			message = "삭제되었습니다.";
+		} else {
+			message = "삭제에 실패하였습니다.";
+		}
+		MessageDTO messageDTO = new MessageDTO(flag, message);
+		jsonString = new Gson().toJson(messageDTO);
+		log.debug("jsonString:{}", jsonString);
+		return jsonString;
+
+	}
+
+	//이미지 등록 해야함
+	@PostMapping(value = "doSave.do", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String doSave(@RequestParam(value = "image", required = false)MultipartFile file, FestivalDTO param) throws IOException {
+		log.debug("┌───────────────────────────┐");
+		log.debug("│ *doSave()*                │");
+		log.debug("└───────────────────────────┘");
+		
+		String jsonString = "";
+		log.debug("param:{}",param);
+		
+		int flag = service.doSave(param);
+		String message = "";
+		
+		if (flag == 1) {
+			message = param.getName()+"이 등록되었습니다.";
 			//이미지 저장
 //			if(file!=null&&file.isEmpty()) {
 //				String uploadDir = request.getServletContext().getRealPath("/images");
@@ -119,36 +139,46 @@ public class FestivalController {
 //			    imageDTO.setImageUrl("/images/");
 //			    imageDTO.setSaveName(savedFilename);
 //			    imageDTO.setTableName("festival");
-//			    imageDTO.setTargetNo(dto.getFestaNo());
+//			    imageDTO.setTargetNo(param.getFestaNo());
 //			    
 //			    imageMapper.doSave(imageDTO);
 //			}		    
-			return "redirect:/festival/";
+			
 		} else {
-			// 직접 alert와 자바스크립트 출력
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('등록에 실패했습니다.');</script>");
-			out.flush();
-			return null; // 이미 응답을 직접 작성했기 때문에 리턴 null
+			message = param.getName()+" 등록에 실패하였습니다.";
 		}
-
+		MessageDTO messageDTO = new MessageDTO(flag,message);
+		
+		jsonString = new Gson().toJson(messageDTO);
+		log.debug("jsonString:{}",jsonString);
+		
+		return jsonString;
 	}
 	
-	@PostMapping("doUpdate.do")
-	public String doUpdate(FestivalDTO dto,HttpServletResponse response) throws IOException {
-		int flag = service.doUpdate(dto);
+	@PostMapping(value = "doUpdate.do", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String doUpdate(FestivalDTO param){
+		log.debug("┌───────────────────────────┐");
+		log.debug("│ *doUpdate()*              │");
+		log.debug("└───────────────────────────┘");
+		
+		String jsonString = "";
+		log.debug("param :{}",param);
+		
+		int flag = service.doUpdate(param);
+		String message = "";
 		
 		if (flag == 1) {
-			return "redirect:/festival/";
+			message = param.getName()+"이 수정되었습니다.";
 		} else {
-			// 직접 alert와 자바스크립트 출력
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script>alert('수정에 실패했습니다.');</script>");
-			out.flush();
-			return null; // 이미 응답을 직접 작성했기 때문에 리턴 null
+			message = param.getName()+" 수정을 실패하였습니다.";
 		}
+		MessageDTO messageDTO = new MessageDTO(flag,message);
+		
+		jsonString = new Gson().toJson(messageDTO);
+		log.debug("jsonString:{}",jsonString);
+		
+		return jsonString;
 	}
 	
 	@PostMapping("test.do")
@@ -174,15 +204,6 @@ public class FestivalController {
 	}
 	@GetMapping("test.do")
 	public String imageTest() {
-		String projectRoot = System.getProperty("user.dir");
-	    String uploadDir = projectRoot + File.separator + "src"
-	                                  + File.separator + "main"
-	                                  + File.separator + "webapp"
-	                                  + File.separator + "images";
-	    
-	    log.debug("projectRoot:{}",projectRoot);
-	    log.debug("uploadDir:{}",uploadDir);
-		log.debug("이미지 페이지 이동");
 		return "/festival/test";
 	}
 

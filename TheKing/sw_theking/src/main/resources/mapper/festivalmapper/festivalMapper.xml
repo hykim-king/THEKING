@@ -136,4 +136,12 @@
 					           #{startDate},
 					           #{endDate} )
     </insert>
+    
+    <select id="checkSeq" resultType="java.lang.Integer">
+        SELECT festa_seq.currval from dual
+    </select>
+    
+    <delete id="deleteAll" >
+        DELETE FROM festival
+    </delete>
 </mapper>
