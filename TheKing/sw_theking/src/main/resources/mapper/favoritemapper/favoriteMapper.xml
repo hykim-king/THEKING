@@ -17,7 +17,7 @@
     SELECT
         f2.*
     FROM favorites f
-    JOIN festival f2 ON f.target_no = f2.festival_no
+    JOIN festival f2 ON f.target_no = f2.festa_no
     WHERE f.user_id = #{userId}
       AND f.table_name = 'festival'
 </select>
