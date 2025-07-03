@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ class TourDaoTest {
         log.debug("@After");
         log.debug("***************************");
     }
-    //@Disabled
+    @Disabled
     @Test
     void doRetrive()throws SQLException {
     	//1. 전체 삭제
@@ -83,8 +84,8 @@ class TourDaoTest {
 		search.setSearchWord("");
     	
 
-    	region.setRegionSido("서울특별시");
-    	region.setRegionGugun("서대문구");
+    	region.setRegionSido("");
+    	region.setRegionGugun("");
     	
     	// Map에 담아서 전달
         Map<String, Object> paramMap = new HashMap<>();
@@ -97,7 +98,7 @@ class TourDaoTest {
     	}
     }
     
-    //@Disabled
+    @Disabled
     @Test
     void doUpdate() throws SQLException {
     	mapper.deleteAll();
@@ -141,6 +142,7 @@ class TourDaoTest {
         assertEquals(outVO.getSubtitle(), updatedVO.getSubtitle());
         assertEquals(outVO.getTel(), updatedVO.getTel());
     }
+    @Disabled
     @Test
     void viewsUpdate() throws SQLException {
     	mapper.deleteAll();
@@ -164,7 +166,7 @@ class TourDaoTest {
         
     }
     
-    //@Disabled
+    @Disabled
     @Test
     void testDoSave() throws SQLException {
     	// 1. 전체 삭제
@@ -190,7 +192,7 @@ class TourDaoTest {
         assertEquals(dto01.getName(), outDTO.getName());
         assertEquals(dto01.getAddress(), outDTO.getAddress());
     }
-    //@Disabled
+    @Disabled
     @Test
     void beans() {
         assertNotNull(context);

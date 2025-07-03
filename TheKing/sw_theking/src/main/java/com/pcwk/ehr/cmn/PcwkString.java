@@ -38,4 +38,16 @@ public class PcwkString {
 	public static boolean isAdmin(UserDTO user) {
 	    return "ADMIN".equalsIgnoreCase(user.getRole());
 	}
+	/**
+	 * 문자가 null,""입력 시 -> defaultValue로 변경
+	 * @param value
+	 * @param defaultValue
+	 * @return
+	 */
+	public static String nvlString(String value,String defaultValue) {
+		if(Strings.isNullOrEmpty( value)==true) {
+			return defaultValue;
+		}else
+			return value;
+	}
 }
