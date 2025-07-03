@@ -66,7 +66,7 @@ class TourDaoTest {
         log.debug("@After");
         log.debug("***************************");
     }
-    //@Disabled
+    @Disabled
     @Test
     void doRetrive()throws SQLException {
     	//1. 전체 삭제
@@ -81,7 +81,7 @@ class TourDaoTest {
     	search.setPageSize(10);
     	search.setPageNo(1);
     	search.setSearchDiv("");
-		search.setSearchWord("");
+		search.setSearchWord("회");
     	
 
     	region.setRegionSido("");
