@@ -1,0 +1,17 @@
+.navbar {
+    display: flex; /* 플렉스박스를 사용하여 레이아웃 배치 */
+    justify-content: space-between; /* 항목들을 균등하게 분배 (로고-메인메뉴-유틸리티) */
+    align-items: center; /* 세로 방향으로 항목들을 중앙 정렬 */
+    width: 100%; /* 부모 컨테이너의 전체 너비 사용 */
+}
+.navbar-nav {
+    list-style: none; /* 목록의 점 제거 */
+    margin: 0;
+    padding: 0;
+    display: flex; /* 메뉴 항목들을 한 줄로 표시 */
+    flex-grow: 1; /* 남은 공간을 차지하도록 */
+    justify-content: center; /* 메뉴 항목들을 중앙에 가깝게 정렬 */
+}
+.navbar-nav li {
+    margin: 0 15px; /* 메뉴 항목들 사이의 간격 */
+}

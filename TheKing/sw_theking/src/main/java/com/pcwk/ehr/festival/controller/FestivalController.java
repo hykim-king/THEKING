@@ -45,7 +45,7 @@ public class FestivalController {
 		log.debug("└─────────────────────────────────┘");
 	}
 
-	@GetMapping("/")
+	@GetMapping("/main.do")
 	public String main(HttpServletRequest request, Model model) {
 		SearchDTO dto = new SearchDTO();
 		List<FestivalDTO> list;

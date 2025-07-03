@@ -27,7 +27,7 @@ public class HomeController {
 	}
 	
 	
-	@GetMapping("/home")
+	@GetMapping("/home.do")
 	public String home(Model model) {
 		List<ImageDTO> tourList = mapper.getPopularTour();
 		List<ImageDTO> festaList = mapper.getRecentFestival();
@@ -37,7 +37,7 @@ public class HomeController {
 		model.addAttribute("festaList",festaList);
 		model.addAttribute("boardList",boardList);
 		
-		return"/home";
+		return"home_main";
 	}
 	
 }
