@@ -31,11 +31,17 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.pcwk.ehr.cmn.MessageDTO;
+import com.pcwk.ehr.favorites.domain.FavoritesDTO;
 import com.pcwk.ehr.festival.domain.FestivalDTO;
+import com.pcwk.ehr.mapper.FavoritesMapper;
+import com.pcwk.ehr.mapper.FestivalMapper;
+import com.pcwk.ehr.mapper.TourMapper;
 import com.pcwk.ehr.mapper.UserMapper;
 import com.pcwk.ehr.tour.domain.TourDTO;
+import com.pcwk.ehr.tour.service.TourService;
 import com.pcwk.ehr.user.domain.UserDTO;
 import com.pcwk.ehr.user.service.UserService;
 
@@ -57,12 +63,26 @@ class UserControllerTest {
 	MockHttpSession session;
 	FestivalDTO festival;
 	TourDTO tour;
+	FavoritesDTO favorite01;
+	FavoritesDTO favorite02;
 	
 	@Autowired
 	UserService userService;
 	
 	@Autowired
 	UserMapper userMapper;
+	
+	@Autowired
+	TourMapper tourMapper;
+	
+	@Autowired
+	FavoritesMapper favoritesMapper;
+	
+	@Autowired
+	FestivalMapper festivalMapper;
+	
+	@Autowired
+	TourService tourService;
 	
 	@BeforeEach
 	void setUp() throws Exception {
@@ -79,7 +99,10 @@ class UserControllerTest {
 		
 		tour = new TourDTO(0, "관광지1", "소제목1", "상세내용1", 0,
                 "서울특별시 서대문구 123", "토요일", "09:00-16:00", "010-1111-2222", 100000, 0, null);
-                
+         
+		favorite01 = new FavoritesDTO(0, "pcwk01", 10, "tour");
+		favorite02 = new FavoritesDTO(0, "pcwk01", 10, "festival");
+		
 		//session으로 로그인 세팅
 		session = new MockHttpSession();
 		session.setAttribute("user", userDTO01);
@@ -94,13 +117,18 @@ class UserControllerTest {
 	}
 
 	@Test
-	void getFavoriteFestival() throws Exception {
+	void getFavoriteTour() throws Exception {
 		log.debug("┌───────────────────────────────┐");
 	    log.debug("│ getFavoriteFestival()         │");
 	    log.debug("└───────────────────────────────┘");
 		// 1. 테스트용 사용자 저장
 	    userMapper.deleteAll();
+	    tourMapper.deleteAll();
+	    favoritesMapper.deleteAll();
 	    assertEquals(0, userMapper.getCount());
+	    assertEquals(0, tourMapper.getCount());
+	    assertEquals(0, favoritesMapper.getCount());
+	    
 	    // 2. 사용자 등록
 	    userMapper.doSave(userDTO01); // userDTO01은 아이디/비번이 들어있는 테스트 객체
 	    assertEquals(1, userMapper.getCount());
@@ -109,9 +137,116 @@ class UserControllerTest {
 	    assertNotNull(loggedInUser);
 	    log.debug("loggedInUser:{}",loggedInUser);
 	    
-	  	//2.2 로그인 세션에 adminUser 설정
+	  	//2.2 로그인 세션에 설정
 	  	session.setAttribute("user", loggedInUser);
 	  	log.debug("session:{}",session);
+	  	
+	    //3. 관광지 등록
+	  	tourService.doSave(tour);
+	    assertEquals(1, tourMapper.getCount());
+	    
+	    //4. 즐겨찾기 등록
+	    favorite01.setTargetNo(tour.getTourNo());
+	    favoritesMapper.doSave(favorite01);
+	    assertEquals(1, favoritesMapper.getCount());
+	  	
+	  	MockHttpServletRequestBuilder requestBuilder
+		= MockMvcRequestBuilders.get("/user/favoriteTour.do")
+		.param("userId", userDTO01.getUserId())
+		.session(session);
+	  	
+	  	ResultActions resultActions = mockMvc.perform(requestBuilder)
+	    		.andExpect(status().isOk());
+	  		
+	    String responseBody = resultActions.andDo(print())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+	    log.debug("responseBody: {}", responseBody);
+		
+	    // (4) JSON 응답 검증
+	    ObjectMapper mapper = new ObjectMapper();
+	    Map<String, Object> responseMap = mapper.readValue(responseBody, Map.class);
+    
+	    // status == 1인지 확인
+	    assertEquals(1, (Integer) responseMap.get("status"));
+
+	    // data 안에 축제 리스트가 포함되었는지 확인
+	    List<Map<String, Object>> data = (List<Map<String, Object>>) responseMap.get("data");
+	    assertNotNull(data);
+	    assertEquals(1, data.size()); // 1개 등록했으니까
+
+	    // 축제명 등 필요한 필드 검증
+	    Map<String, Object> tourData = data.get(0);
+	    assertEquals(tour.getName(), tourData.get("name"));
+    }
+	
+	@Disabled
+	@Test
+	void getFavoriteFestival() throws Exception {
+		log.debug("┌───────────────────────────────┐");
+	    log.debug("│ getFavoriteFestival()         │");
+	    log.debug("└───────────────────────────────┘");
+		// 1. 테스트용 사용자 저장
+	    userMapper.deleteAll();
+	    festivalMapper.deleteAll();
+	    favoritesMapper.deleteAll();
+	    assertEquals(0, userMapper.getCount());
+	    assertEquals(0, festivalMapper.getCount());
+	    assertEquals(0, favoritesMapper.getCount());
+	    
+	    // 2. 사용자 등록
+	    userMapper.doSave(userDTO01); // userDTO01은 아이디/비번이 들어있는 테스트 객체
+	    assertEquals(1, userMapper.getCount());
+	   
+	    UserDTO loggedInUser = userService.doLogin(userDTO01);
+	    assertNotNull(loggedInUser);
+	    log.debug("loggedInUser:{}",loggedInUser);
+	    
+	  	//2.2 로그인 세션에 설정
+	  	session.setAttribute("user", loggedInUser);
+	  	log.debug("session:{}",session);
+	  	
+	    //3. 축제 등록
+	    festivalMapper.doSave(festival);
+	    assertEquals(1, festivalMapper.getCount());
+	    
+	    //4. 즐겨찾기 등록
+	    favorite02.setTargetNo(festival.getFestaNo());
+	    favoritesMapper.doSave(favorite02);
+	    assertEquals(1, favoritesMapper.getCount());
+	  	
+	  	MockHttpServletRequestBuilder requestBuilder
+		= MockMvcRequestBuilders.get("/user/favoriteFestival.do")
+		.param("userId", userDTO01.getUserId())
+		.session(session);
+	  	
+	  	ResultActions resultActions = mockMvc.perform(requestBuilder)
+	    		.andExpect(status().isOk());
+	  		
+	    String responseBody = resultActions.andDo(print())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
+
+	    log.debug("responseBody: {}", responseBody);
+		
+	    // (4) JSON 응답 검증
+	    ObjectMapper mapper = new ObjectMapper();
+	    Map<String, Object> responseMap = mapper.readValue(responseBody, Map.class);
+    
+	    // status == 1인지 확인
+	    assertEquals(1, (Integer) responseMap.get("status"));
+
+	    // data 안에 축제 리스트가 포함되었는지 확인
+	    List<Map<String, Object>> data = (List<Map<String, Object>>) responseMap.get("data");
+	    assertNotNull(data);
+	    assertEquals(1, data.size()); // 1개 등록했으니까
+
+	    // 축제명 등 필요한 필드 검증
+	    Map<String, Object> festivalData = data.get(0);
+	    assertEquals(festival.getName(), festivalData.get("name"));
     }
 	
 	@Disabled

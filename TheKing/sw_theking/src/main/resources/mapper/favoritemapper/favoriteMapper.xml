@@ -62,6 +62,10 @@
 	AND table_name = #{tableName}
 </delete>
 
+<select id="getCount" resultType="java.lang.Integer">
+    SELECT count(*) AS totalCnt FROM favorites
+</select>
+
 <resultMap type="FavoritesDTO" id="favoritesMap">
     <id column="fav_no" property="favNo"/>
     <result column="user_id" property="userId"/>
