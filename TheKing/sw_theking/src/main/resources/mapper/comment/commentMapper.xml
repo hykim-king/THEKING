@@ -3,7 +3,7 @@
 <mapper namespace="com.pcwk.ehr.mapper.CommentMapper">
     
 <!-- 댓글작성한 관광지 조회 -->
-<select id="getCommentsTours" parameterType="string" resultType="CommentDTO">
+<select id="getTourComments" parameterType="string" resultType="CommentDTO">
     SELECT
         c.*
     FROM comments c
@@ -13,7 +13,7 @@
 </select>
 
 <!-- 댓글작성한 관광지 조회 -->
-<select id="getCommentsFestival" parameterType="string" resultType="CommentDTO">
+<select id="getFestivalComments" parameterType="string" resultType="CommentDTO">
     SELECT
         c.*
     FROM comments c
@@ -23,7 +23,7 @@
 </select>
 
 <!-- 댓글작성한 게시판 조회 -->
-<select id="getCommentsBoard" parameterType="string" resultType="CommentDTO">
+<select id="getBoardComments" parameterType="string" resultType="CommentDTO">
     SELECT
         c.*
     FROM comments c

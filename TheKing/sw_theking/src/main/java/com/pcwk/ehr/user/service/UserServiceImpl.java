@@ -12,13 +12,11 @@ import org.springframework.mail.MailSender;
 import org.springframework.stereotype.Service;
 
 import com.pcwk.ehr.cmn.SearchDTO;
-import com.pcwk.ehr.cmn.WorkDiv;
-import com.pcwk.ehr.festival.domain.FestivalDTO;
 import com.pcwk.ehr.image.domain.ImageDTO;
+import com.pcwk.ehr.mapper.CommentMapper;
 import com.pcwk.ehr.mapper.FavoritesMapper;
 import com.pcwk.ehr.mapper.ImageMapper;
 import com.pcwk.ehr.mapper.UserMapper;
-import com.pcwk.ehr.tour.domain.TourDTO;
 import com.pcwk.ehr.user.domain.UserDTO;
 
 @Service
@@ -39,6 +37,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private FavoritesMapper favoritesMapper;
+	
+	@Autowired
+	private CommentMapper commentMapper;
 	
 	public UserServiceImpl() {
 	}
@@ -120,16 +121,7 @@ public class UserServiceImpl implements UserService {
 	    }
 	    return result;
 	}
-
-	@Override
-    public List<TourDTO> getFavoriteTours(String userId) {
-        return favoritesMapper.getFavoriteTours(userId);
-    }
-
-    @Override
-    public List<FestivalDTO> getFavoriteFestivals(String userId) {
-        return favoritesMapper.getFavoriteFestivals(userId);
-    }
+	
 
 }
 // class 끝

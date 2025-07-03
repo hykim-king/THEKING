@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.pcwk.ehr.cmn.SearchDTO;
+import com.pcwk.ehr.comment.domain.CommentDTO;
 import com.pcwk.ehr.festival.domain.FestivalDTO;
 import com.pcwk.ehr.tour.domain.TourDTO;
 import com.pcwk.ehr.user.domain.UserDTO;
@@ -22,7 +23,4 @@ public interface UserService {
 	
 	UserDTO doLogin(UserDTO loginUserId)throws SQLException;
 	
-	List<TourDTO> getFavoriteTours(String userId);
-	
-	List<FestivalDTO> getFavoriteFestivals(String userId);
 }

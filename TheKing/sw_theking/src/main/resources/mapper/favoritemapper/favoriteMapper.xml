@@ -3,7 +3,7 @@
 <mapper namespace="com.pcwk.ehr.mapper.FavoritesMapper">
 
 <!-- 즐겨찾기한 관광지 목록 조회 -->
-<select id="getFavoriteTours" parameterType="string" resultType="TourDTO">
+<select id="getFavoriteTour" parameterType="string" resultType="TourDTO">
     SELECT
         t.*
     FROM favorites f
@@ -13,7 +13,7 @@
 </select>
 
 <!-- 즐겨찾기한 축제 목록 조회 -->
-<select id="getFavoriteFestivals" parameterType="string" resultType="FestivalDTO">
+<select id="getFavoriteFestival" parameterType="string" resultType="FestivalDTO">
     SELECT
         f2.*
     FROM favorites f
