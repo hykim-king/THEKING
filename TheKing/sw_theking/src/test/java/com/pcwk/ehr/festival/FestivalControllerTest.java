@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -29,6 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.google.gson.Gson;
+import com.pcwk.ehr.board.domain.BoardDTO;
 import com.pcwk.ehr.cmn.MessageDTO;
 import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.festival.domain.FestivalDTO;
@@ -52,6 +54,9 @@ class FestivalControllerTest {
 	MockMvc mockMvc;
 
 	FestivalDTO dto;
+	FestivalDTO dto2;
+	FestivalDTO dto3;
+	FestivalDTO dto4;
 
 	SearchDTO search;
 
@@ -62,6 +67,12 @@ class FestivalControllerTest {
 		log.debug("└─────────────────────────────────────────────────────────┘");
 		dto = new FestivalDTO(1, "축제1", "축제 시작1", "축제가 시작됩니다.", 0, "경기도 고양시", "010-1234-1234", 10000, 41280,
 				"2025-06-12", "2025-07-12");
+		dto2 = new FestivalDTO(1, "축제2", "축제 시작2", "축제가 시작됩니다.", 0, "경기도 고양시", "010-1234-1234", 10000, 41280,
+				"2025-06-12", "2025-07-12");
+		dto3 = new FestivalDTO(1, "축제3", "축제 시작3", "축제가 시작됩니다.", 0, "경기도 고양시", "010-1234-1234", 10000, 41280,
+				"2025-06-12", "2025-07-12");
+		dto4 = new FestivalDTO(1, "축제4", "축제 시작4", "축제가 시작됩니다.", 0, "경기도 고양시", "010-1234-1234", 10000, 41280,
+				"2025-06-12", "2025-07-12");
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
 
@@ -71,15 +82,39 @@ class FestivalControllerTest {
 		log.debug("│ tearDown()                                              │");
 		log.debug("└─────────────────────────────────────────────────────────┘");
 	}
-	
+
 	@Test
-	void main() {
+	void main() throws Exception {
 		log.debug("┌───────────────────────┐");
 		log.debug("│ main()                │");
 		log.debug("└───────────────────────┘");
+		// 1.전체 삭제
+		// 2.다건 등록
+		// 3.목록 조회
+		// 4.비교
 		
+		
+		// 3. url호출, method:get , param
+		MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/festival/")
+				.param("sido", "서울특별시").param("date", "2025-06-25");
+		//		.param("pageNo", "2").param("pageSize", "12");
+		// .param("pageNo", "1").param("pageSize", "12").param("sido", "").param("date",
+		// "0")
+
+		ResultActions resultActions = mockMvc.perform(requestBuilder).andExpect(status().isOk());
+
+		// 4.1 Model 데이터 조회
+		MvcResult mvcResult = resultActions.andDo(print()).andReturn();
+
+		Map<String, Object> model = mvcResult.getModelAndView().getModel();
+		List<FestivalDTO> list = (List<FestivalDTO>) model.get("list");
+		for (FestivalDTO vo : list) {
+			log.debug(vo);
+		}
+		
+		//assertEquals(24, list.size());
 	}
-	
+
 	@Disabled
 	@Test
 	void doSelectOne() throws Exception {
