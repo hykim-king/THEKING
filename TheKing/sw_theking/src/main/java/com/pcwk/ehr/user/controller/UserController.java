@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.pcwk.ehr.board.domain.BoardDTO;
 import com.pcwk.ehr.cmn.MessageDTO;
 import com.pcwk.ehr.cmn.PcwkString;
 import com.pcwk.ehr.cmn.SearchDTO;
@@ -73,13 +74,13 @@ public class UserController {
 		log.debug("│ *doRetrieve()*            │");
 		log.debug("└───────────────────────────┘");		
 		
-		//pageNo==0 ->1
-		//pageSize==0 ->10
 		//페이지 번호
 		int pageNo=PcwkString.nvlZero(inVO.getPageNo(), 1);
 		//페이지 사이즈
 		int pageSize=PcwkString.nvlZero(inVO.getPageSize(), 10);
 
+		//게시구분: 공지사항(10)
+		String div=PcwkString.nvlString(inVO.getDiv(), "10");
 		//검색구분
 		String searchDiv = PcwkString.nullToEmpty(inVO.getSearchDiv());
 		//검색어
@@ -87,6 +88,7 @@ public class UserController {
 		
 		inVO.setPageNo(pageNo);
 		inVO.setPageSize(pageSize);
+		inVO.setDiv(div);
 		inVO.setSearchDiv(searchDiv);
 		inVO.setSearchWord(searchWord);
 		
@@ -96,6 +98,15 @@ public class UserController {
 		
 		model.addAttribute("list", list);
 
+		//총 글수
+		int totalUser = 0;
+		if(null != list && list.size()>0) {
+			UserDTO totalVO = list.get(0);
+			totalUser = totalVO.getTotalCnt();
+		}
+				
+		model.addAttribute("totalUser", totalUser);
+				
 		return viewName;
 	}	
 	

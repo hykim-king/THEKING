@@ -7,7 +7,7 @@
 <meta charset="UTF-8">
 <title>어디갈지도 회원 조회</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="/ehr/resources/assets/js/common.js"></script>
+<script src="/ehr/resources/js/common.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
     console.log('DOMContentLoaded')
@@ -45,18 +45,6 @@ document.addEventListener('DOMContentLoaded', function(){
   </form>
   <!-- 검색 영역 end -->
   <table border="1" id="ListTable">
-    <colgroup>
-      <col width="10%">
-      <col width="10%">
-      <col width="10%">
-      <col width="10%">
-      <col width="10%">
-      <col width="10%">
-      <col width="10%">
-      <col width="10%">
-      <col width="10%">
-      <col width="10%">
-    </colgroup>
     <thead>
       <tr>
         <th>유저번호</th>
