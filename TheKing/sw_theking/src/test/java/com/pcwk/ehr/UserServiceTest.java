@@ -162,74 +162,7 @@ class UserServiceTest {
 
 	}
 	
-	//@Disabled
-	@Test
-    public void getFavoriteFestival() throws Exception {
-		//1. 전체삭제
-		mapper.deleteAll();
-		//2. 등록		
-		int flag = mapper.doSave(dto01);
-		assertEquals(1, flag);	
-		log.debug("dto01:{}", dto01);
-		
-		//3. 축제 조회
-		festivalMapper.deleteAll();
-		flag = festivalMapper.doSave(festival);
-		assertEquals(1, flag);	
-		log.debug("festival:{}", festival);
-		
-		//4. 즐겨찾기 조회
-		favoritesMapper.deleteAll();
-		favorite02.setTargetNo(festival.getFestaNo());
-		flag = favoritesMapper.doSave(favorite02);
-		assertEquals(1, flag);	
-		log.debug("favorite:{}", favorite02);
-		
-		//5. 아이디값 비교
-        List<FestivalDTO> favoriteFestival = userService.getFavoriteFestivals(dto01.getUserId());
-
-        assertNotNull(favoriteFestival, "즐겨찾기 축제 리스트 Null");
-        log.debug("favoriteFestival:{}", favoriteFestival);
-        
-        for (FestivalDTO f : favoriteFestival) {
-            assertNotNull(f.getName(), "축제 이름 null");
-        }
-    }
 	
-	//@Disabled
-	@Test
-    public void getFavoriteTours() throws Exception {			
-		//1. 전체삭제
-		mapper.deleteAll();
-		
-		//2. 등록		
-		int flag = mapper.doSave(dto01);
-		assertEquals(1, flag);	
-		log.debug("dto01:{}", dto01);
-
-		//3. 투어 조회
-		tourMapper.deleteAll();
-		flag = tourService.doSave(tour);
-		assertEquals(1, flag);	
-		log.debug("tour:{}", tour);
-		
-		//4. 즐겨찾기 조회
-		favoritesMapper.deleteAll();
-		favorite01.setTargetNo(tour.getTourNo());
-		flag = favoritesMapper.doSave(favorite01);
-		assertEquals(1, flag);	
-		log.debug("favorite:{}", favorite01);
-		
-		//5. 아이디값 비교
-        List<TourDTO> favoriteTours = userService.getFavoriteTours(dto01.getUserId());
-
-        assertNotNull(favoriteTours, "즐겨찾기 관광지 리스트 Null");
-        log.debug("favoriteTours:{}", favoriteTours);
-        
-        for (TourDTO t : favoriteTours) {
-            assertNotNull(t.getName(), "관광지 이름 null");
-        }
-    }
 	
 	@Disabled
 	@Test

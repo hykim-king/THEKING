@@ -15,6 +15,10 @@
 	                <when test="searchDiv == '30'">
 	                    nickname LIKE #{searchWord} || '%'
 	                </when>
+	                <when test="searchDiv == '40'">
+                     (name LIKE #{searchWord} || '%'
+                      OR nickname LIKE #{searchWord} || '%')
+                    </when>
                 </choose>                           
             </if>
         </where>

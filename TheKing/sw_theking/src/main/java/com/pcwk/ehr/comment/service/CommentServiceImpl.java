@@ -58,20 +58,20 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	@Override
-	public CommentDTO getCommentsTours(String userId) throws SQLException {
-	    return mapper.getCommentsTours(userId);
+	public List<CommentDTO> getTourComments(String userId) throws SQLException {
+		return mapper.getTourComments(userId);
 	}
 
 	@Override
-	public CommentDTO getCommentsFestival(String userId) throws SQLException {
-	    return mapper.getCommentsFestival(userId);
+	public List<CommentDTO> getFestivalComments(String userId) throws SQLException {
+		return mapper.getFestivalComments(userId);
 	}
 
 	@Override
-	public CommentDTO getCommentsBoard(String userId) throws SQLException {
-	    return mapper.getCommentsBoard(userId);
+	public List<CommentDTO> getBoardComments(String userId) throws SQLException {
+	    return mapper.getBoardComments(userId);
 	}
-
+	
 	@Override
 	public List<CommentDTO> getAllComments() throws SQLException {
 	    return mapper.getAllComments();

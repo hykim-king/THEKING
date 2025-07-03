@@ -21,12 +21,12 @@ public interface CommentMapper extends WorkDiv<CommentDTO>{
 	void deleteAll() throws SQLException;
 	
 	int getCount() throws SQLException;
-	
-	CommentDTO getCommentsTours(String param) throws SQLException;
-	
-	CommentDTO getCommentsFestival(String param) throws SQLException;
-	
-	CommentDTO getCommentsBoard(String param) throws SQLException;
-	
+
 	List<CommentDTO> getAllComments() throws SQLException;
+	
+	List<CommentDTO> getTourComments(String userId);
+	
+	List<CommentDTO> getFestivalComments(String userId);
+	
+	List<CommentDTO> getBoardComments(String userId);
 }
