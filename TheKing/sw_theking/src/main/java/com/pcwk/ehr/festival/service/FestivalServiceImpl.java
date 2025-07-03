@@ -46,17 +46,9 @@ public class FestivalServiceImpl implements FestivalService {
 	}
 
 	@Override
-	public List<FestivalDTO> checkRetrieve(@Param("sido")String sido,
-										@Param("date")String date, SearchDTO param) {
+	public List<FestivalDTO> checkRetrieve(String sido,
+										String date, SearchDTO param) {
 
-
-		if(sido.equals("")) {
-			sido = null;
-		}
-		if(date.equals("")) {
-			date = null;
-		}
-		
 		return mapper.checkRetrieve(sido, date, param);
 	}
 
