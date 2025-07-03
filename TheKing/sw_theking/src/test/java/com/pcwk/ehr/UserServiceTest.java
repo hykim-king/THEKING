@@ -201,6 +201,7 @@ class UserServiceTest {
     public void getFavoriteTours() throws Exception {			
 		//1. 전체삭제
 		mapper.deleteAll();
+		
 		//2. 등록		
 		int flag = mapper.doSave(dto01);
 		assertEquals(1, flag);	
