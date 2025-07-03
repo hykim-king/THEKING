@@ -2,20 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcwk.ehr.mapper.TourMapper">
 	<!-- 지역 검색 조건 분리 -->
-	<sql id="regionWhere">
-	    <if test="region.regionSido != null and region.regionSido != ''">
-	        AND r.region_sido = #{region.regionSido}
-	    </if>
-	    <if test="region.regionGugun != null">
-	        <choose>
-	            <when test="region.regionGugun == ''">
-	                AND r.region_gugun IS NULL
-	            </when>
-	            <otherwise>
-	                AND r.region_gugun = #{region.regionGugun}
-	            </otherwise>
-	        </choose>
-	    </if>
+	<sql id="regionWhere">		
+		 <if test="search.searchWord != null and search.searchWord !=''">
+           AND t.name LIKE '%' || #{search.searchWord} ||'%'
+         </if>
+         <if test="region.regionSido != null and region.regionSido !=''">
+           AND r.region_sido = #{region.regionSido}
+           <choose>
+               <when test="region.regionSido=='세종특별자치시'">
+                   AND r.region_gugun IS NULL
+               </when>
+               <otherwise>
+                   AND r.region_gugun = #{region.regionGugun}
+               </otherwise>
+           </choose>   
+         </if>
 	</sql>
 
     <!-- resultMap -->
@@ -119,13 +120,8 @@
 		            JOIN region r ON r.region_no = t.region_no
 		            LEFT JOIN image i ON t.tour_no = i.target_no
 		                        AND i.table_name = 'TOUR'
-		             <where>
-		                1=1
-		                <include refid="regionWhere"/>
-		                <if test="search.searchWord != null and search.searchWord != ''">             
-		                      AND TRIM(t.name) LIKE '%'||TRIM(#{search.searchWord}) ||'%'
-		                </if>  
-		            </where>
+		             WHERE 1=1
+		             <include refid="regionWhere"/>
 		            ORDER BY t.tour_no DESC
 		        ) tt2
 	<![CDATA[	  WHERE ROWNUM <= (#{search.pageSize} * (#{search.pageNo} - 1) + #{search.pageSize})
@@ -136,13 +132,8 @@
 		    SELECT COUNT(*) AS total_cnt
 			FROM tour t
 			JOIN region r ON r.region_no = t.region_no
-			<where>
-			    1=1
-			    <include refid="regionWhere"/>
-			    <if test="search.searchWord != null and search.searchWord != ''">
-			        AND TRIM(t.name) LIKE '%'||TRIM(#{search.searchWord}) ||'%'
-			    </if>
-			</where>
+			WHERE 1 = 1
+			<include refid="regionWhere"/>
 		) B
     </select>
 
