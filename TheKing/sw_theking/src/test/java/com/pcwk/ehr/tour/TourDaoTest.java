@@ -66,7 +66,7 @@ class TourDaoTest {
         log.debug("@After");
         log.debug("***************************");
     }
-    @Disabled
+    //@Disabled
     @Test
     void doRetrive()throws SQLException {
     	//1. 전체 삭제
