@@ -3,7 +3,11 @@ package com.pcwk.ehr.tour.service;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
@@ -30,7 +34,7 @@ public class TourServiceImpl implements TourService {
 
 	@Autowired
 	ImageMapper imageMapper;
-	
+
 	@Autowired
 	ImageService imageService;
 
@@ -38,14 +42,23 @@ public class TourServiceImpl implements TourService {
 	public List<TourDTO> doRetrieve(SearchDTO param) {
 		return tourMapper.doRetrieve(param);
 	}
+	@Override
+	public List<TourDTO> doRetrieve(Map<String, Object> paramMap) {
+		return tourMapper.doRetrieve(paramMap);
+	}
 
 	@Override
 	public int doDelete(TourDTO param) {
+		// 이미지가 있을 경우, 이미지도 같이 삭제
+		List<ImageDTO> images = imageMapper.getImages(param.getTourNo(), "TOUR");
+		for (ImageDTO image : images) {
+			imageMapper.doDelete(image);
+		}
 		return tourMapper.doDelete(param);
 	}
 
 	@Override
-	public int doUpdate(TourDTO param) {
+	public int doUpdate(TourDTO param) throws SQLException {
 		// 1.입력값 검사
 		validateTourInput(param);
 
@@ -53,11 +66,52 @@ public class TourServiceImpl implements TourService {
 		RegionDTO region = parseAddress(param.getAddress());
 		param.setRegion(region);
 
+		// 3.1 이미지가 추가 되는경우(DBx list0)
+		// 3.2 이미지가 삭제 되는 경우(DB0 listx)
+
+		// 3.기존 리스트 조회
+		List<String> newImages = param.getTourImage(); // 새로 등록할 이미지 목록
+		if (newImages == null)
+			newImages = new ArrayList<>();
+
+		if (param.getTourNo() != null) {
+			List<ImageDTO> existingImages = imageMapper.getImages(param.getTourNo(), "TOUR");
+
+			Set<String> existingImageSet = new HashSet<>(); // 이미 존재하는 이름 (DB)
+			Set<String> newImageSet = new HashSet<>(newImages); // 새로 넘어온 이름(현재LIST)
+
+			// 기존에 있던 이름 set에 저장
+			for (ImageDTO image : existingImages) {
+				existingImageSet.add(image.getImageName());
+			}
+			// 3.2 이미지가 삭제 되는 경우(DB0 listx)
+			for (ImageDTO image : existingImages) {// DB존재
+				if (!newImageSet.contains(image.getImageName())) {// list없음
+					imageService.doDelete(image);// 삭제
+				}
+			}
+			// 3.1 이미지가 추가 되는경우(DBx list0)
+			for (String saveImageName : newImageSet) {
+				if (!existingImageSet.contains(saveImageName)) {
+
+					ImageDTO image = new ImageDTO();
+					image.setTargetNo(param.getTourNo());
+					image.setTableName("TOUR");
+					image.setImageName(saveImageName);
+
+					imageService.doSave(image);
+				}
+			}
+		}
 		return tourMapper.doUpdate(param);
 	}
 
 	@Override
 	public TourDTO doSelectOne(TourDTO param) throws SQLException {
+		//단건 조회 + 조회된 count 조회
+		int flag = tourMapper.viewsUpdate(param);
+		log.debug("flag: {}",flag);
+		
 		return tourMapper.doSelectOne(param);
 	}
 
@@ -68,26 +122,27 @@ public class TourServiceImpl implements TourService {
 		validateTourInput(param);
 
 		// 2.관광지 유효성 검사
-
 		RegionDTO region = parseAddress(param.getAddress());
 		param.setRegion(region);
 
 		// 3.이미지가 있을 경우 저장
-		if (param.getTourImage() != null || !param.getTourImage().isEmpty()) {
+		int result = tourMapper.doSave(param);
 
-			for (String imageName : param.getTourImage()) {
-                ImageDTO image = new ImageDTO();
-                image.setTargetNo(param.getTourNo());  // 관광지 번호
-                image.setTableName("TOUR");  // 관광지 관련 테이블
+		if (result > 0 && param.getTourNo() != null) {
+			List<String> newImages = param.getTourImage(); // 새로 등록할 이미지 목록
+			if (newImages != null && !newImages.isEmpty()) {
+				for (String imageName : newImages) {
+					ImageDTO image = new ImageDTO();
+					image.setTargetNo(param.getTourNo());
+					image.setTableName("TOUR");
+					image.setImageName(imageName);
 
-                image.setImageName(imageName);  // 이미지 이름
-                
-                // ImageService의 updateImages 호출
-                imageService.doSave(image);  // 이미지를 업데이트
-            }
-        }
+					imageService.doSave(image);
+				}
+			}
+		}
 
-		return tourMapper.doSave(param);
+		return result;
 	}
 
 	/**
@@ -161,5 +216,8 @@ public class TourServiceImpl implements TourService {
 
 		return region;
 	}
+
+
+
 
 }

@@ -30,14 +30,22 @@ public class ImageServiceImpl implements ImageService {
 		super();
 		this.mapper = mapper;
 	}
+
+	@Override
+	public int doDelete(ImageDTO param) {
+		return mapper.doDelete(param);
+	}
+
+	@Override
+	public int doUpdate(ImageDTO param) {
+		
+	    return mapper.doUpdate(param);
+		}
 	
-	/**
-	 * 이미지 이름이 30자 이하인지 확인
-	 * 확장자 검사 (선택: jpg, jpeg, gif, png, webp 등)
-	 * @param param
-	 * @return param
-	 */
-	ImageDTO imageValidation(ImageDTO param) {
+	@Override
+	public int doSave(ImageDTO param) throws SQLException {
+		
+		//유효성 검사
 		if(param.getImageName()!= null && param.getImageName().length()>30) {
 			throw new IllegalArgumentException("이미지명은 30자를 넘을 수 없습니다.");
 		}
@@ -48,57 +56,6 @@ public class ImageServiceImpl implements ImageService {
 		if(!allowsext.contains(extension)) {
 			throw new IllegalArgumentException("허용되지 않은 이미지 형식입니다.");
 		}
-		return param;
-	}
-
-
-
-	@Override
-	public int doDelete(ImageDTO param) {
-		return mapper.doDelete(param);
-	}
-
-	@Override
-	public int doUpdate(ImageDTO param) {
-		//유효성 검사
-		imageValidation(param);
-
-		ImageDTO existingImage = mapper.doSelectOne(param); 
-		
-		if(existingImage != null) {
-		String regDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy_MM_dd"));
-        String uuid = UUID.randomUUID().toString().substring(0, 8);
-        String url = "/resources/images/";
-
-        // 업데이트 할 이미지 정보 설정
-        param.setSaveName(regDt + "_" + uuid + "_" + param.getImageName());
-        param.setImageUrl(url + param.getImageName());
-        param.setRegDate(regDt);
-
-        // 업데이트
-        return	mapper.doUpdate(param);
-
-		} else {
-			
-			String regDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy_MM_dd"));
-	        String uuid = UUID.randomUUID().toString().substring(0, 8);
-	        String url = "/resources/images/";
-
-	        // 업데이트 할 이미지 정보 설정
-	        param.setSaveName(regDt + "_" + uuid + "_" + param.getImageName());
-	        param.setImageUrl(url + param.getImageName());
-	        param.setRegDate(regDt);
-
-	        // 업데이트
-	        return mapper.doSave(param);
-		}
-	}
-
-	@Override
-	public int doSave(ImageDTO param) throws SQLException {
-		
-		//유효성 검사
-		imageValidation(param);	
 		
 		String regDt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy_MM_dd"));
         String uuid = UUID.randomUUID().toString().substring(0, 8);

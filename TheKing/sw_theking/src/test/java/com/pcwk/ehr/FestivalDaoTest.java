@@ -68,7 +68,21 @@ class FestivalDaoTest {
 		log.debug("context : " + context);
 		log.debug("mapper : " + mapper);
 	}
+	@Test
+	void checkSeq() {
+		int flag = mapper.doSave(dto01);
+		assertEquals(1, flag);
+		
+		int val = mapper.checkSeq();
+		log.debug("val:{}", val);
+		
+		dto01.setFestaNo(val);
+		
+		flag = mapper.doDelete(dto01);
+		assertEquals(1, flag);
+	}
 	
+	@Disabled
 	@Test
 	void checkRetrieve() {
 		//null or 값  

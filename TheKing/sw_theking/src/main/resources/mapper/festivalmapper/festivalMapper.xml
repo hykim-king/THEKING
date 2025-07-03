@@ -111,6 +111,9 @@
     </delete>
     
     <insert id="doSave" parameterType="FestivalDTO">
+    <selectKey keyProperty="festaNo" resultType="int" order="BEFORE">
+        SELECT festa_seq.nextval FROM dual
+    </selectKey>
         INSERT INTO festival (
 					    festa_no,
 					    name,
@@ -133,4 +136,12 @@
 					           #{startDate},
 					           #{endDate} )
     </insert>
+    
+    <select id="checkSeq" resultType="java.lang.Integer">
+        SELECT festa_seq.currval from dual
+    </select>
+    
+    <delete id="deleteAll" >
+        DELETE FROM festival
+    </delete>
 </mapper>

@@ -3,6 +3,8 @@ package com.pcwk.ehr.mapper;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.xml.stream.events.Comment;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.pcwk.ehr.cmn.WorkDiv;
@@ -20,4 +22,11 @@ public interface CommentMapper extends WorkDiv<CommentDTO>{
 	
 	int getCount() throws SQLException;
 	
+	CommentDTO getCommentsTours(String param) throws SQLException;
+	
+	CommentDTO getCommentsFestival(String param) throws SQLException;
+	
+	CommentDTO getCommentsBoard(String param) throws SQLException;
+	
+	List<CommentDTO> getAllComments() throws SQLException;
 }

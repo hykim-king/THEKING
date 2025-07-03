@@ -1,5 +1,6 @@
 package com.pcwk.ehr.mapper;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -18,4 +19,6 @@ public interface FavoritesMapper extends WorkDiv<FavoritesDTO>{
 	int getTourCount(String userId);
 	List<TourDTO> getFavoriteTours(String userId);
 	List<FestivalDTO> getFavoriteFestivals(String userId);
+	void deleteAll();
+	int getCount() throws SQLException;
 } 

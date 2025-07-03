@@ -28,12 +28,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.PlatformTransactionManager;
 
-import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.favorites.domain.FavoritesDTO;
+import com.pcwk.ehr.festival.domain.FestivalDTO;
 import com.pcwk.ehr.mapper.FavoritesMapper;
+import com.pcwk.ehr.mapper.FestivalMapper;
 import com.pcwk.ehr.mapper.TourMapper;
 import com.pcwk.ehr.mapper.UserMapper;
 import com.pcwk.ehr.tour.domain.TourDTO;
+import com.pcwk.ehr.tour.service.TourService;
 import com.pcwk.ehr.user.domain.UserDTO;
 import com.pcwk.ehr.user.service.UserService;
 
@@ -62,9 +64,18 @@ class UserServiceTest {
 	@Autowired
 	TourMapper tourMapper;
 	
-	List<UserDTO> users;
+	@Autowired
+	TourService tourService;
 	
+	@Autowired
+	FestivalMapper festivalMapper;
+	
+	UserDTO dto01;
+	List<UserDTO> users;
+	FavoritesDTO favorite01;
+	FavoritesDTO favorite02;
 	TourDTO tour;
+	FestivalDTO festival;
 	
 	@Autowired
 	DataSource dataSource;
@@ -76,9 +87,6 @@ class UserServiceTest {
 	@Autowired
 	MailSender mailSender;
 	
-	UserDTO dto01 = new UserDTO(0,"pcwk01", "pcwk01234!", "이상무", "이상무01", "pcwk01@gmail.com", 
-			"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함");
-	
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -88,6 +96,18 @@ class UserServiceTest {
 		log.debug("┌─────────────────────────────────────────────────────────┐");
 		log.debug("│ setUp()                                                 │");
 		log.debug("└─────────────────────────────────────────────────────────┘");
+		
+		dto01 = new UserDTO(0,"pcwk01", "pcwk01234!", "이상무", "이상무01", "pcwk01@gmail.com", 
+				"010-1111-1111","서울시 마포구 서교동 21-1","user", "사용안함", "사용안함");
+		
+		tour = new TourDTO(0, "관광지1", "소제목1", "상세내용1", 0,
+                "서울특별시 서대문구 123", "토요일", "09:00-16:00", "010-1111-2222", 100000, 0, null);
+                
+		favorite01 = new FavoritesDTO(0, "pcwk01", 10, "tour");
+		favorite02 = new FavoritesDTO(0, "pcwk01", 10, "festival");
+		
+		festival = new FestivalDTO(0, "축제1", "축제 시작1", "축제가 시작됩니다.", 0, "경기도 고양시", "010-1234-1234", 10000, 41280,
+				"2025-06-12", "2025-07-12");
 		
 		users = Arrays.asList(
 				
@@ -126,7 +146,7 @@ class UserServiceTest {
 		
 		//2.등록
 		UserDTO user = new UserDTO();
-		user.setUserId("test123465");
+		user.setUserId("pcwk01");
 		user.setPassword("Test@1234");
 		user.setName("홍길동");
 		user.setNickname("별명");
@@ -142,36 +162,73 @@ class UserServiceTest {
 
 	}
 	
+	//@Disabled
+	@Test
+    public void getFavoriteFestival() throws Exception {
+		//1. 전체삭제
+		mapper.deleteAll();
+		//2. 등록		
+		int flag = mapper.doSave(dto01);
+		assertEquals(1, flag);	
+		log.debug("dto01:{}", dto01);
+		
+		//3. 축제 조회
+		festivalMapper.deleteAll();
+		flag = festivalMapper.doSave(festival);
+		assertEquals(1, flag);	
+		log.debug("festival:{}", festival);
+		
+		//4. 즐겨찾기 조회
+		favoritesMapper.deleteAll();
+		favorite02.setTargetNo(festival.getFestaNo());
+		flag = favoritesMapper.doSave(favorite02);
+		assertEquals(1, flag);	
+		log.debug("favorite:{}", favorite02);
+		
+		//5. 아이디값 비교
+        List<FestivalDTO> favoriteFestival = userService.getFavoriteFestivals(dto01.getUserId());
+
+        assertNotNull(favoriteFestival, "즐겨찾기 축제 리스트 Null");
+        log.debug("favoriteFestival:{}", favoriteFestival);
+        
+        for (FestivalDTO f : favoriteFestival) {
+            assertNotNull(f.getName(), "축제 이름 null");
+        }
+    }
+	
+	//@Disabled
 	@Test
     public void getFavoriteTours() throws Exception {			
-		UserDTO userTest = new UserDTO(); 
-		userTest.setUserNo(176);		
-		UserDTO user01 = mapper.doSelectOne(userTest);
-		assertNotNull(user01);		
-		log.debug("user01:{}", user01);
+		//1. 전체삭제
+		mapper.deleteAll();
+		
+		//2. 등록		
+		int flag = mapper.doSave(dto01);
+		assertEquals(1, flag);	
+		log.debug("dto01:{}", dto01);
 
-		TourDTO tourDTO = new TourDTO();
-		tourDTO.setTourNo(138);
-		TourDTO tour01 = tourMapper.doSelectOne(tourDTO);
-		log.debug("tour01:{}", tour01);
+		//3. 투어 조회
+		tourMapper.deleteAll();
+		flag = tourService.doSave(tour);
+		assertEquals(1, flag);	
+		log.debug("tour:{}", tour);
 		
-		FavoritesDTO fav = new FavoritesDTO();
-		fav.setFavNo(0);
-		fav.setUserId("pcwk01");
-		fav.setTargetNo(tour01.getTourNo());
-		fav.setTableName("tour");
-		log.debug("fav:{}", fav);
-		FavoritesDTO favorite01 = favoritesMapper.doSelectOne(fav);
-		log.debug("favorite01:{}", favorite01);
+		//4. 즐겨찾기 조회
+		favoritesMapper.deleteAll();
+		favorite01.setTargetNo(tour.getTourNo());
+		flag = favoritesMapper.doSave(favorite01);
+		assertEquals(1, flag);	
+		log.debug("favorite:{}", favorite01);
 		
-//        List<TourDTO> favoriteTours = userService.getFavoriteTours(user.getUserId());
-//
-//        assertNotNull(favoriteTours, "즐겨찾기 관광지 리스트 Null");
-//        log.debug("favoriteTours:{}", favoriteTours);
-//        
-//        for (TourDTO t : favoriteTours) {
-//            assertNotNull(t.getName(), "관광지 이름 null");
-//        }
+		//5. 아이디값 비교
+        List<TourDTO> favoriteTours = userService.getFavoriteTours(dto01.getUserId());
+
+        assertNotNull(favoriteTours, "즐겨찾기 관광지 리스트 Null");
+        log.debug("favoriteTours:{}", favoriteTours);
+        
+        for (TourDTO t : favoriteTours) {
+            assertNotNull(t.getName(), "관광지 이름 null");
+        }
     }
 	
 	@Disabled

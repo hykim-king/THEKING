@@ -1,15 +1,21 @@
 package com.pcwk.ehr.tour;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +23,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import com.pcwk.ehr.board.domain.BoardDTO;
+import com.pcwk.ehr.image.domain.ImageDTO;
+import com.pcwk.ehr.image.service.ImageServiceImpl;
+import com.pcwk.ehr.mapper.ImageMapper;
 import com.pcwk.ehr.mapper.TourMapper;
 import com.pcwk.ehr.tour.domain.TourDTO;
 import com.pcwk.ehr.tour.service.TourServiceImpl;
@@ -34,7 +44,13 @@ class TourServiceTest {
 	TourServiceImpl tourService;
 	
 	@Autowired
+	ImageServiceImpl imageService;
+	
+	@Autowired
 	TourMapper mapper;
+	
+	@Autowired
+	ImageMapper imageMapper;
 		
 	TourDTO dto01;
 
@@ -49,8 +65,9 @@ class TourServiceTest {
 
         dto01 = new TourDTO(0, "관광지1", "소제목1", "상세내용1", 0,
                 "서울특별시 서대문구 123", "토요일", "09:00-16:00", "010-1111-2222", 100000, 0, null);
+  
 	}
-
+	
 	@AfterEach
 	void tearDown() throws Exception {
 		log.debug("┌─────────────────────┐");
@@ -63,7 +80,106 @@ class TourServiceTest {
 	//정규식 위배하는 경우0
 	//글자수 초과하는 경우0
 	//비정상적인 주소 입력0
+	//doSave - 이미지가 있는 경우 추가0
+	//doUpdate 이미지 추가0
+	//이미지 삭제0
+	//doDelete - 이미지가 있는 경우 삭제0
+	@Test
+	void doRetrieve() throws SQLException {
+		//1.
+		mapper.deleteAll();
+		assertEquals(0, mapper.getCount());
+		//2.
+		int flag = tourService.doSave(dto01);
+		assertEquals(1, flag);
+		log.debug("flag: {}",flag);
+		
+		TourDTO outVO = tourService.doSelectOne(dto01);
+		assertNotNull(outVO);
+		assertEquals(1,outVO.getViews());
+		log.debug("outVO: {}",outVO);
+		log.debug("outVO.getReadCnt(): {}",outVO.getViews());
+		
+	}
 	
+	@Test
+	void imageDelete() throws SQLException {
+		//1. 전체 삭제
+		mapper.deleteAll();
+		
+		//2.새로운 이미지 추가
+		List<String>images = Arrays.asList("img_001.jpg", "img_002.jpg");
+		dto01.setTourImage(images);
+		tourService.doSave(dto01);
+		//3.이미지 조회
+		List<ImageDTO>saveImages = imageMapper.getImages(dto01.getTourNo(), "TOUR");
+		
+		List<String> actualImageNames = new ArrayList<>();
+		for(ImageDTO dto : saveImages) {
+			 actualImageNames.add(dto.getImageName());
+		}
+		assertEquals(2,actualImageNames.size());
+		//4.이미지 삭제
+		int flag = tourService.doUpdate(dto01);
+		log.debug("flag: {}",flag);
+		assertEquals(1,flag);
+		tourService.doSelectOne(dto01);
+	}
+	
+	//@Disabled
+	@Test
+	void imageUpdate() throws SQLException {
+		//1. 전체 삭제
+		mapper.deleteAll();
+		//2.새로운 이미지 추가
+		List<String>images = Arrays.asList("img_001.jpg", "img_002.jpg");
+		dto01.setTourImage(images);
+		tourService.doSave(dto01);
+		//3.이미지 변경
+		List<String> updateImages = Arrays.asList("img_002.jpg", "img_003.jpg");
+		dto01.setTourImage(updateImages);
+		//4.업데이트
+		tourService.doUpdate(dto01);
+		//5.조회
+		List<ImageDTO>saveImages = imageMapper.getImages(dto01.getTourNo(), "TOUR");
+		
+		List<String> actualImageNames = new ArrayList<>();
+		for(ImageDTO dto : saveImages) {
+			 actualImageNames.add(dto.getImageName());
+		}
+		assertFalse(actualImageNames.contains("img_001.jpg"));
+		assertTrue(actualImageNames.contains("img_002.jpg"));
+		assertTrue(actualImageNames.contains("img_003.jpg"));
+		
+		assertEquals(2,actualImageNames.size());
+		
+	}
+	
+	//doSave - 이미지가 있는 경우 추가
+	//@Disabled
+	@Test
+	void imageSave() throws SQLException {
+		//1. 전체 삭제
+		//2. 이미지 추가 후 조회
+		//4. 조회
+		
+		//1.
+		mapper.deleteAll();
+		
+		//2.
+		List<String> images = new ArrayList<>();
+		images.add("img_001.jpg");
+		
+		dto01.setTourImage(images);
+		
+		int flag = tourService.doSave(dto01);
+		log.debug("dto01: {}",dto01);
+		assertEquals(1,flag);
+		
+		mapper.doSelectOne(dto01);
+		
+	}
+	//@Disabled
 	@Test
 	void AddressNullFailure() throws SQLException {
 		mapper.deleteAll();

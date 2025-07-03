@@ -36,7 +36,5 @@ public class FavoritesServiceImpl implements FavoritesService{
 		return mapper.getTourCount(userId);
 	}
 
-
-	
 	
 }
