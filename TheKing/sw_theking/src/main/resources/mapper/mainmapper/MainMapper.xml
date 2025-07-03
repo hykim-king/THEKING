@@ -29,7 +29,7 @@ SELECT *
             FROM(
                 SELECT t2.image_name AS imageName, t2.target_no AS targetNo
                     FROM tour t1 JOIN image t2 ON t1.tour_no = t2.target_no
-                    WHERE t2.table_name = 'tour'
+                    WHERE t2.table_name = 'TOUR'
                     ORDER BY t1.views DESC
                 )t3     
 )WHERE ROWNUM <= 5
@@ -47,7 +47,7 @@ SELECT *
             FROM(
                 SELECT t2.image_name AS imageName, t2.target_no AS targetNo
                     FROM festival t1 JOIN image t2 ON t1.festa_no = t2.target_no
-                    WHERE t2.table_name = 'festival'
+                    WHERE t2.table_name = 'FESTIVAL'
                     ORDER BY t1.end_date DESC
                 )t3     
 )WHERE ROWNUM <= 5

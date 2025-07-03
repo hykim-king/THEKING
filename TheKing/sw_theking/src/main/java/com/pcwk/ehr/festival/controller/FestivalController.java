@@ -90,6 +90,7 @@ public class FestivalController {
 
 	@GetMapping("doSelectOne.do")
 	public String doSelectOne(int festaNo, Model model) {
+		service.upViews(festaNo);
 		FestivalDTO dto = service.doSelectOne(festaNo);
 		model.addAttribute("dto", dto);
 		return "/festival/doSelectOne";
