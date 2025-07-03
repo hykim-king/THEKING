@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcwk.ehr.mapper.TourMapper">
+	<!-- 지역 검색 조건 분리 -->
+	<sql id="regionWhere">
+	    <if test="region.regionSido != null and region.regionSido != ''">
+	        AND r.region_sido = #{region.regionSido}
+	    </if>
+	    <if test="region.regionGugun != null">
+	        <choose>
+	            <when test="region.regionGugun == ''">
+	                AND r.region_gugun IS NULL
+	            </when>
+	            <otherwise>
+	                AND r.region_gugun = #{region.regionGugun}
+	            </otherwise>
+	        </choose>
+	    </if>
+	</sql>
 
     <!-- resultMap -->
     <resultMap id="tourResultMap" type="TourDTO">
@@ -103,23 +119,12 @@
 		            JOIN region r ON r.region_no = t.region_no
 		            LEFT JOIN image i ON t.tour_no = i.target_no
 		                        AND i.table_name = 'TOUR'
-		            <where>
-		                <if test="region.regionSido != null and region.regionSido != ''">
-					        AND r.region_sido = #{region.regionSido}
-					    </if>
-					    <if test="region.regionGugun != null">
-					        <choose>
-					            <when test="region.regionGugun == ''">
-					                AND r.region_gugun IS NULL
-					            </when>
-					            <otherwise>
-					                AND r.region_gugun = #{region.regionGugun}
-					            </otherwise>
-					        </choose>
-					    </if>
-	                     <if test="search.searchWord !='' ">             
-			                 t.name LIKE '%'|| #{search.searchWord} || '%'
-			            </if>  
+		             <where>
+		                1=1
+		                <include refid="regionWhere"/>
+		                <if test="search.searchWord != null and search.searchWord != ''">             
+		                      AND TRIM(t.name) LIKE '%'||TRIM(#{search.searchWord}) ||'%'
+		                </if>  
 		            </where>
 		            ORDER BY t.tour_no DESC
 		        ) tt2
@@ -129,10 +134,15 @@
 		) A
 		CROSS JOIN (
 		    SELECT COUNT(*) AS total_cnt
-		    FROM tour t
-		    <if test="search.searchWord != null and search.searchWord != ''">
-			    AND t.name LIKE '%' || #{search.searchWord, jdbcType=VARCHAR}} || '%'
-			</if>
+			FROM tour t
+			JOIN region r ON r.region_no = t.region_no
+			<where>
+			    1=1
+			    <include refid="regionWhere"/>
+			    <if test="search.searchWord != null and search.searchWord != ''">
+			        AND TRIM(t.name) LIKE '%'||TRIM(#{search.searchWord}) ||'%'
+			    </if>
+			</where>
 		) B
     </select>
 

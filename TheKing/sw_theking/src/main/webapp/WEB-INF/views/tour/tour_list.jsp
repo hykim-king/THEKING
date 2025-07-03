@@ -6,10 +6,20 @@
 <head>
 <meta charset="UTF-8">
 <title>Tour List</title>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
     <h2>떠나볼지도</h2>
     <p>인기 관광지 알려드릴게요</p>
+    <!-- 검색 영역 -->
+    <form action="#" name=tourForm method="get" enctype="application/x-www-form-urlencoded">
+        <div>
+            <input type="search" name="searchWord" id="searchWord" size="15">
+            <input type="button" value="검색" id="doRetrieveButton">
+        </div>
+    
+    </form>
+    <!-- //검색 영역 -->
     <table border="1">
         <thead>
             <tr>

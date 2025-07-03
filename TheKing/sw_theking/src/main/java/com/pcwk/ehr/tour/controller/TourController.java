@@ -54,20 +54,33 @@ public class TourController {
 		//검색어
 		String searchWord = PcwkString.nullToEmpty(search.getSearchWord());
 		
+		String regionSido = PcwkString.nullToEmpty(region.getRegionSido());
+		String regionGugun = PcwkString.nullToEmpty(region.getRegionGugun());
+		
+		log.debug("pageNo: {}",pageNo);
+		log.debug("PageSize: {}",PageSize);
+		log.debug("searchDiv: {}",searchDiv);
+		log.debug("searchWord: {}",searchWord);
+		log.debug("regionSido: {}",regionSido);
+		log.debug("regionGugun: {}",regionGugun);
+		
 		search.setPageNo(pageNo);
 		search.setPageSize(PageSize);
 		search.setSearchDiv(searchDiv);
 		search.setSearchWord(searchWord);
 		
-    	region.setRegionSido("서울특별시");
-    	region.setRegionGugun("서대문구");
+    	region.setRegionSido(regionSido);
+    	region.setRegionGugun(regionGugun);
+    	
+    	
+    	log.debug("***search: {}",search);
+    	log.debug("***region: {}",region);
     	
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("search", search);
         paramMap.put("region", region);
 		
-		log.debug("search: {}",search);
-		
+		//서비스 호출
 		List<TourDTO> list = tourService.doRetrieve(paramMap);
 		
 		model.addAttribute("list", list);
