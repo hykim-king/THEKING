@@ -9,10 +9,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/ehr/resources/js/common.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function(){
+    document.addEventListener('DOMContentLoaded', function(){
     console.log('DOMContentLoaded')
-    const divInput = document.querySelector("#div");
-    console.log(divInput);
 });
 </script>
 </head>
@@ -20,9 +18,8 @@ document.addEventListener('DOMContentLoaded', function(){
   <h2>게시판 - 목록</h2>
   <hr>
   <!-- 검색 구분 -->
-  <form action="#" name="userForm" method="get" enctype="application/x-www-form-urlencoded">
-    <input type="hidden" name="div" id="div" value="10">
-    <div>
+  <form action="/ehr/user/doRetrieve.do" name="userForm" method="get" enctype="application/x-www-form-urlencoded">
+    <div>   
       <label>구분</label>
       <select name="searchDiv" id="searchDiv">
         <option value="">전체</option>
@@ -39,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function(){
         <option value="50">50</option>
         <option value="100">100</option>
       </select>
-      <input type="button" value="조회" id="doRetrieveButton">
+      <input type="submit" value="조회" id="doRetrieveButton">
       <input type="button" value="등록" id="moveToreg">
     </div>
   </form>
@@ -55,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function(){
         <th>이메일</th>
         <th>전화번호</th>
         <th>주소</th>
-        <th>등록자</th>
         <th>가입날짜</th>
       </tr>
     </thead>
@@ -68,9 +64,10 @@ document.addEventListener('DOMContentLoaded', function(){
                         <td>${vo.userId }</td>
                         <td>${vo.password }</td>
                         <td>${vo.name }</td>
-                        <td>${vo.nickName }</td>
+                        <td>${vo.nickname }</td>
                         <td>${vo.email }</td>
-                        <td>${vo.regId }</td>
+                        <td>${vo.mobile }</td>
+                        <td>${vo.address }</td>
                         <td>${vo.regDt }</td>
                     </tr>
                 </c:forEach>
@@ -81,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function(){
                 </tr>
             </c:otherwise>
         </c:choose>
-      
     </tbody>
   </table>
   
