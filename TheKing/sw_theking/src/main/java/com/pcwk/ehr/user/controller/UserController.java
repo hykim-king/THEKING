@@ -52,13 +52,7 @@ public class UserController {
 	// 회원가입 화면
 	@GetMapping("/signUpPage.do")
 	public String signUPPage() {
-		return "user/signUp";
-	}
-	
-	// 사용자 전체 조회 화면
-	@GetMapping("/userList.do")
-	public String userList() {
-		return "user/userList";
+		return "user/user_Signup";
 	}
 	
 	// 마이페이지 화면
@@ -70,24 +64,39 @@ public class UserController {
 	// 로그인 화면
 	@GetMapping("/loginPage.do")
 	public String loginPage() {
-		return "user/login";
+		return "user/user_Login";
 	}
 	
 	@GetMapping(value="/doRetrieve.do")
-	public String doRetrieve(Model model, SearchDTO inVO ) throws SQLException {
-		String viewName = "user/user_list";
+	public String doRetrieve(Model model, SearchDTO inVO, HttpSession session	 ) throws SQLException {
+		String viewName = "user/userList";
+
+		 // 현재 로그인 사용자 꺼내기
+	    UserDTO loggedInUser = (UserDTO) session.getAttribute("loginUser");
+
+	    boolean isAdmin = false;
+	    
+	    // 로그인 여부 확인
+	    if (loggedInUser == null) {
+	        return "user/accessDenied";
+	    }
+	    
+	    // 관리자 여부 확인
+	    if (loggedInUser != null) {
+	        isAdmin = PcwkString.isAdmin(loggedInUser);
+	        if(isAdmin == false) {
+	        	return "user/accessDenied";
+	        }
+	    }
 		
-		log.debug("┌───────────────────────────┐");
-		log.debug("│ *doRetrieve()*            │");
-		log.debug("└───────────────────────────┘");		
-		
+	    
+	    
+	    log.debug("isAdmin:{}",isAdmin);
+	    
 		//페이지 번호
 		int pageNo=PcwkString.nvlZero(inVO.getPageNo(), 1);
 		//페이지 사이즈
 		int pageSize=PcwkString.nvlZero(inVO.getPageSize(), 10);
-
-		//게시구분: 공지사항(10)
-		String div=PcwkString.nvlString(inVO.getDiv(), "10");
 		//검색구분
 		String searchDiv = PcwkString.nullToEmpty(inVO.getSearchDiv());
 		//검색어
@@ -95,47 +104,47 @@ public class UserController {
 		
 		inVO.setPageNo(pageNo);
 		inVO.setPageSize(pageSize);
-		inVO.setDiv(div);
 		inVO.setSearchDiv(searchDiv);
 		inVO.setSearchWord(searchWord);
 		
 		log.debug("inVO:{}",inVO);
 		
 		List<UserDTO> list = userService.doRetrieve(inVO);
-		
 		model.addAttribute("list", list);
-
-		//총 글수
-		int totalUser = 0;
-		if(null != list && list.size()>0) {
-			UserDTO totalVO = list.get(0);
-			totalUser = totalVO.getTotalCnt();
-		}
 				
-		model.addAttribute("totalUser", totalUser);
-				
+		model.addAttribute("isAdmin", isAdmin);
+		
 		return viewName;
 	}	
 	
 	// 회원가입
-	@PostMapping("/signUp.do")
-	public String doSave(UserDTO user, Model model) throws SQLException {
+	@PostMapping(value="/signUp.do",produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String doSave(UserDTO user) throws SQLException {
+		String jsonString = "";
+		log.debug("user:{}", user);
+		
 		try {
-			// 1. 서비스 호출
-			userService.doSave(user);
-
-			// 2. 성공 시 성공 페이지로 이동
-			model.addAttribute("message", "회원가입 성공!");
-			return "user/main";
-
+			int flag = userService.doSave(user);
+			String message = "";
+			
+			if(1 == flag) {
+				message = "회원가입 되었습니다.";
+			} else {
+				message = "회원가입에 실패 했습니다.";
+			}
+			
+			MessageDTO messageDTO = new MessageDTO(flag, message);
+			jsonString = new Gson().toJson(messageDTO);
+			log.debug("2.jsonString: {}", jsonString);
+			return jsonString;
+		
 		} catch (IllegalArgumentException | SQLException e) {
 			e.printStackTrace();
 			// 3. 유효성 검사 실패 또는 DB 오류 시
-			model.addAttribute("error", e.getMessage()); // 서비스에서 던진 에러 메시지를 모델에 추가
-
-			// 4. 다시 회원가입 폼으로 돌아감
-			return "user/signUp"; //
+			return new Gson().toJson(new MessageDTO(0, e.getMessage()));
 		}
+		
 	}
 
 	@PostMapping(value = "/login.do", produces = "text/plain;charset=UTF-8")
@@ -144,7 +153,6 @@ public class UserController {
 	                      @RequestParam String password,
 	                      HttpSession session,
 	                      Model model) throws SQLException {
-		
 	    // 1. 서비스에서 로그인 검증 (아이디, 비밀번호 체크)
 		UserDTO loginUserId = new UserDTO();
 		loginUserId.setUserId(userId);

@@ -7,6 +7,17 @@
 <title>어디갈지도 로그인</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
+document.addEventListener("DOMContentLoaded", function(){
+    console.log("DOMContentLoaded");
+    
+    //전송 버튼 이벤트 처리
+    $("#sendBtn").on("click",function(){
+        console.log("sendBtn click");
+        //alert("sendBtn click");
+        
+        signUpSend();
+    });
+
 	$.ajax({
 	    type: "POST",
 	    url: "/ehr/user/login.do",
@@ -29,12 +40,12 @@
 	        console.log("error:", error);
 	        alert("서버 오류가 발생했습니다.");
 	    }   
-	});
+	    });
 </script>
 </head>
 <body>
     <h1>로그인 페이지</h1>
-    <form id="loginForm" method="post">
+    <form action="#" id="loginForm" method="post">
     <div>
         <label for="userId">아이디:</label>
         <input type="text" name="userId" id="userId">
@@ -43,7 +54,7 @@
         <label for="password">비밀번호:</label>
         <input type="password" name="password" id="password">
     </div>
-        <input type="button" id="sendBtn" value="전송">
+        <input type="button" id="LoginButton" value="로그인">
     </form>
 </body>
 </html>
