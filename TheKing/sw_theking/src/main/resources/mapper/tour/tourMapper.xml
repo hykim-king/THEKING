@@ -43,9 +43,10 @@
             <id property="imageId" column="image_id"/>
             <result property="targetNo" column="target_no"/>
             <result property="tableName" column="table_name"/>
-            <result property="imageUrl" column="imageUrl"/>
+            <result property="imageName" column="image_name"/>
             <result property="imageUrl" column="image_url"/>
             <result property="saveName" column="save_name"/>
+            <result property="regDate" column="reg_date"/>
         </association>
     </resultMap>
     
@@ -160,20 +161,29 @@
 
     <!-- 관광지 상세 조회 -->
     <select id="doSelectOne" parameterType="int" resultMap="tourResultMap">
-        SELECT 
-            tour_no, 
-            name, 
-            subtitle, 
-            contents, 
-            views, 
-            address, 
-            holiday,
-            time, 
-            tel, 
-            fee, 
-            region_no
-        FROM TOUR
-        WHERE tour_no = #{tourNo, jdbcType=INTEGER}
+	    SELECT 
+	        t.tour_no, 
+	        t.name, 
+	        t.subtitle, 
+	        t.contents, 
+	        t.views, 
+	        t.address, 
+	        t.holiday,
+	        t.time, 
+	        t.tel, 
+	        t.fee, 
+	        t.region_no,
+	        i.image_id,
+            i.target_no,
+            i.table_name,
+            i.image_name,
+            i.image_url,
+            i.save_name,
+            i.reg_date      
+	    FROM TOUR t
+	    LEFT JOIN IMAGE i 
+	      ON t.tour_no = i.target_no AND i.table_name = 'TOUR'
+	    WHERE t.tour_no = #{tourNo, jdbcType=INTEGER}
     </select>
 
     <!-- 특정 관광지 삭제 -->
