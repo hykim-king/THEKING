@@ -9,7 +9,7 @@
 <body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    //DOM문서(HTML)문서가 로드가 완료되면 수행!
+    //DOM문서(HTML)문서가 로드가 완료되면 수행
     document.addEventListener("DOMContentLoaded", function(){
         console.log("DOMContentLoaded");
         

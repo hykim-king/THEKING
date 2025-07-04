@@ -61,9 +61,16 @@ public class UserController {
 		return "user/userList";
 	}
 	
+	// 마이페이지 화면
 	@GetMapping("/myPage.do")
 	public String myPage() {
 		return "user/myPage";
+	}
+	
+	// 로그인 화면
+	@GetMapping("/loginPage.do")
+	public String loginPage() {
+		return "user/login";
 	}
 	
 	@GetMapping(value="/doRetrieve.do")
@@ -138,7 +145,6 @@ public class UserController {
 	                      HttpSession session,
 	                      Model model) throws SQLException {
 		
-		String jsonString = "";
 	    // 1. 서비스에서 로그인 검증 (아이디, 비밀번호 체크)
 		UserDTO loginUserId = new UserDTO();
 		loginUserId.setUserId(userId);
@@ -155,15 +161,8 @@ public class UserController {
 		
 		// 3.로그인 성공 시
 		session.setAttribute("loginUser", loginUser);
-		log.debug("session:{}", session);
-		model.addAttribute("message", loginUser.getUserId() + "님 환영합니다.");
-		message = loginUser.getUserId() + "님 환영합니다.";
-		MessageDTO messageDTO = new MessageDTO(1, message);
-		
-		jsonString = new Gson().toJson(messageDTO);
-		log.debug("jsonString:{}", jsonString);
-
-		return jsonString;
+	    MessageDTO messageDTO = new MessageDTO(1, "/user/main.do"); // redirect URL 포함
+	    return new Gson().toJson(messageDTO);
 	}
 
 	// doUpdate
