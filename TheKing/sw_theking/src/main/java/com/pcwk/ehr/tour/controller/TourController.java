@@ -38,6 +38,32 @@ public class TourController {
 		log.debug("│ TourContrlloer()                                        │");
 		log.debug("└─────────────────────────────────────────────────────────┘");
 	}
+	//화면 띄우기.
+	@GetMapping("/doUpdateView.do")
+	public String doUpdateView() {
+		log.debug("┌──────────────────────────────┐");
+		log.debug("│ *doUpdateView()*               │");
+		log.debug("└──────────────────────────────┘");
+		
+		String viewStirng = "tour/tour_mng";
+		log.debug("viewStirng: ",viewStirng);
+		
+		return viewStirng;
+	}
+	
+	//화면 띄우기.
+		@GetMapping("/doSaveView.do")
+		public String doSaveView() {
+			log.debug("┌──────────────────────────────┐");
+			log.debug("│ *doSaveView()*               │");
+			log.debug("└──────────────────────────────┘");
+			
+			String viewStirng = "tour/tour_reg";
+			log.debug("viewStirng: ",viewStirng);
+			
+			return viewStirng;
+		}
+	
 	//동기, GET
 	@GetMapping(value="doRetrieve.do", produces = "text/plain;charset=UTF-8")
 	public String doRetrieve(SearchDTO search,RegionDTO region,Model model) {
@@ -115,12 +141,19 @@ public class TourController {
 		
 		return jsonString;
 	}
+//	@GetMapping("/doSelectOne.do")
+//	public String doSelectOne(@RequestParam(value = "tourNo", required = false) Integer tourNo, Model model) throws SQLException {
+//	    if (tourNo == null) {
+//	        // 에러 페이지로 리다이렉트하거나 사용자에게 안내 메시지를 전달
+//	    }
+//	    // 정상 처리
+//	}
 
 	@GetMapping(value = "/doSelectOne.do", produces = "text/plain;charset=UTF-8")
-	public String doSelectOne(Model model, @RequestParam("tourNo") int tourNo) throws SQLException {
+	public String doSelectOne(Model model, @RequestParam("tourNo") Integer tourNo) throws SQLException {
 		// 동기 통신, GET
 		// 단 건 조회
-		String viewName = "tour/tour_mng";
+		String viewName = "tour/tour_mod";
 		log.debug("┌──────────────────────────────┐");
 		log.debug("│ *doSelectOne()*              │");
 		log.debug("└──────────────────────────────┘");
