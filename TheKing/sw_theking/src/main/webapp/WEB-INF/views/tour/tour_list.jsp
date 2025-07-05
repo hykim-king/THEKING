@@ -1,7 +1,10 @@
 <%-- <%@ page language="java" contentType="text/html; charset=UTF-8" --%>
 <%--     pageEncoding="UTF-8"%> --%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<c:set var="CP" value="${pageContext.request.contextPath}"></c:set>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +28,7 @@
     });
 
     // 지역 버튼 클릭 시
-    $(".regionBtn").click(function() {
+    $(".regionFilterBtn").click(function() {
         var region = $(this).data("region");  // 클릭한 버튼의 지역 이름 가져오기
         
         $(".region").hide();  // 모든 지역 SVG 숨기기
@@ -35,6 +38,7 @@
 });
 
  </script>
+</head>
 </head>
 <body>
     <h2>떠나볼지도</h2>
@@ -51,9 +55,9 @@
     <!-- 시도 선택 영역 -->
     <hr>
     <div>
-       <button id="wideBtn">전체</button> <!-- 0k -->
-       <button class="regionBtn" data-region="서울">서울</button> <!-- 0k -->
-       <button class="regionBtn" data-region="경기">경기</button>
+       <button class="regionFilterBtn" data-region="ALL" data-svg="ALL" id="wideBtn">전체</button> <!-- 0k -->
+       <button class="regionFilterBtn" data-region="서울특별시">서울</button> <!-- 0k -->
+       <button class="regionFilterBtn" data-region="경기도" data-svg="경기">경기</button>
        <input type="Button" value="인천" name="regionSido" id="regionSido"> 
        <input type="Button" value="세종" name="regionSido" id="regionSido"> 
        <input type="Button" value="대전" name="regionSido" id="regionSido"> 
@@ -76,7 +80,7 @@
     <!-- //시도 선택 영역 -->
     <!--svg 파일-->
     <div id="svgMap">
-        <div id="svg-서울" class="region" data-region="서울" style="display: none;">
+        <div id="svg-서울" class="region" data-svg="서울특별시" style="display: none;">
             <svg version="1.1" width="2048" height="1704" viewBox="0 0 2048 1704" xmlns="http://www.w3.org/2000/svg">
                 <style>
                 .symbol {
@@ -239,26 +243,38 @@
     
     <!--데이터-->
     <hr>
-    <table border="1">
+    <table border="1" id="tourTable" class=table>
         <thead>
             <tr>
                 <th>사진</th>
                 <th>제목</th>
                 <th>지역시도</th>
                 <th>지역구군</th>
+                <th style="display:none;">tourNo</th>
             </tr>
         </thead>
-        <tbody id="tourList">
-            <c:forEach var="vo" items="${list}">
+        <tbody>
+           <c:choose>
+            <c:when test="${list.size() > 0 }">
+            <c:forEach var="TourDTO" items="${list}">
                 <tr>
                    <td>
-                        <img src="${vo.image.imageUrl}" alt="${vo.name}" width="150" height="100" />
+                        <c:url var="imgUrl" value="${TourDTO.image.imageUrl}" />
+                        <img src="${imgUrl}" alt="${TourDTO.name}" width="150" height="100" />
                    </td>
-                   <td>${vo.name}</td>
-                   <td>${vo.region.regionSido}</td>
-                   <td>${vo.region.regionGugun}</td>
+                   <td>${TourDTO.name}</td>
+                   <td>${TourDTO.region.regionSido}</td>
+                   <td>${TourDTO.region.regionGugun}</td>
+                   <td style="display:none;">${TourDTO.tourNo }</td>
                 </tr>
             </c:forEach>
+            </c:when>
+            <c:otherwise>
+                 <tr>
+                   <td colspan="99">조회된 데이터가 없습니다.</td> 
+                </tr>
+            </c:otherwise>
+            </c:choose>
         </tbody>
     </table>
 </body>

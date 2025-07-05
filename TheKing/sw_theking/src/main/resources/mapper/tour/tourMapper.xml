@@ -179,10 +179,14 @@
             i.image_name,
             i.image_url,
             i.save_name,
-            i.reg_date      
-	    FROM TOUR t
+            i.reg_date,
+            r.region_sido,
+            r.region_gugun  
+		    FROM TOUR t
 	    LEFT JOIN IMAGE i 
-	      ON t.tour_no = i.target_no AND i.table_name = 'TOUR'
+	        ON t.tour_no = i.target_no AND i.table_name = 'TOUR'
+	    LEFT JOIN REGION r
+	        ON t.region_no = r.region_no
 	    WHERE t.tour_no = #{tourNo, jdbcType=INTEGER}
     </select>
 
