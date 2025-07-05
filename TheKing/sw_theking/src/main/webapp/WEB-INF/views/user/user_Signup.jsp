@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>떠나볼지도 회원가입</title>
 </head>
 <body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -115,11 +115,11 @@
                 },
                 success:function(response){ //요청성공
                 	const data = JSON.parse(response);
-                    if (data.msgId === 1) {
-                        alert(data.msgContents);
+                    if (data.messageId === 1) {
+                        alert(data.message);
                         location.href = "/ehr/user/main.do";
                     } else {
-                        alert("에러: " + data.msgContents);
+                        alert(data.message);
                     }
                 },
                 error:function(response){ //요청 실패
@@ -152,6 +152,5 @@
         <input type="text" name="address" id="address"><br>
         <input type="button" id="signUpButton" value="가입하기">
     </form>
-    <div id="result"></div>
 </body>
 </html>

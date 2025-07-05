@@ -55,17 +55,26 @@ public class UserController {
 		return "user/user_Signup";
 	}
 	
-	// 마이페이지 화면
-	@GetMapping("/myPage.do")
-	public String myPage() {
-		return "user/myPage";
-	}
-	
 	// 로그인 화면
 	@GetMapping("/loginPage.do")
 	public String loginPage() {
 		return "user/user_Login";
 	}
+		
+	// 마이페이지 화면
+	@GetMapping("/myPage.do")
+	public String myPage(HttpSession session, Model model) {
+		UserDTO loggedInUser = (UserDTO) session.getAttribute("loginUser");
+		if (loggedInUser == null) {
+		       return "user/loginDenied";
+		   }
+		 
+		model.addAttribute("user", loggedInUser);
+		
+		return "user/myPage";
+	}
+	
+	
 	
 	@GetMapping(value="/doRetrieve.do")
 	public String doRetrieve(Model model, SearchDTO inVO, HttpSession session	 ) throws SQLException {
@@ -158,19 +167,20 @@ public class UserController {
 		loginUserId.setUserId(userId);
 		log.debug("userId 전달값 확인: {}", loginUserId);
 		UserDTO loginUser = userService.doLogin(loginUserId);
-		log.debug("loginUser: {}", loginUser);
 
 		String message = "";
 		// 2.로그인 실패 시
 		if (loginUser == null || password == null || !password.equals(loginUser.getPassword())) {
 			MessageDTO failMessage = new MessageDTO(0, "아이디 또는 비밀번호가 올바르지 않습니다.");
 		    return new Gson().toJson(failMessage);
-	    }
+	    } else {  // 3.로그인 성공 시
+	    	int flag = 1;
+	    	message = "로그인 되었습니다.";
+	    	MessageDTO messageDTO = new MessageDTO(flag, message);
+			session.setAttribute("loginUser", loginUser);
+		    return new Gson().toJson(messageDTO);
+	    }		
 		
-		// 3.로그인 성공 시
-		session.setAttribute("loginUser", loginUser);
-	    MessageDTO messageDTO = new MessageDTO(1, "/user/main.do"); // redirect URL 포함
-	    return new Gson().toJson(messageDTO);
 	}
 
 	// doUpdate

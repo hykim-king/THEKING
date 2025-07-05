@@ -4,43 +4,64 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>어디갈지도 로그인</title>
+<title>떠나볼지도 로그인</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/ehr/resources/js/common.js"></script>
 <script>
+//DOM문서(HTML)문서가 로드가 완료되면 수행
 document.addEventListener("DOMContentLoaded", function(){
     console.log("DOMContentLoaded");
     
-    //전송 버튼 이벤트 처리
-    $("#sendBtn").on("click",function(){
-        console.log("sendBtn click");
-        //alert("sendBtn click");
+    const userIdInput = document.querySelector("#userId");
+    console.log(userIdInput);
+    
+    const passwordInput = document.querySelector("#password");
+    console.log(passwordInput);
+    
+    LoginButton.addEventListener("click",function(event){
+        console.log('LoginButton: click');
         
-        signUpSend();
-    });
+        //아이디 필수 입력 처리
+        if(isEmpty($("#userId").val()) === true){
+          alert('아이디를 입력 하세요')
+           $("#userId").focus();
+          return;
+        }
+        
+        //비밀번호 필수 입력 처리
+        if(isEmpty($("#password").val()) === true){
+          alert('비밀번호를 입력 하세요')
+           $("#password").focus();
+          return;
+        }
 
-	$.ajax({
-	    type: "POST",
-	    url: "/ehr/user/login.do",
-	    async: true,
-	    dataType: "json", // 서버에서 JSON 응답
-	    data: {
-	        "userId": $("#userId").val(),
-	        "password": $("#password").val()
-	    },
-	    success: function(response) {
-	        console.log("success:", response);
-	        if (response.msgId === 1) {
-	            window.location.href = response.msgContents;
-	        } else {
-	            // 로그인 실패 메시지 출력
-	            alert(response.msgContents);
-	        }
-	    },
-	    error: function(error) {
-	        console.log("error:", error);
-	        alert("서버 오류가 발생했습니다.");
-	    }   
-	    });
+        $.ajax({
+    	    type: "POST",
+    	    url: "/ehr/user/login.do",
+    	    async: "true",
+    	    dataType: "html",
+    	    data: {
+    	        "userId": $("#userId").val(),
+    	        "password": $("#password").val()
+    	    },
+    	    success: function(response) {
+    	        console.log("success:", response);
+    	        const data = JSON.parse(response);
+    	        if (data.messageId === 1) {
+    	        	alert(data.message);
+    	            location.href = "/ehr/user/main.do";
+    	        } else {
+    	            // 로그인 실패 메시지 출력
+    	            alert(data.message);
+    	        }
+    	    },
+    	    error: function(response) {
+    	        console.log(response);
+    	    }   
+    	    });
+    	});
+    });
+	
 </script>
 </head>
 <body>

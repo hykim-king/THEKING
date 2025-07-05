@@ -9,5 +9,6 @@
 <body>
 <h1>첫 페이지</h1>
 <a href="user/signUpPage.do"><font color="#000000">회원가입</font></a>
+<a href="user/loginPage.do"><font color="#000000">로그인</font></a>
 </body>
 </html>
