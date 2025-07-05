@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>어디갈지도 회원 조회</title>
+<title>떠나볼지도 회원 조회</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/ehr/resources/js/common.js"></script>
 <script>
@@ -15,7 +15,7 @@
 </script>
 </head>
 <body>
-  <h2>게시판 - 목록</h2>
+  <h2>회원 목록</h2>
   <hr>
   <!-- 검색 구분 -->
   <form action="/ehr/user/doRetrieve.do" name="userForm" method="get" enctype="application/x-www-form-urlencoded">
@@ -37,7 +37,6 @@
         <option value="100">100</option>
       </select>
       <input type="submit" value="조회" id="doRetrieveButton">
-      <input type="button" value="등록" id="moveToreg">
     </div>
   </form>
   <!-- 검색 영역 end -->
