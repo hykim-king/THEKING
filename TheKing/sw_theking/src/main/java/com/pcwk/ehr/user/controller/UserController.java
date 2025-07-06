@@ -74,14 +74,32 @@ public class UserController {
 		return "user/myPage";
 	}
 	
-	
+	//회원 정보 수정 화면
+	@GetMapping("/updatePage.do")
+	public String updatePage(HttpSession session, Model model) {
+		UserDTO loggedInUser = (UserDTO) session.getAttribute("loginUser");
+		if (loggedInUser == null) {
+		       return "user/loginDenied";
+		   }
+		
+		// 전화번호 나누기
+	    String mobile = loggedInUser.getMobile();
+	    String[] phoneParts = mobile != null ? mobile.split("-") : new String[]{"", "", ""};
+
+	    model.addAttribute("user", loggedInUser);
+	    model.addAttribute("tel1", phoneParts.length > 0 ? phoneParts[0] : "");
+	    model.addAttribute("tel2", phoneParts.length > 1 ? phoneParts[1] : "");
+	    model.addAttribute("tel3", phoneParts.length > 2 ? phoneParts[2] : "");
+		
+		return "user/user_Update";
+	}
 	
 	@GetMapping(value="/doRetrieve.do")
 	public String doRetrieve(Model model, SearchDTO inVO, HttpSession session	 ) throws SQLException {
 		String viewName = "user/userList";
 
 		 // 현재 로그인 사용자 꺼내기
-	    UserDTO loggedInUser = (UserDTO) session.getAttribute("loginUser");
+	    UserDTO loggedInUser = (UserDTO) session.getAttribute("loginUser");	
 
 	    boolean isAdmin = false;
 	    
@@ -167,7 +185,8 @@ public class UserController {
 		loginUserId.setUserId(userId);
 		log.debug("userId 전달값 확인: {}", loginUserId);
 		UserDTO loginUser = userService.doLogin(loginUserId);
-
+		log.debug("입력된 password: '{}'", password);
+		log.debug("DB에서 가져온 password: '{}'", loginUser.getPassword());
 		String message = "";
 		// 2.로그인 실패 시
 		if (loginUser == null || password == null || !password.equals(loginUser.getPassword())) {

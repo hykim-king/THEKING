@@ -265,7 +265,7 @@
     
     <delete id="doDelete" parameterType="UserDTO">
         DELETE FROM user_tk
-        WHERE user_no = #{userNo}
+        WHERE user_id = #{userId}
     </delete>
 
     <delete id="deleteAll">

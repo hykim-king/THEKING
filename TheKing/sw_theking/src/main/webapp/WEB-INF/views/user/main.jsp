@@ -12,7 +12,7 @@
 <c:if test="${not empty message}">
     <div>${message}</div>
 </c:if>
-
+<a href="/ehr/user/myPage.do">마이페이지</a>
   
 </body>
 </html>
