@@ -4,19 +4,25 @@
 	<!-- 지역 검색 조건 분리 -->
 	<sql id="regionWhere">		
 		 <if test="search.searchWord != null and search.searchWord !=''">
-           AND t.name LIKE '%' || #{search.searchWord} ||'%'
-         </if>
-         <if test="region.regionSido != null and region.regionSido !=''">
-           AND r.region_sido = #{region.regionSido}
-           <choose>
-               <when test="region.regionSido=='세종특별자치시'">
-                   AND r.region_gugun IS NULL
-               </when>
-               <otherwise>
-                   AND r.region_gugun = #{region.regionGugun}
-               </otherwise>
-           </choose>   
-         </if>
+        AND t.name LIKE '%' || #{search.searchWord} ||'%'
+	    </if>
+	
+	    <if test="region.regionSido != null and region.regionSido !=''">
+	        AND r.region_sido = #{region.regionSido}
+	
+	        <choose>
+	            <!-- 세종시는 구군이 null인 경우 -->
+	            <when test="region.regionSido == '세종특별자치시'">
+	                AND r.region_gugun IS NULL
+	            </when>
+	            <!-- 그 외 지역은 구군 조건 적용 -->
+	            <otherwise>
+	                <if test="region.regionGugun != null and region.regionGugun !=''">
+	                    AND r.region_gugun = #{region.regionGugun}
+	                </if>
+	            </otherwise>
+	        </choose>
+	    </if>
 	</sql>
 
     <!-- resultMap -->
