@@ -1,14 +1,200 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>즐거운_코딩</title>
+    <meta charset="UTF-8">
+    <title>월별 축제 달력</title>
+    <style>
+        /* 달력 전체 컨테이너 */
+        .calendar-container {
+            width: 800px; /* 전체 달력 너비 */
+            margin: 50px auto;
+            font-family: 'Noto Sans KR', sans-serif; /* 한국어 폰트 */
+            color: #333;
+        }
+
+        /* 달력 헤더 (월, 이전/다음 버튼) */
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+
+        .calendar-title {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #6a0dad; /* 보라색 계열 */
+        }
+
+        .nav-buttons button {
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5em;
+            cursor: pointer;
+            margin-left: 5px;
+            color: #6a0dad;
+            transition: background-color 0.2s;
+        }
+
+        .nav-buttons button:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* 요일 헤더 */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr); /* 7개 열 균등 분배 */
+            gap: 1px; /* 그리드 셀 간격 */
+            background-color: #ddd; /* 그리드 라인 효과 */
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden; /* 경계선 정리 */
+        }
+
+        .day-of-week, .calendar-cell {
+            background-color: #fff;
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100px; /* 셀 최소 높이 */
+            box-sizing: border-box; /* 패딩이 너비에 포함되도록 */
+        }
+
+        .day-of-week {
+            background-color: #6a0dad; /* 요일 배경색 (보라색) */
+            color: white; /* 요일 글자색 */
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 15px 10px;
+        }
+
+        /* 특정 요일 색상 */
+        .day-of-week:nth-child(1) { color: #f44336; } /* 일요일 (빨간색) */
+        .day-of-week:nth-child(7) { color: #2196f3; } /* 토요일 (파란색) */
+
+
+        /* 날짜 숫자 */
+        .date-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .calendar-cell:nth-child(7n+1) .date-number { color: #f44336; } /* 일요일 날짜 빨간색 */
+        .calendar-cell:nth-child(7n) .date-number { color: #2196f3; } /* 토요일 날짜 파란색 */
+
+        /* 오늘 날짜 스타일 */
+        .calendar-cell.today {
+            background-color: #e0e0e0; /* 오늘 날짜 배경색 */
+            border: 2px solid #6a0dad; /* 오늘 날짜 테두리 */
+        }
+         .calendar-cell.today .date-number {
+            background-color: #6a0dad;
+            color: white;
+            border-radius: 50%;
+            padding: 5px;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        /* 축제 개수 텍스트 */
+        .festival-count {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+            text-decoration: none; /* 링크 밑줄 제거 */
+        }
+        .festival-count:hover {
+            text-decoration: underline; /* 마우스 오버 시 밑줄 */
+        }
+        .festival-count .count-num {
+            font-weight: bold;
+            color: #6a0dad; /* 보라색 */
+        }
+
+        /* 반응형 */
+        @media (max-width: 800px) {
+            .calendar-container {
+                width: 100%;
+                margin: 20px auto;
+                padding: 0 10px;
+            }
+            .calendar-title {
+                font-size: 2em;
+            }
+            .nav-buttons button {
+                width: 30px;
+                height: 30px;
+                font-size: 1.2em;
+            }
+            .calendar-cell {
+                min-height: 80px;
+            }
+            .date-number {
+                font-size: 1.5em;
+            }
+        }
+    </style>
 </head>
 <body>
-	<h2></h2>
-	<hr>
 
+<div class="calendar-container">
+    <div class="calendar-header">
+        <h2 class="calendar-title">월별 축제 달력 <br> ${currentYear}.${currentMonth}</h2>
+        <div class="nav-buttons">
+            <a href="calendar.do?year=${prevYear}&month=${prevMonth}"><button>&lt;</button></a>
+            <a href="calendar.do?year=${nextYear}&month=${nextMonth}"><button>&gt;</button></a>
+        </div>
+    </div>
 
-	<div>2025. 7. 3</div>
+    <div class="calendar-grid">
+        <div class="day-of-week">일</div>
+        <div class="day-of-week">월</div>
+        <div class="day-of-week">화</div>
+        <div class="day-of-week">수</div>
+        <div class="day-of-week">목</div>
+        <div class="day-of-week">금</div>
+        <div class="day-of-week">토</div>
+
+        <c:forEach begin="1" end="${startDayOfWeek - 1}">
+            <div class="calendar-cell empty"></div>
+        </c:forEach>
+
+        <c:forEach begin="1" end="${lastDayOfMonth}" var="day">
+            <c:set var="isToday" value="${currentYear == 2025 && currentMonth == 7 && day == 7}" /> <%-- TODO: 실제 오늘 날짜로 변경 --%>
+            <div class="calendar-cell <c:if test="${isToday}">today</c:if>">
+                <span class="date-number">${day}</span>
+                <c:set var="festivalCount" value="${festivalCounts[day literal]}" /> <%-- Map에서 key로 day 문자열을 사용 --%>
+                <c:if test="${empty festivalCount}">
+                    <c:set var="festivalCount" value="0" />
+                </c:if>
+                <a href="main.do?date=${currentYear}-${currentMonth}-${day}" class="festival-count">
+                    <span class="count-num">${festivalCount}</span>개
+                </a>
+            </div>
+        </c:forEach>
+
+        <%--
+        <c:set var="totalCells" value="${startDayOfWeek - 1 + lastDayOfMonth}" />
+        <c:if test="${totalCells % 7 != 0}">
+            <c:set var="remainingCells" value="${7 - (totalCells % 7)}" />
+            <c:forEach begin="1" end="${remainingCells}">
+                <div class="calendar-cell empty"></div>
+            </c:forEach>
+        </c:if>
+        --%>
+    </div>
+</div>
+
 </body>
 </html>
