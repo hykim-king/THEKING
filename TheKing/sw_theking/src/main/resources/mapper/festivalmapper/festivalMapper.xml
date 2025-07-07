@@ -2,27 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcwk.ehr.mapper.FestivalMapper">
 	<resultMap id="festivalMap" type="FestivalDTO">
-	    <id property="festaNo" column="festa_no"/>
+	    <id property="festaNo" column="festaNo"/>
 	    <result property="name" column="name"/>
-	    <result property="subtitle" column="subtitle"/>
-	    <result property="contents" column="contents"/>
 	    <result property="views" column="views"/>
-	    <result property="address" column="address"/>
-	    <result property="tel" column="tel"/>
-	    <result property="fee" column="fee"/>
-	    <result property="regionNo" column="region_no"/>
-	    <result property="startDate" column="start_date"/>
-	    <result property="endDate" column="end_date"/>
+	    <result property="startDate" column="startDate"/>
+	    <result property="endDate" column="endDate"/>
 	    <result property="image.imageName" column="image_name"/>
 	
 	    <!-- RegionDTO 매핑 -->
 	    <association property="region" javaType="RegionDTO">
 	        <result property="regionSido" column="regionSido"/>
-	        <result property="regionGugun" column="regionGugun"/>
 	    </association>
 	    <!-- ImageDTO 매핑 -->
 	    <association property="image" javaType="ImageDTO">
-	        <result property="imageName" column="imageName"/>
+	        <result property="saveName" column="saveName"/>
+	        <result property="imageUrl" column="imageUrl"/>
 	    </association>
 	</resultMap>
     <select id="checkRetrieve" resultMap="festivalMap">
@@ -30,14 +24,18 @@
 			  FROM (
 			    SELECT ROWNUM as rnum, tt2.*
 			    FROM (
-			      SELECT t1.*,
-			      		 t3.image_name AS imageName,
-			      		 t2.region_sido AS regionSido,
-			      		 t2.region_gugun AS regionGugun
+			      SELECT t1.festa_no AS festaNo,
+                         t1.name AS name,
+                         t1.views AS views,
+                         TO_CHAR(t1.start_date,'YYYY-MM-DD') AS startDate,
+                         TO_CHAR(t1.end_date,'YYYY-MM-DD') AS endDate,
+			      		 t3.image_url AS imageUrl,
+			      		 t3.save_name AS saveName,
+			      		 t2.region_sido AS regionSido
 			      FROM festival t1
 			      JOIN region t2 ON t1.region_no = t2.region_no
-			      LEFT OUTER JOIN image t3 ON t1.festa_no = t3.target_no
-			      <where>
+			      JOIN image t3 ON t1.festa_no = t3.target_no
+			      WHERE t3.table_name='festival'
 			        <if test="sido != null"> 
 			          AND t2.region_sido = #{sido}
 			        </if>
@@ -45,7 +43,6 @@
 	      <![CDATA[    AND t1.start_date <= #{date}
                        AND t1.end_date >= #{date}]]>
 			        </if>
-			      </where>
 			      ORDER BY t1.end_date DESC
 			    ) tt2
 			   <![CDATA[
@@ -100,7 +97,7 @@
     </update>
 
     <select id="doSelectOne" parameterType="FestivalDTO" resultType="FestivalDTO">
-        SELECT * 
+        SELECT *
             FROM festival
         WHERE festa_no = #{festaNo}
     </select>
