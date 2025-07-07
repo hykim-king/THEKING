@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -64,55 +65,63 @@ public class TourController {
 			return viewStirng;
 		}
 	
-	//동기, GET
-	@GetMapping(value="doRetrieve.do", produces = "text/plain;charset=UTF-8")
-	public String doRetrieve(SearchDTO search,RegionDTO region,Model model) {
-		String viewName = "tour/tour_list";
-		log.debug("┌──────────────────────────────┐");
-		log.debug("│ *doRetrieve()*               │");
-		log.debug("└──────────────────────────────┘");
-		
-		
-		int pageNo = PcwkString.nvlZero(search.getPageNo(),1);
-		int PageSize = PcwkString.nvlZero(search.getPageSize(),10);
-		//검색 구분
-		String searchDiv = PcwkString.nullToEmpty(search.getSearchDiv());
-		//검색어
-		String searchWord = PcwkString.nullToEmpty(search.getSearchWord());
-		
-		String regionSido = PcwkString.nullToEmpty(region.getRegionSido());
-		String regionGugun = PcwkString.nullToEmpty(region.getRegionGugun());
-		
-		log.debug("pageNo: {}",pageNo);
-		log.debug("PageSize: {}",PageSize);
-		log.debug("searchDiv: {}",searchDiv);
-		log.debug("searchWord: {}",searchWord);
-		log.debug("regionSido: {}",regionSido);
-		log.debug("regionGugun: {}",regionGugun);
-		
-		search.setPageNo(pageNo);
-		search.setPageSize(PageSize);
-		search.setSearchDiv(searchDiv);
-		search.setSearchWord(searchWord);
-		
-    	region.setRegionSido(regionSido);
-    	region.setRegionGugun(regionGugun);
-    	
-    	
-    	log.debug("***search: {}",search);
-    	log.debug("***region: {}",region);
-    	
-        Map<String, Object> paramMap = new HashMap<>();
-        paramMap.put("search", search);
-        paramMap.put("region", region);
-		
-		//서비스 호출
-		List<TourDTO> list = tourService.doRetrieve(paramMap);
-		
-		model.addAttribute("list", list);
-		
-		return viewName;
-	}
+
+		@GetMapping(value="doRetrieve.do", produces = "text/plain;charset=UTF-8")
+		public String doRetrieve(
+		    @RequestParam(value="region.regionSido", required=false) String regionSido,
+		    @RequestParam(value="region.regionGugun", required=false) String regionGugun,
+		    @ModelAttribute SearchDTO search,
+		    Model model) {
+
+		    String viewName = "tour/tour_list";
+
+		    log.debug("┌──────────────────────────────┐");
+		    log.debug("│ *doRetrieve()*               │");
+		    log.debug("└──────────────────────────────┘");
+
+		    int pageNo = PcwkString.nvlZero(search.getPageNo(),1);
+		    int pageSize = PcwkString.nvlZero(search.getPageSize(),10);
+
+		    String searchDiv = PcwkString.nullToEmpty(search.getSearchDiv());
+		    String searchWord = PcwkString.nullToEmpty(search.getSearchWord());
+
+		    regionSido = PcwkString.nullToEmpty(regionSido);
+		    regionGugun = PcwkString.nullToEmpty(regionGugun);
+
+		    log.debug("pageNo: {}", pageNo);
+		    log.debug("pageSize: {}", pageSize);
+		    log.debug("searchDiv: {}", searchDiv);
+		    log.debug("searchWord: {}", searchWord);
+		    log.debug("regionSido: {}", regionSido);
+		    log.debug("regionGugun: {}", regionGugun);
+
+		    search.setPageNo(pageNo);
+		    search.setPageSize(pageSize);
+		    search.setSearchDiv(searchDiv);
+		    search.setSearchWord(searchWord);
+
+		    // region 객체 생성 및 값 세팅
+		    RegionDTO region = new RegionDTO();
+		    region.setRegionSido(regionSido);
+		    region.setRegionGugun(regionGugun);
+
+		    log.debug("***search: {}", search);
+		    log.debug("***region: {}", region);
+
+		    Map<String, Object> paramMap = new HashMap<>();
+		    paramMap.put("search", search);
+		    paramMap.put("region", region);
+
+		    // 서비스 호출
+		    List<TourDTO> list = tourService.doRetrieve(paramMap);
+
+		    model.addAttribute("list", list);
+		    model.addAttribute("paramMap", paramMap);
+		    model.addAttribute("search", search);
+		    model.addAttribute("region", region);
+
+		    return viewName;
+		}
 	
 	@PostMapping(value="/doDelete.do", produces = "text/plain;charset=UTF-8")
 	@ResponseBody

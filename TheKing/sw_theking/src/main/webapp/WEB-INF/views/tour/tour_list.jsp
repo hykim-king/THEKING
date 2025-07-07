@@ -38,64 +38,81 @@
    font-size: 18px;
  }
 </style>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
- <script>
-    //핸들러 연결
-    $(document).ready(function() {
-    	
-    	// 지도 내 path(구군) 클릭 시 필터링
-    	$(document).on("click", "path[data-gugun]", function () {
-    	    var selectedGugun = $(this).data("gugun");   // 예: "수원시"
-    	    var selectedSido  = $(this).data("sido");    // 예: "경기도"
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
 
-    	    // 관광지 목록에서 필터링
-    	    $("#tourTable tbody tr").each(function () {
-    	        var sidoText  = $(this).find("td:nth-child(3)").text().trim();
-    	        var gugunText = $(this).find("td:nth-child(4)").text().trim();
+    // URL 파라미터 추출
+    function getUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        const sido = params.get("region.regionSido");
+        const gugun = params.get("region.regionGugun");
+        return { sido, gugun }; //객체 상태로 리턴
+    }
 
-    	        if (sidoText === selectedSido && gugunText === selectedGugun) {
-    	            $(this).show();
-    	        } else {
-    	            $(this).hide();
-    	        }
-    	    });
-    	});
-    // 전체 SVG 보이기 / 숨기기
-    $("#allBtn").click(function() {
-        $(".mapdiv").hide();  // 모든 지역 SVG 숨기기
-        $("#svgMap").toggle(); // 전체 SVG 맵의 표시/숨김 전환
+    const { sido, gugun } = getUrlParams();
+
+    // 초기: 모든 SVG 숨기기
+    $(".mapdiv").hide();
+    $("#svgMap").hide();
+
+    // 시도 선택된 경우 해당 SVG만 표시
+    if (sido) {
+        const regionKey = sido.replace("특별시", "")
+                              .replace("광역시", "")
+                              .replace("도", "");
+        $("#svgMap").show(); //전체
+        $("#svg-" + regionKey).show(); //해당시도
+    }
+
+    // 서버 이동 함수
+    function navigateWithRegion(sido, gugun = "") {//gugun = "" : 생략 하면 빈문자열
+        let url = "/ehr/tour/doRetrieve.do?region.regionSido=" + encodeURIComponent(sido);
+        if (gugun) {
+            url += "&region.regionGugun=" + encodeURIComponent(gugun);
+        }
+        window.location.href = url; //해당 주소로 이동
+    }
+
+    // 전체보기 버튼
+    $("#allBtn").on("click", function () {
+        $(".mapdiv").hide();
+        $("#svgMap").hide();
+        window.loc ation.href = "/ehr/tour/doRetrieve.do";
     });
 
-    // 지역 버튼 클릭 시
-    $(".regionFilterBtn").click(function() {
-        var svgRegion = $(this).data("svg");  // 클릭한 버튼의 지역 이름 가져오기
-        var selectedRegion = $(this).data("region");
-        
-        $(".mapdiv").hide();  // 모든 지역 SVG 숨기기
-        $("#svgMap").show();  // 전체 맵 보이기
-        $("#svg-" + svgRegion).show();  // 클릭한 지역만 보이게 하기
-    
-     // 관광지 필터링
-        $("#tourTable tbody tr").each(function () {
-            var regionSido = $(this).find("td:nth-child(3)").text().trim();
+    // 시도 버튼 클릭
+    $(".regionFilterBtn").on("click", function () {
+        const selectedRegion = $(this).data("region");
+        const svgRegionId = $(this).data("svg");
 
-            if (selectedRegion === "ALL" || regionSido === selectedRegion) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
-        });
+        $(".mapdiv").hide();
+        $("#svgMap").show();
+        $("#svg-" + svgRegionId).show();
+
+        navigateWithRegion(selectedRegion);
     });
+
+    // 구군 클릭 시
+    $(document).on("click", "path[data-gugun]", function () {
+        const gugun = $(this).data("gugun");
+        const sido = $(this).data("sido");
+
+        if (sido) {
+            navigateWithRegion(sido, gugun);
+        } else {
+            alert("시도 정보가 없습니다.");
+        }
+    });
+
 });
-
- </script>
-</head>
+</script>
 </head>
 <body>
     <h2>떠나볼지도</h2>
     <p>인기 관광지 알려드릴게요</p>
     <hr>
-    <!-- 검색 영역 -->
+    <!-- 00 검색 영역 -->
     <form action="#" name=tourForm method="get" enctype="application/x-www-form-urlencoded">
         <div>
             <input type="search" name="searchWord" id="searchWord" size="15">
@@ -103,7 +120,7 @@
         </div> 
     </form>
     <!-- //검색 영역 -->
-    <!-- 시도 선택 영역 -->
+    <!-- 01 버튼 -->
     <hr>
     <div>
        <button class="regionFilterBtn" data-region="ALL" data-svg="ALL" id="allBtn">전체</button> <!-- 0k -->
@@ -125,11 +142,9 @@
        <button class="regionFilterBtn" data-region="전라남도" data-svg="전남">전남</button><!-- 0k -->
        <button class="regionFilterBtn" data-region="제주특별자치도" data-svg="제주">제주</button><!-- 0k -->
     </div>
-    <hr>
-    
-    
-    <!-- //시도 선택 영역 -->
-    <!--svg 파일-->
+ 
+    <!-- //버튼 -->
+    <!-- 02 svg 파일-->
     <div id="svgMap">
         <div id="svg-서울" class="mapdiv" data-svg="서울" style="display: none;">
             <svg version="1.1" width="1000" height="820" viewBox="0 0 1000 820" xmlns="http://www.w3.org/2000/svg">
@@ -885,7 +900,7 @@
         </div>
     </div><!-- //ㅡmapSvg -->
     
-    <!--데이터-->
+    <!--03 데이터-->
     <hr>
     <table border="1" id="tourTable" class=table>
         <thead>
@@ -921,5 +936,19 @@
             </c:choose>
         </tbody>
     </table>
+    <!-- 페이징 영역 -->
+<!-- <div> -->
+<%--     <c:forEach var="i" begin="1" end="${pagination.totalPage}"> --%>
+<%--         <c:url var="pageUrl" value="/ehr/tour/doRetrieve.do"> --%>
+<%--             <c:param name="search.pageNo" value="${i}" /> --%>
+<%--             <c:param name="search.pageSize" value="${search.pageSize}" /> --%>
+<%--             <c:param name="search.searchDiv" value="${search.searchDiv}" /> --%>
+<%--             <c:param name="search.searchWord" value="${search.searchWord}" /> --%>
+<%--             <c:param name="region.regionSido" value="${region.regionSido}" /> --%>
+<%--             <c:param name="region.regionGugun" value="${region.regionGugun}" /> --%>
+<%--         </c:url> --%>
+<%--         <a href="${pageUrl}" class="${i == search.pageNo ? 'active' : ''}">${i}</a> --%>
+<%--     </c:forEach> --%>
+<!-- </div> -->
 </body>
 </html>

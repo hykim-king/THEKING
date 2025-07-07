@@ -6,6 +6,101 @@
 <meta charset="UTF-8">
 <title>tour_reg</title>
 </head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded');
+
+    function isEmpty(value) {
+        return value == null || value.trim() === '';
+    }
+
+    // 요소 가져오기
+    const tourNoInput    = document.querySelector("#tourNo");
+    const nameInput      = document.querySelector("#name");
+    const subtitleInput  = document.querySelector("#subtitle");
+    const contentsInput  = document.querySelector("#contents");
+    const addressInput   = document.querySelector("#address");
+    const imageInput     = document.querySelector("#image");
+    const telInput       = document.querySelector("#tel");
+    const timeInput      = document.querySelector("#time");
+    const holidayInput   = document.querySelector("#holiday");
+    const feeInput       = document.querySelector("#fee");
+    const doSaveButton   = document.querySelector("#doSave");
+
+    console.log(tourNoInput, nameInput, subtitleInput, contentsInput, addressInput,
+                imageInput, telInput, timeInput, holidayInput, feeInput, doSaveButton);
+
+
+    // 등록 버튼이 존재할 경우
+    if (doSaveButton) {
+        doSaveButton.addEventListener('click', function(event) {
+            console.log('doSaveButton click');
+
+            // 필수값 체크
+            if (isEmpty(nameInput.value)) {
+                alert('제목을 입력 하세요');
+                nameInput.focus();
+                return;
+            }
+
+            if (isEmpty(contentsInput.value)) {
+                alert('내용을 입력 하세요');
+                contentsInput.focus();
+                return;
+            }
+
+            if (isEmpty(addressInput.value)) {
+                alert('주소를 입력 하세요');
+                addressInput.focus();
+                return;
+            }
+
+            // 사용자 확인
+            if (!confirm('관광지를 등록합니다.')) {
+                return;
+            }
+
+            // AJAX 요청
+            $.ajax({
+                type: "POST",
+                url: "/ehr/tour/doSave.do",
+                async: true,
+                dataType: "json",
+                data: {
+                	"name": nameInput.value,
+                    "subtitle": subtitleInput.value,
+                    "contents": contentsInput.value,
+                    "address": addressInput.value,
+                    "image": imageInput.value,
+                    "tel": telInput.value,
+                    "time": timeInput.value,
+                    "holiday": holidayInput.value,
+                    "fee": feeInput.value
+                },
+                success: function(response) {
+                    console.log("success: " + response);
+                    const message = JSON.parse(response);
+
+                    alert(message.message);
+
+                    if (message.messageId === 1) {
+                        window.location.href = '/ehr/tour/doRetrieve.do';
+                    }
+                },
+                error: function(response) {
+                    console.log("error: " + response);
+                    alert("등록 중 오류가 발생했습니다.");
+                }
+            });
+        });
+    } else {
+        console.error('등록 버튼(#doSave)을 찾을 수 없습니다.');
+    }
+
+});
+</script>
+
 <body>
     <h2>관광지 상세 등록</h2>
     <hr>

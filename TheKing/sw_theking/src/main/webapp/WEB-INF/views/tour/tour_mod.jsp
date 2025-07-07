@@ -13,66 +13,74 @@
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded');
 
-	//DOMContentLoaded: HTML문서 loading이 완료되면 발생 되는 event
-	document.addEventListener('DOMContentLoaded', function() {
-		console.log('DOMContentLoaded');
-		
-		function isEmpty(value) {
-		    return value == null || value.trim() === '';
-		}
-		//tourNo
-		const tourNoInput = document.querySelector("#tourNo");
-		console.log(tourNoInput);
+    function isEmpty(value) {
+        return value == null || value.trim() === '';
+    }
 
-		//삭제 버튼
-		const doDeleteButton = document.querySelector("#doDelete");
-		console.log(doDeleteButton);
+    // tourNo
+    const tourNoInput = document.querySelector("#tourNo");
+    console.log(tourNoInput);
 
-		//삭제 버튼 event감지
-		doDeleteButton.addEventListener('click', function(event) {
-			console.log('doDeleteButton click');
+    // 삭제 버튼
+    const doDeleteButton = document.querySelector("#doDelete");
+    console.log(doDeleteButton);
 
-			//seq
-			if (isEmpty(tourNoInput.value) === true) {
-				alert("tourNo를 확인 하세요.");
-				return;
-			}
+    // 수정으로 이동 버튼
+    const doUpdateMoveBtn = document.querySelector("#doUpdateMove");
+    console.log(doUpdateMoveBtn);
 
-			if (confirm('관광지를 삭제 하시겠습니까?') === false)
-				return;
+    // 수정 이동 버튼 클릭 시
+    if (doUpdateMoveBtn) {
+        doUpdateMoveBtn.addEventListener('click', function() {
+            const tourNo = tourNoInput.value;
+            console.log('tourNo:', tourNo);
+            window.location.href = '/ehr/tour/doUpdateView.do?tourNo=' + tourNo;
+        });
+    }
 
-			$.ajax({
-				type : "POST", //GET/POST
-				url : "/ehr/tour/doDelete.do", //서버측 URL
-				async : "true", //비동기
-				dataType : "html",//서버에서 받을 데이터 타입
-				data : { //파라메터
-					"tourNo" : tourNoInput.value
-				},
-				success : function(response) {//요청 성공
-					console.log("success:" + response)
-					//문자열 : Javascript객체로 변환
-					const message = JSON.parse(response);
+    // 삭제 버튼 클릭 시
+    if (doDeleteButton) {
+        doDeleteButton.addEventListener('click', function(event) {
+            console.log('doDeleteButton click');
 
-					if (1 === message.messageId) {//삭제 성공
-						alert(message.message);
+            if (isEmpty(tourNoInput.value)) {
+                alert("tourNo를 확인 하세요.");
+                return;
+            }
 
-						//목록화면으로 이동
-						window.location.href = '/ehr/tour/doRetrieve.do';
-					} else {
-						alert(message.message);
-					}
+            if (!confirm('관광지를 삭제 하시겠습니까?')) {
+                return;
+            }
 
-				},
-				error : function(response) {//요청 실패
-					console.log("error:" + response)
-				}
-			});
+            $.ajax({
+                type: "POST",
+                url: "/ehr/tour/doDelete.do",
+                async: true,
+                dataType: "html",
+                data: {
+                    "tourNo": tourNoInput.value
+                },
+                success: function(response) {
+                    console.log("success:" + response);
+                    const message = JSON.parse(response);
 
-		});
-
-	});
+                    if (message.messageId === 1) {
+                        alert(message.message);
+                        window.location.href = '/ehr/tour/doRetrieve.do';
+                    } else {
+                        alert(message.message);
+                    }
+                },
+                error: function(response) {
+                    console.log("error:" + response);
+                }
+            });
+        });
+    }
+});
 </script>
 
 <body>
@@ -80,7 +88,7 @@
 	<h3>${TourDTO.subtitle }</h3>
 	<div class="button-area">
 	    <input type="hidden" id="tourNo" value="${TourDTO.tourNo}">
-		<input type="button" id="doUpdate" value="수정"> 
+		<input type="button" id="doUpdateMove" value="수정"> 
 		<input type="button" id="doDelete" value="삭제">
 	</div>
 
