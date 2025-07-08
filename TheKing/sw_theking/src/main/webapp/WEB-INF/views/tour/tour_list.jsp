@@ -40,7 +40,24 @@
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-$(document).ready(function () {
+document.addEventListener('DOMContentLoaded', function(){
+    console.log('DOMContentLoaded');
+    
+    const {sido, gugun} = getUrlParams();
+     //등록 버튼 이동
+    const moveToSaveButton=document.querySelector("#moveToSave");
+    console.log(moveToSaveButton);
+    
+    //등록 버튼 이벤트 감지
+    moveToSaveButton.addEventListener("click",function(event){
+        console.log('moveToSaveButton click');
+        
+        if(confirm('등록 화면으로 이동 하시겠습니까?') === false)return;
+        
+        window.location.href ="/ehr/tour/doSaveView.do";
+        
+    });
+
 
     // URL 파라미터 추출
     function getUrlParams() {
@@ -50,7 +67,6 @@ $(document).ready(function () {
         return { sido, gugun }; //객체 상태로 리턴
     }
 
-    const { sido, gugun } = getUrlParams();
 
     // 초기: 모든 SVG 숨기기
     $(".mapdiv").hide();
@@ -60,6 +76,8 @@ $(document).ready(function () {
     if (sido) {
         const regionKey = sido.replace("특별시", "")
                               .replace("광역시", "")
+                              .replace("특별자치도", "")
+                              .replace("특별자치시", "")
                               .replace("도", "");
         $("#svgMap").show(); //전체
         $("#svg-" + regionKey).show(); //해당시도
@@ -78,7 +96,7 @@ $(document).ready(function () {
     $("#allBtn").on("click", function () {
         $(".mapdiv").hide();
         $("#svgMap").hide();
-        window.loc ation.href = "/ehr/tour/doRetrieve.do";
+        window.location.href = "/ehr/tour/doRetrieve.do";
     });
 
     // 시도 버튼 클릭
@@ -117,6 +135,7 @@ $(document).ready(function () {
         <div>
             <input type="search" name="searchWord" id="searchWord" size="15">
             <input type="submit" value="검색" id="doRetrieveButton">
+            <input type="button" value="등록" id="moveToSave">
         </div> 
     </form>
     <!-- //검색 영역 -->
