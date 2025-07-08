@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- 이미지 변수명 뭐 넣어야 하지 -->
     <div>
         <label for="image" >이미지</label>
-        <input type="file" name="image.imageName" id="image" accept="/resources/image/tour/*"> 
+        <input type="file" name="image.imageName" id="imageName" > 
     </div>
     <div>
         <label for="tel" >연락처</label>

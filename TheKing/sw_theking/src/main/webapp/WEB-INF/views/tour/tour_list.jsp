@@ -135,14 +135,18 @@ document.addEventListener('DOMContentLoaded', function(){
         <div>
             <input type="search" name="searchWord" id="searchWord" size="15">
             <input type="submit" value="검색" id="doRetrieveButton">
-            <input type="button" value="등록" id="moveToSave">
+<%--             <c:if test="${sessionScope.loginUser != null and sessionScope.loginUser.userId == 'admin'}"> --%>
+<!-- 			    <input type="button" value="등록" id="moveToSave"> -->
+<%-- 			</c:if> --%>
+			<input type="button" value="등록" id="moveToSave">
         </div> 
+
     </form>
     <!-- //검색 영역 -->
     <!-- 01 버튼 -->
     <hr>
     <div>
-       <button class="regionFilterBtn" data-region="ALL" data-svg="ALL" id="allBtn">전체</button> <!-- 0k -->
+       <button class="regionFilterBtn" data-region="" data-svg="" id="allBtn">전체</button> <!-- 0k -->
        <button class="regionFilterBtn" data-region="서울특별시" data-svg="서울">서울</button> <!-- 0k -->
        <button class="regionFilterBtn" data-region="경기도" data-svg="경기">경기</button><!-- 0k -->
        <button class="regionFilterBtn" data-region="인천광역시" data-svg="인천">인천</button><!-- 0k -->
@@ -940,7 +944,7 @@ document.addEventListener('DOMContentLoaded', function(){
                         <c:url var="imgUrl" value="${TourDTO.image.imageUrl}" />
                         <img src="${imgUrl}" alt="${TourDTO.name}" width="150" height="100" />
                    </td>
-                   <td>${TourDTO.name}</td>
+                   <td><a href="/ehr/tour/doSelectOne.do?tourNo=${TourDTO.tourNo }">${TourDTO.name}</a></td>
                    <td>${TourDTO.region.regionSido}</td>
                    <td>${TourDTO.region.regionGugun}</td>
                    <td style="display:none;">${TourDTO.tourNo }</td>

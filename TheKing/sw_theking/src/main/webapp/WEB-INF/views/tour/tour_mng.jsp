@@ -71,6 +71,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	<div class="button-area">
 	    <input type="hidden" id="tourNo" value="${TourDTO.tourNo}">
 		<input type="button" id="moveToList"   value="목록">
+<%-- 		<c:if test="${sessionScope.loginUser != null and sessionScope.loginUser.userId == 'admin'}"> --%>
+<!-- 		  <input type="button" id="moveToUpdate" value="수정">  -->
+<%-- 		</c:if> --%>
 		<input type="button" id="moveToUpdate" value="수정"> 
 	</div>
     <!-- //버튼 구역 -->
