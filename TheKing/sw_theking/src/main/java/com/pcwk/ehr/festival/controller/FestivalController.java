@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +36,7 @@ public class FestivalController {
 
 	@Autowired
 	FestivalService service;
-	
+
 	@Autowired
 	ImageMapper imageMapper;
 
@@ -51,27 +52,27 @@ public class FestivalController {
 		List<FestivalDTO> list;
 		String sido = null;
 		String date = null;
-		
+
 		if (request.getParameter("pageNo") == null && request.getParameter("pageSize") == null) {
 			dto.setPageNo(1);
 			dto.setPageSize(100);
-		}else {
+		} else {
 			dto.setPageNo(Integer.parseInt(request.getParameter("pageNo")));
 			dto.setPageSize(Integer.parseInt(request.getParameter("pageSize")));
 		}
-		
+
 		if (request.getParameter("sido") != null && !request.getParameter("sido").isEmpty()) {
 			sido = request.getParameter("sido");
 		}
-		
+
 		if (request.getParameter("date") != null && !request.getParameter("date").isEmpty()) {
 			date = request.getParameter("date");
 		}
-		
+
 		list = service.checkRetrieve(sido, date, dto);
 
 		model.addAttribute("list", list);
-		
+
 		return "/festival/main";
 	}
 
@@ -87,15 +88,14 @@ public class FestivalController {
 		return "/festival/festival_mod";
 	}
 
-
 	@GetMapping("/doSelectOne.do")
 	public String doSelectOne(int festaNo, Model model) {
 		service.upViews(festaNo);
 		FestivalDTO dto = service.doSelectOne(festaNo);
 		List<ImageDTO> imageList = imageMapper.getImages(festaNo, "festival");
-		
-		log.debug("imageList:{}",imageList);
-		
+
+		log.debug("imageList:{}", imageList);
+
 		model.addAttribute("imageList", imageList);
 		model.addAttribute("dto", dto);
 		return "/festival/festival_mng";
@@ -107,13 +107,13 @@ public class FestivalController {
 		log.debug("┌───────────────────────────┐");
 		log.debug("│ *doDelete()*              │");
 		log.debug("└───────────────────────────┘");
-		
+
 		String jsonString = "";
 		log.debug("festaNo :{}", festaNo);
-		
+
 		int flag = service.doDelete(festaNo);
 		String message = "";
-		
+
 		if (flag == 1) {
 			message = "삭제되었습니다.";
 		} else {
@@ -126,104 +126,98 @@ public class FestivalController {
 
 	}
 
-	//이미지 등록 해야함
+	// 이미지 등록 해야함
 	@PostMapping(value = "/doSave.do", produces = "text/plain;charset=UTF-8")
-	@ResponseBody
-	public String doSave(@RequestParam(value = "image", required = false)MultipartFile file, FestivalDTO param) throws IOException {
+	public String doSave(@RequestParam(value = "imageFile", required = false) MultipartFile file, @ModelAttribute FestivalDTO param) throws IOException {
 		log.debug("┌───────────────────────────┐");
 		log.debug("│ *doSave()*                │");
 		log.debug("└───────────────────────────┘");
-		
-		String jsonString = "";
-		log.debug("param:{}",param);
-		
+
+		log.debug("param:{}", param);
+		log.debug("file:{}", file);
 		int flag = service.doSave(param);
-		String message = "";
-		
+
 		if (flag == 1) {
-			message = param.getName()+"이 등록되었습니다.";
-			//이미지 저장
-			if(file!=null&&!file.isEmpty()) {
-			
-			log.debug("이미지 전송");
-			String uploadDir = "C:/Users/user/THEKING/TheKing/sw_theking/src/main/webapp/resources/images/festival";
-		    String savedFilename = FileUtil.saveFileWithUUID(file, uploadDir);
-		    
-		    ImageDTO imageDTO = new ImageDTO();
-		    imageDTO.setImageName(file.getOriginalFilename());
-		    imageDTO.setImageUrl("src/main/webapp/resources/images/festival/");
-		    imageDTO.setSaveName(savedFilename);
-		    imageDTO.setTableName("festival");
-		    imageDTO.setTargetNo(param.getFestaNo());
-		   
-		    imageMapper.doSave(imageDTO);
-		}	    
-			
+			// 이미지 저장
+			if (file != null && !file.isEmpty()) {
+
+				log.debug("이미지 전송");
+				String uploadDir = "C:/Users/user/THEKING/TheKing/sw_theking/src/main/webapp/resources/images/festival";
+				String savedFilename = FileUtil.saveFileWithUUID(file, uploadDir);
+
+				ImageDTO imageDTO = new ImageDTO();
+				imageDTO.setImageName(file.getOriginalFilename());
+				imageDTO.setImageUrl("src/main/webapp/resources/images/festival/");
+				imageDTO.setSaveName(savedFilename);
+				imageDTO.setTableName("festival");
+				imageDTO.setTargetNo(param.getFestaNo());
+
+				imageMapper.doSave(imageDTO);
+			}
+
 		} else {
-			message = param.getName()+" 등록에 실패하였습니다.";
+			return null;
 		}
-		MessageDTO messageDTO = new MessageDTO(flag,message);
-		
-		jsonString = new Gson().toJson(messageDTO);
-		log.debug("jsonString:{}",jsonString);
-		
-		return jsonString;
+
+		return "redirect:main.do";
 	}
-	
+
 	@PostMapping(value = "/doUpdate.do", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String doUpdate(FestivalDTO param){
+	public String doUpdate(FestivalDTO param) {
 		log.debug("┌───────────────────────────┐");
 		log.debug("│ *doUpdate()*              │");
 		log.debug("└───────────────────────────┘");
-		
+
 		String jsonString = "";
-		log.debug("param :{}",param);
-		
+		log.debug("param :{}", param);
+
 		int flag = service.doUpdate(param);
 		String message = "";
-		
+
 		if (flag == 1) {
-			message = param.getName()+"이 수정되었습니다.";
+			message = param.getName() + "이 수정되었습니다.";
 		} else {
-			message = param.getName()+" 수정을 실패하였습니다.";
+			message = param.getName() + " 수정을 실패하였습니다.";
 		}
-		MessageDTO messageDTO = new MessageDTO(flag,message);
-		
+		MessageDTO messageDTO = new MessageDTO(flag, message);
+
 		jsonString = new Gson().toJson(messageDTO);
-		log.debug("jsonString:{}",jsonString);
-		
+		log.debug("jsonString:{}", jsonString);
+
 		return jsonString;
 	}
-	
+
 	@PostMapping(value = "/test.do", produces = "text/plain;charset=UTF-8")
-	public String imageTest(@RequestParam(value = "image", required = false)MultipartFile file, HttpServletRequest request, int festaNo) {
+	public String imageTest(@RequestParam(value = "image", required = false) MultipartFile file,
+			HttpServletRequest request, int festaNo) {
 		log.debug("확인");
-		log.debug("file:{}",file);
+		log.debug("file:{}", file);
 		log.debug("festaNo :{}", festaNo);
-		if(file!=null&&!file.isEmpty()) {
-			
+		if (file != null && !file.isEmpty()) {
+
 			log.debug("이미지 전송");
 			String uploadDir = "C:/Users/user/THEKING/TheKing/sw_theking/src/main/webapp/resources/images/festival";
-		    String savedFilename = FileUtil.saveFileWithUUID(file, uploadDir);
-		    log.debug("uploadDir:{}",uploadDir);
-		    ImageDTO imageDTO = new ImageDTO();
-		    imageDTO.setImageName(file.getOriginalFilename());
-		    imageDTO.setImageUrl("src/main/webapp/resources/images/festival/");
-		    imageDTO.setSaveName(savedFilename);
-		    imageDTO.setTableName("festival");
-		    imageDTO.setTargetNo(festaNo);
-		    log.debug("imageDTO:{}",imageDTO);
-		    imageMapper.doSave(imageDTO);
-		}	
-		
+			String savedFilename = FileUtil.saveFileWithUUID(file, uploadDir);
+			log.debug("uploadDir:{}", uploadDir);
+			ImageDTO imageDTO = new ImageDTO();
+			imageDTO.setImageName(file.getOriginalFilename());
+			imageDTO.setImageUrl("src/main/webapp/resources/images/festival/");
+			imageDTO.setSaveName(savedFilename);
+			imageDTO.setTableName("festival");
+			imageDTO.setTargetNo(festaNo);
+			log.debug("imageDTO:{}", imageDTO);
+			imageMapper.doSave(imageDTO);
+		}
+
 		return "redirect:main.do";
 	}
+
 	@GetMapping("test.do")
 	public String imageTest(int festaNo, Model model) {
 		FestivalDTO dto = service.doSelectOne(festaNo);
 		model.addAttribute("dto", dto);
-		
+
 		return "/festival/festival_image_save";
 	}
 
