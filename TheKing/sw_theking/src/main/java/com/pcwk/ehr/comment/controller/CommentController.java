@@ -13,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
@@ -33,12 +36,51 @@ public class CommentController {
 	public CommentController() {
 	}
 	
+	
 	@GetMapping("/allComment.do")
     public String getAllComments(Model model) throws SQLException {
         List<CommentDTO> list = commentService.getAllComments();
         model.addAttribute("comments", list);
         return "comment/list"; // → comment/list.jsp 또는 .html
     }
+	
+	
+	//댓글 목록 조회(Tour)
+	@GetMapping(value = "/listByTourNo.do", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String listByTourNo(@RequestParam("tourNo") int tourNo) throws SQLException {
+	    List<CommentDTO> commentList = commentService.getCommentsByTarget(tourNo, "tour");
+
+	    Map<String, Object> resultMap = new HashMap<>();
+	    resultMap.put("status", 1);
+	    resultMap.put("data", commentList);
+
+	    return new Gson().toJson(resultMap);
+	}
+	//댓글 등록
+	@PostMapping(value = "/add.do", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String addComment(@RequestBody CommentDTO commentDTO, HttpSession session) throws SQLException {
+	    UserDTO user = (UserDTO) session.getAttribute("user");
+
+	    if (user == null) {
+	        return new Gson().toJson(new MessageDTO(0, "로그인이 필요합니다."));
+	    }
+
+	    commentDTO.setUserId(user.getUserId());
+	    commentDTO.setTableName("tour");
+
+	    int result = commentService.doSave(commentDTO);
+	    String message = "";
+	    		
+	    if(result == 1) {
+	    	message = "댓글 등록 성공!";
+	    }else {
+	    	message = "댓글 등록 실패!";
+	    }
+
+	    return new Gson().toJson(new MessageDTO(result, message));
+	}
 	
 	//관광지 댓글 정보 가져오기
 	@GetMapping(value = "/CommentTour.do", produces = "application/json;charset=UTF-8")

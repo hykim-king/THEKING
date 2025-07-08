@@ -1,7 +1,9 @@
 package com.pcwk.ehr.comment.service;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -31,6 +33,7 @@ public class CommentServiceImpl implements CommentService{
 	
 	public CommentServiceImpl() {
 	}
+	
 	
 	@Override
 	public List<CommentDTO> doRetrieve(SearchDTO param) {
@@ -75,5 +78,13 @@ public class CommentServiceImpl implements CommentService{
 	@Override
 	public List<CommentDTO> getAllComments() throws SQLException {
 	    return mapper.getAllComments();
+	}
+
+	@Override
+	public List<CommentDTO> getCommentsByTarget(int targetNo, String tableName) {
+		Map<String, Object> param = new HashMap<>();
+	    param.put("targetNo", targetNo);
+	    param.put("tableName", tableName);
+	    return mapper.getCommentsByTarget(param);
 	}
 }
