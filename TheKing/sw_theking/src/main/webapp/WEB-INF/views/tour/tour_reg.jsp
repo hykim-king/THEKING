@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const contentsInput  = document.querySelector("#contents");
     const addressInput   = document.querySelector("#address");
     const imageInput     = document.querySelector("#image");
+    formData.append("image", imageInput.files[0]);
     const telInput       = document.querySelector("#tel");
     const timeInput      = document.querySelector("#time");
     const holidayInput   = document.querySelector("#holiday");
@@ -31,84 +34,99 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log(tourNoInput, nameInput, subtitleInput, contentsInput, addressInput,
                 imageInput, telInput, timeInput, holidayInput, feeInput, doSaveButton);
 
+    // 목록으로 이동 버튼
+    const moveToListBtn = document.querySelector("#moveToList");
+    console.log(moveToListBtn);
 
-    // 등록 버튼이 존재할 경우
-    if (doSaveButton) {
-        doSaveButton.addEventListener('click', function(event) {
-            console.log('doSaveButton click');
-
-            // 필수값 체크
-            if (isEmpty(nameInput.value)) {
-                alert('제목을 입력 하세요');
-                nameInput.focus();
-                return;
-            }
-
-            if (isEmpty(contentsInput.value)) {
-                alert('내용을 입력 하세요');
-                contentsInput.focus();
-                return;
-            }
-
-            if (isEmpty(addressInput.value)) {
-                alert('주소를 입력 하세요');
-                addressInput.focus();
-                return;
-            }
-
+    // 목록 이동 버튼 클릭 시
+        moveToListBtn.addEventListener('click', function() {
+            
+            window.location.href = '/ehr/tour/doRetrieve.do';
+            
             // 사용자 확인
-            if (!confirm('관광지를 등록합니다.')) {
+            if (!confirm('목록으로 이동합니다.')) {
                 return;
             }
-
-            // AJAX 요청
-            $.ajax({
-                type: "POST",
-                url: "/ehr/tour/doSave.do",
-                async: true,
-                dataType: "json",
-                data: {
-                	"name": nameInput.value,
-                    "subtitle": subtitleInput.value,
-                    "contents": contentsInput.value,
-                    "address": addressInput.value,
-                    "image": imageInput.value,
-                    "tel": telInput.value,
-                    "time": timeInput.value,
-                    "holiday": holidayInput.value,
-                    "fee": feeInput.value
-                },
-                success: function(response) {
-                    console.log("success: " + response);
-                    const message = JSON.parse(response);
-
-                    alert(message.message);
-
-                    if (message.messageId === 1) {
-                        window.location.href = '/ehr/tour/doRetrieve.do';
-                    }
-                },
-                error: function(response) {
-                    console.log("error: " + response);
-                    alert("등록 중 오류가 발생했습니다.");
-                }
-            });
         });
-    } else {
-        console.error('등록 버튼(#doSave)을 찾을 수 없습니다.');
-    }
+ 
+	// 등록 버튼이 존재할 경우
 
-});
+		doSaveButton.addEventListener('click', function(event) {
+			console.log('doSaveButton click');
+
+			// 필수값 체크
+			if (isEmpty(nameInput.value)) {
+				alert('제목을 입력 하세요');
+				nameInput.focus();
+				return;
+			}
+
+			if (isEmpty(contentsInput.value)) {
+				alert('내용을 입력 하세요');
+				contentsInput.focus();
+				return;
+			}
+
+			if (isEmpty(addressInput.value)) {
+				alert('주소를 입력 하세요');
+				addressInput.focus();
+				return;
+			}
+
+			// 사용자 확인
+			if (!confirm('관광지를 등록합니다.')) {
+				return;
+			}
+
+			// AJAX 요청
+			$.ajax({
+				type : "POST",
+				url : "/ehr/tour/doSave.do",
+				async : true,
+				dataType : "html",
+				data : {
+					"name" : nameInput.value,
+					"subtitle" : subtitleInput.value,
+					"contents" : contentsInput.value,
+					"address" : addressInput.value,
+					"image" : imageInput.value,
+					"tel" : telInput.value,
+					"time" : timeInput.value,
+					"holiday" : holidayInput.value,
+					"fee" : feeInput.value
+				},
+				success : function(response) {
+					console.log("success: " + response);
+					const message = JSON.parse(response);
+
+					alert(message.message);
+
+					if (message.messageId == 1) {
+						alert(message.message);
+						
+						window.location.href = '/ehr/tour/doRetrieve.do';
+					}else{
+                        alert(message.message);
+					}
+				},
+				error : function(response) {
+					console.log("error: " + response);
+					alert("등록 중 오류가 발생했습니다.");
+				}
+			});
+		});
+	});
 </script>
 
 <body>
     <h2>관광지 상세 등록</h2>
     <hr>
+    <div>
     <!-- form area -->
     <form action="/ehr/tour/doSave.do" method="post" >
     <div>
 	    <label for="title" >제목</label>
-	    <input type="text" name="title" id="title" maxlength="200" required placeholder="제목" >
+	    <input type="text" name="name" id="name" maxlength="200" required placeholder="제목" >
     </div>
     <div>
         <label for="subtitle" >소제목</label>
@@ -125,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- 이미지 변수명 뭐 넣어야 하지 -->
     <div>
         <label for="image" >이미지</label>
-        <input type="file" name="image" id="image" accept="/resources/image/tour/*"> 
+        <input type="file" name="image.imageName" id="image" accept="/resources/image/tour/*"> 
     </div>
     <div>
         <label for="tel" >연락처</label>
@@ -150,6 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     </form>
     <!--// Button area -->
-
+</div>
 </body>
 </html>

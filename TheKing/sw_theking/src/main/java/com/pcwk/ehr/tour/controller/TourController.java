@@ -41,14 +41,18 @@ public class TourController {
 	}
 	//화면 띄우기.
 	@GetMapping("/doUpdateView.do")
-	public String doUpdateView() {
+	public String doUpdateView(@RequestParam("tourNo") int tourNo, Model model) throws SQLException {
 		log.debug("┌──────────────────────────────┐");
 		log.debug("│ *doUpdateView()*               │");
 		log.debug("└──────────────────────────────┘");
 		
-		String viewStirng = "tour/tour_mng";
+		String viewStirng = "tour/tour_mod";
 		log.debug("viewStirng: ",viewStirng);
+		TourDTO param = new TourDTO();
+	    param.setTourNo(tourNo);
 		
+	    TourDTO tourDTO = tourService.doSelectOne(param);
+		model.addAttribute("TourDTO", tourDTO);
 		return viewStirng;
 	}
 	
@@ -162,7 +166,7 @@ public class TourController {
 	public String doSelectOne(Model model, @RequestParam("tourNo") Integer tourNo) throws SQLException {
 		// 동기 통신, GET
 		// 단 건 조회
-		String viewName = "tour/tour_mod";
+		String viewName = "tour/tour_mng";
 		log.debug("┌──────────────────────────────┐");
 		log.debug("│ *doSelectOne()*              │");
 		log.debug("└──────────────────────────────┘");
