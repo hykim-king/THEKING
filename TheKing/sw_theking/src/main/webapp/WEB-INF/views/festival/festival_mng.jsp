@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
          </div>
     </div>
 	<!-- 이미지 등록 -->
+
 	<!--<button onclick="window.location.href='/ehr/festival/test.do?festaNo=${dto.festaNo}';">이미지 등록</button> -->
 <div class="container">
     <h2>축제 상세보기</h2>
@@ -140,6 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <button id="doDelete">삭제</button>
     </div>
 </div>
+
 
 </body>
 </html>

@@ -95,7 +95,7 @@ public class UserController {
 	}
 	
 	@GetMapping(value="/doRetrieve.do")
-	public String doRetrieve(Model model, SearchDTO inVO, HttpSession session	 ) throws SQLException {
+	public String doRetrieve(Model model, SearchDTO inVO, HttpSession session) throws SQLException {
 		String viewName = "user/userList";
 
 		 // 현재 로그인 사용자 꺼내기
@@ -174,6 +174,18 @@ public class UserController {
 		
 	}
 
+	@GetMapping("/logout.do")
+	public String logout(HttpSession httpSession) {
+		String viewName = "redirect:/main.do";
+		
+		if(httpSession.getAttribute("user") != null) {
+			//session삭제
+			httpSession.invalidate();
+		}
+		
+		return viewName;
+	}
+	
 	@PostMapping(value = "/login.do", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
 	public String doLogin(@RequestParam String userId,
@@ -214,8 +226,6 @@ public class UserController {
 		log.debug("┌───────────────────────────┐");
 		log.debug("│ *doUpdate()*              │");
 		log.debug("└───────────────────────────┘");
-		// http://localhost:8080/ehr/user/doSave.do?userId=pcwk01
-		// String userId = req.getParameter("userId");
 		String jsonString = "";
 		UserDTO inVO = param;
 
@@ -234,7 +244,7 @@ public class UserController {
 
 		jsonString = new Gson().toJson(messageDTO);
 		log.debug("jsonString:{}", jsonString);
-
+		
 		return jsonString;
 
 	}
@@ -296,38 +306,36 @@ public class UserController {
 
 	}
 
-//	@PostMapping(value = "/deleteUser.do", produces = "text/plain;charset=UTF-8")
-//	@ResponseBody
-//	public String deleteUser(@RequestParam String targetUserId, HttpSession session, RedirectAttributes redirect)
-//			throws SQLException {
-//
-//		// 1. 로그인한 사용자 꺼내기
-//		UserDTO loginUser = (UserDTO) session.getAttribute("user");
-//
-//		// 2. 로그인 안 됐으면 리턴
-//		if (loginUser == null) {
-//			redirect.addFlashAttribute("error", "로그인이 필요합니다.");
-//			return "redirect:/login.do";
-//		}
-//
-//		// 3. 어드민인지 확인 (여기서 만든 static 메서드 활용!)
-//		if (!PcwkString.isAdmin(loginUser)) {
-//			redirect.addFlashAttribute("error", "관리자만 삭제할 수 있습니다.");
-//			return "redirect:/user/list.do";
-//		}
-//
-//		// 4. 삭제 수행
-//		UserDTO targetUser = new UserDTO();
-//		targetUser.setUserId(targetUserId);
-//
-//		int result = userService.doDelete(targetUser);
-//		if (result > 0) {
-//			redirect.addFlashAttribute("message", "사용자 삭제 성공!");
-//		} else {
-//			redirect.addFlashAttribute("error", "사용자 삭제 실패.");
-//		}
-//
-//		return "redirect:/user/list.do";
-//	}
+	@PostMapping(value = "/deleteUser.do", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String deleteUser(@RequestParam String targetUserId, HttpSession session)
+			throws SQLException {
+
+		// 1. 로그인한 사용자 꺼내기
+		UserDTO loggedInUser = (UserDTO) session.getAttribute("loginUser");
+
+		// 로그인 여부 확인
+	    if (loggedInUser == null) {
+	        return "user/loginDenied";
+	    }
+	    
+	    boolean isAdmin = false;
+	    // 관리자 여부 확인
+	    if (loggedInUser != null) {
+	        isAdmin = PcwkString.isAdmin(loggedInUser);
+	        if(isAdmin == false) {
+	        	return "user/accessDenied";
+	        }
+	    }
+
+		// 4. 삭제 수행
+		UserDTO targetUser = new UserDTO();
+		targetUser.setUserId(targetUserId);
+
+		int result = userService.doDelete(targetUser);
+	    String message = (result > 0) ? "사용자 삭제에 성공했습니다." : "사용자 삭제에 실패했습니다.";
+
+	    return new Gson().toJson(new MessageDTO(result, message));
+	}
 
 }

@@ -40,7 +40,24 @@
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-$(document).ready(function () {
+document.addEventListener('DOMContentLoaded', function(){
+    console.log('DOMContentLoaded');
+    
+    const {sido, gugun} = getUrlParams();
+     //등록 버튼 이동
+    const moveToSaveButton=document.querySelector("#moveToSave");
+    console.log(moveToSaveButton);
+    
+    //등록 버튼 이벤트 감지
+    moveToSaveButton.addEventListener("click",function(event){
+        console.log('moveToSaveButton click');
+        
+        if(confirm('등록 화면으로 이동 하시겠습니까?') === false)return;
+        
+        window.location.href ="/ehr/tour/doSaveView.do";
+        
+    });
+
 
     // URL 파라미터 추출
     function getUrlParams() {
@@ -50,7 +67,6 @@ $(document).ready(function () {
         return { sido, gugun }; //객체 상태로 리턴
     }
 
-    const { sido, gugun } = getUrlParams();
 
     // 초기: 모든 SVG 숨기기
     $(".mapdiv").hide();
@@ -60,6 +76,8 @@ $(document).ready(function () {
     if (sido) {
         const regionKey = sido.replace("특별시", "")
                               .replace("광역시", "")
+                              .replace("특별자치도", "")
+                              .replace("특별자치시", "")
                               .replace("도", "");
         $("#svgMap").show(); //전체
         $("#svg-" + regionKey).show(); //해당시도
@@ -78,7 +96,7 @@ $(document).ready(function () {
     $("#allBtn").on("click", function () {
         $(".mapdiv").hide();
         $("#svgMap").hide();
-        window.loc ation.href = "/ehr/tour/doRetrieve.do";
+        window.location.href = "/ehr/tour/doRetrieve.do";
     });
 
     // 시도 버튼 클릭
@@ -117,13 +135,18 @@ $(document).ready(function () {
         <div>
             <input type="search" name="searchWord" id="searchWord" size="15">
             <input type="submit" value="검색" id="doRetrieveButton">
+<%--             <c:if test="${sessionScope.loginUser != null and sessionScope.loginUser.userId == 'admin'}"> --%>
+<!-- 			    <input type="button" value="등록" id="moveToSave"> -->
+<%-- 			</c:if> --%>
+			<input type="button" value="등록" id="moveToSave">
         </div> 
+
     </form>
     <!-- //검색 영역 -->
     <!-- 01 버튼 -->
     <hr>
     <div>
-       <button class="regionFilterBtn" data-region="ALL" data-svg="ALL" id="allBtn">전체</button> <!-- 0k -->
+       <button class="regionFilterBtn" data-region="" data-svg="" id="allBtn">전체</button> <!-- 0k -->
        <button class="regionFilterBtn" data-region="서울특별시" data-svg="서울">서울</button> <!-- 0k -->
        <button class="regionFilterBtn" data-region="경기도" data-svg="경기">경기</button><!-- 0k -->
        <button class="regionFilterBtn" data-region="인천광역시" data-svg="인천">인천</button><!-- 0k -->
@@ -921,7 +944,7 @@ $(document).ready(function () {
                         <c:url var="imgUrl" value="${TourDTO.image.imageUrl}" />
                         <img src="${imgUrl}" alt="${TourDTO.name}" width="150" height="100" />
                    </td>
-                   <td>${TourDTO.name}</td>
+                   <td><a href="/ehr/tour/doSelectOne.do?tourNo=${TourDTO.tourNo }">${TourDTO.name}</a></td>
                    <td>${TourDTO.region.regionSido}</td>
                    <td>${TourDTO.region.regionGugun}</td>
                    <td style="display:none;">${TourDTO.tourNo }</td>

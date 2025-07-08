@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,24 +43,34 @@ public class TourController {
 	}
 	//화면 띄우기.
 	@GetMapping("/doUpdateView.do")
-	public String doUpdateView() {
+	public String doUpdateView(@RequestParam("tourNo") int tourNo, Model model,HttpSession session) throws SQLException {
 		log.debug("┌──────────────────────────────┐");
 		log.debug("│ *doUpdateView()*               │");
 		log.debug("└──────────────────────────────┘");
 		
-		String viewStirng = "tour/tour_mng";
-		log.debug("viewStirng: ",viewStirng);
+		UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+	    model.addAttribute("loginUser", loginUser);
 		
+		String viewStirng = "tour/tour_mod";
+		log.debug("viewStirng: ",viewStirng);
+		TourDTO param = new TourDTO();
+	    param.setTourNo(tourNo);
+		
+	    TourDTO tourDTO = tourService.doSelectOne(param);
+		model.addAttribute("TourDTO", tourDTO);
 		return viewStirng;
 	}
 	
 	//화면 띄우기.
 		@GetMapping("/doSaveView.do")
-		public String doSaveView() {
+		public String doSaveView(Model model,HttpSession session) {
 			log.debug("┌──────────────────────────────┐");
 			log.debug("│ *doSaveView()*               │");
 			log.debug("└──────────────────────────────┘");
 			
+			UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+		    model.addAttribute("loginUser", loginUser);
+		    
 			String viewStirng = "tour/tour_reg";
 			log.debug("viewStirng: ",viewStirng);
 			
@@ -71,14 +83,38 @@ public class TourController {
 		    @RequestParam(value="region.regionSido", required=false) String regionSido,
 		    @RequestParam(value="region.regionGugun", required=false) String regionGugun,
 		    @ModelAttribute SearchDTO search,
-		    Model model) {
+		    Model model,HttpSession session) {
 
 		    String viewName = "tour/tour_list";
 
 		    log.debug("┌──────────────────────────────┐");
 		    log.debug("│ *doRetrieve()*               │");
 		    log.debug("└──────────────────────────────┘");
-
+		    
+//		    //로그인 여부 확인
+//		    // 현재 로그인 사용자 꺼내기
+//		    UserDTO loggedInUser = (UserDTO) session.getAttribute("loginUser");	
+//		    
+//		    boolean isAdmin = false;
+//		    
+//		    // 로그인 여부 확인
+//		    if (loggedInUser == null) {
+//		        return "user/accessDenied";
+//		    }
+//		    // 관리자 여부 확인
+//		    if (loggedInUser != null) {
+//		        isAdmin = PcwkString.isAdmin(loggedInUser);
+//		        if(isAdmin == false) {
+//		        	return "user/accessDenied";
+//		        }
+//		    }
+//		    log.debug("isAdmin:{}",isAdmin);
+		    
+		    //로그인 사용자 정보를 JSP에서 활용할 수 있게만 전달
+		    UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+		    model.addAttribute("loginUser", loginUser);
+		    
+		    
 		    int pageNo = PcwkString.nvlZero(search.getPageNo(),1);
 		    int pageSize = PcwkString.nvlZero(search.getPageSize(),10);
 
@@ -132,6 +168,7 @@ public class TourController {
 		log.debug("└──────────────────────────────┘");
 		log.debug("tourNo:{}",tourNo);
 		
+		
 		TourDTO inVO = new TourDTO();
 		inVO.setTourNo(tourNo);
 		log.debug("inVO:{}",inVO);
@@ -159,15 +196,17 @@ public class TourController {
 //	}
 
 	@GetMapping(value = "/doSelectOne.do", produces = "text/plain;charset=UTF-8")
-	public String doSelectOne(Model model, @RequestParam("tourNo") Integer tourNo) throws SQLException {
+	public String doSelectOne(Model model, @RequestParam("tourNo") Integer tourNo,HttpSession session) throws SQLException {
 		// 동기 통신, GET
 		// 단 건 조회
-		String viewName = "tour/tour_mod";
+		String viewName = "tour/tour_mng";
 		log.debug("┌──────────────────────────────┐");
 		log.debug("│ *doSelectOne()*              │");
 		log.debug("└──────────────────────────────┘");
 		log.debug("tourNo:{}", tourNo);
-
+		
+		UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+	    model.addAttribute("loginUser", loginUser);
 		
 		TourDTO inVO = new TourDTO();
 		inVO.setTourNo(tourNo);
