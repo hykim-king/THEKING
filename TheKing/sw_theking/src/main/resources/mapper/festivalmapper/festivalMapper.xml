@@ -7,6 +7,7 @@
 	    <result property="views" column="views"/>
 	    <result property="startDate" column="startDate"/>
 	    <result property="endDate" column="endDate"/>
+	    <result property="totalCnt" column="totalCnt"/>
 	    <result property="image.imageName" column="image_name"/>
 	
 	    <!-- RegionDTO 매핑 -->
@@ -20,6 +21,8 @@
 	    </association>
 	</resultMap>
     <select id="checkRetrieve" resultMap="festivalMap">
+    SELECT A.*,B.*
+        FROM (
           SELECT *
 			  FROM (
 			    SELECT ROWNUM as rnum, tt2.*
@@ -49,6 +52,21 @@
                 WHERE ROWNUM <= (#{dto.pageSize} * (#{dto.pageNo} - 1) + #{dto.pageSize})                                            
                 )tt3                                                          
                 WHERE RNUM >= (#{dto.pageSize} * (#{dto.pageNo} - 1) + 1)]]>
+         )A
+		CROSS JOIN(
+			SELECT COUNT(*) AS totalCnt
+			  FROM festival t1
+			      JOIN region t2 ON t1.region_no = t2.region_no
+			      JOIN image t3 ON t1.festa_no = t3.target_no
+			      WHERE t3.table_name='festival'
+					<if test="sido != null"> 
+			          AND t2.region_sido = #{sido}
+			        </if>
+			        <if test="date != null">
+	      <![CDATA[    AND t1.start_date <= #{date}
+                       AND t1.end_date >= #{date}]]>
+			        </if>
+		)B
     </select>
     
     <update id="upViews" parameterType="FestivalDTO">

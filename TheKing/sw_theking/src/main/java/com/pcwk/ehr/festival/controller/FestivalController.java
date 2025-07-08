@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.pcwk.ehr.board.domain.BoardDTO;
 import com.pcwk.ehr.cmn.FileUtil;
 import com.pcwk.ehr.cmn.MessageDTO;
 import com.pcwk.ehr.cmn.SearchDTO;
@@ -53,11 +54,14 @@ public class FestivalController {
 		String sido = null;
 		String date = null;
 
-		if (request.getParameter("pageNo") == null && request.getParameter("pageSize") == null) {
+		if (request.getParameter("pageNo") == null || request.getParameter("pageNo").isEmpty()) {
 			dto.setPageNo(1);
-			dto.setPageSize(100);
 		} else {
 			dto.setPageNo(Integer.parseInt(request.getParameter("pageNo")));
+		}
+		if (request.getParameter("pageSize") == null || request.getParameter("pageSize").isEmpty()) {
+			dto.setPageSize(10);
+		} else {
 			dto.setPageSize(Integer.parseInt(request.getParameter("pageSize")));
 		}
 
@@ -71,7 +75,18 @@ public class FestivalController {
 
 		list = service.checkRetrieve(sido, date, dto);
 
+		// 총글수
+		int totalCnt = 0;
+		
+		if(null != list && list.size()>0) {
+			FestivalDTO totalVO =  list.get(0);
+			totalCnt = totalVO.getTotalCnt();
+		}
+		log.debug("totalCnt:{}",totalCnt);
+
+		model.addAttribute("search", dto);
 		model.addAttribute("list", list);
+		model.addAttribute("totalCnt", totalCnt);
 
 		return "/festival/main";
 	}
@@ -128,7 +143,8 @@ public class FestivalController {
 
 	// 이미지 등록 해야함
 	@PostMapping(value = "/doSave.do", produces = "text/plain;charset=UTF-8")
-	public String doSave(@RequestParam(value = "imageFile", required = false) MultipartFile file, @ModelAttribute FestivalDTO param) throws IOException {
+	public String doSave(@RequestParam(value = "imageFile", required = false) MultipartFile file,
+			@ModelAttribute FestivalDTO param) throws IOException {
 		log.debug("┌───────────────────────────┐");
 		log.debug("│ *doSave()*                │");
 		log.debug("└───────────────────────────┘");

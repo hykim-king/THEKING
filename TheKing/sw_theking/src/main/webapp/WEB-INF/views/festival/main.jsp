@@ -1,12 +1,60 @@
+<%@page import="com.pcwk.ehr.cmn.PcwkString"%>
+<%@page import="com.pcwk.ehr.cmn.SearchDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%
+	int bottomCount = 5;
+	int pageSize    = 0;//페이지 사이즈
+	int pageNo      = 0;//페이지 번호
+	int maxNum      = 0;//총글수
+	
+	String url      = "";//호출URL
+	String scriptName="";//자바스크립트 이름
+	
+	
+	//request: 요청 처리를 할수 있는 jsp 내장 객체
+	String totalCntString = request.getAttribute("totalCnt").toString();
+	//out.print("totalCntString:"+totalCntString);
+	maxNum = Integer.parseInt(totalCntString);	
+	
+	SearchDTO  paramVO = (SearchDTO)request.getAttribute("search");   
+	pageSize = paramVO.getPageSize();
+	pageNo   = paramVO.getPageNo();
+	
+	String cp = request.getContextPath();
+	   //out.print("cp:"+cp);
+	   
+	   url = cp+"/festival/main.do";
+	   //out.print("url:"+url);
+	   
+	   scriptName = "pagerDoRetrieve";
+	   
+	   String pageHtml=PcwkString.renderingPager(maxNum, pageNo, pageSize, bottomCount, url, scriptName);
+	   
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Festival Main</title>
 <link rel="stylesheet" href="/ehr/resources/css/festival_main.css">
+<script type="text/javascript">
+//페이징 
+function pagerDoRetrieve(url, pageNo){   
+    console.log('pagerDoRetrieve pageNo:'+pageNo);
+    console.log('pagerDoRetrieve url:'+url);
+    
+    //form
+    const searchForm = document.searchForm;
+    searchForm.pageNo.value =pageNo;
+    
+    searchForm.action=url;
+    
+    searchForm.submit();     
+    
+}
+</script>
 </head>
 <body>
 
@@ -27,9 +75,10 @@
     <h1 style="text-align: center;">축제 목록</h1>
 
 		<!-- 검색 영역 -->
-		<form action="/ehr/festival/main.do" method="get" class="search">
+		<form action="/ehr/festival/main.do" method="get" class="search" name="searchForm">
 			<div style="display: flex; gap: 10px; align-items: center;">
-				<input type="date" name="date"> <select name="sido">
+				<input type="date" name="date"> 
+				<select name="sido">
 					<option value="">전체</option>
 					<option>서울특별시</option>
 					<option>경기도</option>
@@ -48,16 +97,16 @@
 					<option>경상남도</option>
 					<option>제주특별자치도</option>
 				</select>
+				<select style="width:100px" name="pageSize" id="pageSize">
+		            <option value="10">10개씩</option>
+		            <option value="20">20개씩</option>
+		            <option value="30">30개씩</option>
+		        </select>
+		        <input type="hidden" name="pageNo" id="pageNo">
 				<button type="submit" id="searchButton">검색</button>
 			</div>
 		</form>
-        
-        <select style="width:100px" name="pageSize" id="pageSize">
-            <option value="10">10개씩</option>
-            <option value="20">20개씩</option>
-            <option value="30">30개씩</option>
-        </select>
-
+ 
 		<!-- 등록 버튼 -->
 		<button class="register-btn"
 			onclick="window.location.href='/ehr/festival/doSave.do';">+
@@ -103,6 +152,11 @@
 				</tbody>
 			</table>
 		</div>
+		<!-- paging -->
+		    <%
+		        out.print(pageHtml);
+		    %>
+		    <!--// paging end -->
 	</div>
 
 </body>
