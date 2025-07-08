@@ -1,20 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
-    pageEncoding="EUC-KR"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>¶°³ªº¼Áöµµ</title>
+<title>ë– ë‚˜ë³¼ì§€ë„</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/ehr/resources/js/common.js"></script>
-<div><strong>¶°³ªº¼Áöµµ</strong> Get going</div>
+<div><strong>ë– ë‚˜ë³¼ì§€ë„</strong> Get going</div>
   <script>
   document.addEventListener("DOMContentLoaded", function() {
   	const userDelete = document.getElementById("userDelete");
   	userDelete.addEventListener("click", function(event) {
-	    console.log("°èÁ¤ Å»Åğ Å¬¸¯µÊ");
+	    console.log("ê³„ì • íƒˆí‡´ í´ë¦­ë¨");
 	    
-	    if (confirm("Á¤¸» Å»ÅğÇÏ½Ã°Ú½À´Ï±î?")) {
+	    if (confirm("ì •ë§ íƒˆí‡´í•˜ì‹œê² ìŠµë‹ˆê¹Œ?")) {
 	    	$.ajax({
 	    	    type: "POST",
 	    	    url: "/ehr/user/doDelete.do",
@@ -30,7 +32,7 @@
 	    	        	alert(data.message);
 	    	            location.href = "/ehr/main.do";
 	    	        } else {
-	    	            // ·Î±×ÀÎ ½ÇÆĞ ¸Ş½ÃÁö Ãâ·Â
+	    	            // ë¡œê·¸ì¸ ì‹¤íŒ¨ ë©”ì‹œì§€ ì¶œë ¥
 	    	            alert(data.message);
 	    	        }
 	    	    },
@@ -80,6 +82,7 @@
     .profile-area img {
       width: 100px;
       height: 100px;
+      object-fit: cover;
       border-radius: 50%;
       display: block;
       margin: 0 auto 10px auto;
@@ -91,7 +94,7 @@
 
     .section-tabs {
  	  margin-bottom: 20px;
-	  text-align: left; /* ÇÊ¿ä ½Ã center·Î º¯°æ °¡´É */
+	  text-align: left; /* í•„ìš” ì‹œ centerë¡œ ë³€ê²½ ê°€ëŠ¥ */
 	}
 	
 	.section-tabs button {
@@ -174,38 +177,47 @@
 </head>
 <body>
 <nav>
-    <a href="#">È¨</a>
-    <a href="#">°ü±¤Áö</a>
-    <a href="#">ÃàÁ¦</a>
-    <a href="#">°Ô½ÃÆÇ</a>
-    <a href="#">°øÁö»çÇ×</a>
-    <a href="#">·Î±×ÀÎ</a>
+    <a href="/ehr/user/main.do">í™ˆ</a>
+    <a href="#">ê´€ê´‘ì§€</a>
+    <a href="#">ì¶•ì œ</a>
+    <a href="#">ê²Œì‹œíŒ</a>
+    <a href="#">ê³µì§€ì‚¬í•­</a>
+    <a href="/ehr/user/logout.do">ë¡œê·¸ì•„ì›ƒ</a>
   </nav>
+  
 	<div class="container">
   <h2>MY</h2>
   <div class="profile-area">
-    <img src="/path/to/profile.png" alt="ÇÁ·ÎÇÊ ÀÌ¹ÌÁö">
+    <img src="/ehr/resources/images/user/ì§±êµ¬1.jpg" alt="í”„ë¡œí•„ ì´ë¯¸ì§€">
     <h3>${user.name}</h3>
     <p>${user.email}</p>
-    <p>°ü½ÉÁö¿ª: ÀÎÃµ</p>
     <br><br>
     <ul>
-        <li><a href="/ehr/user/updatePage.do">Á¤º¸ ¼öÁ¤</a></li>
-        <li><a href="#" id="userDelete">°èÁ¤ Å»Åğ</a></li>
+        <li><a href="/ehr/user/updatePage.do">ì •ë³´ ìˆ˜ì •</a></li>
+        <li><a href="#" id="userDelete">ê³„ì • íƒˆí‡´</a></li>
+       
+        <c:choose>
+            <c:when test="${sessionScope.loginUser.role eq 'admin'}">
+                <li><a href="/ehr/user/doRetrieve.do" id="userRetrieve">íšŒì› ì¡°íšŒ</a></li>
+            </c:when>
+            <c:otherwise>
+            
+            </c:otherwise>
+        </c:choose>
     </ul>
     <input type="hidden" name="userId" value="${loginUser.userId}" id="userId">
   </div>
 
   <div class="info-area">
     <div class="section-tabs">
-    	<button onclick="document.getElementById('posts').scrollIntoView({ behavior: 'smooth' })">°Ô½Ã±Û</button>
-    	<button onclick="document.getElementById('comments').scrollIntoView({ behavior: 'smooth' })">´ñ±Û</button>
-    	<button onclick="document.getElementById('tour').scrollIntoView({ behavior: 'smooth' })">°ü±¤Áö</button>
-    	<button onclick="document.getElementById('festival').scrollIntoView({ behavior: 'smooth' })">ÃàÁ¦</button>
+    	<button onclick="document.getElementById('posts').scrollIntoView({ behavior: 'smooth' })">ê²Œì‹œê¸€</button>
+    	<button onclick="document.getElementById('comments').scrollIntoView({ behavior: 'smooth' })">ëŒ“ê¸€</button>
+    	<button onclick="document.getElementById('tour').scrollIntoView({ behavior: 'smooth' })">ê´€ê´‘ì§€</button>
+    	<button onclick="document.getElementById('festival').scrollIntoView({ behavior: 'smooth' })">ì¶•ì œ</button>
  	</div>
 
     <div class="section" id="posts">
-      <h3>ÀÛ¼ºÇÑ °Ô½Ã±Û</h3>
+      <h3>ì‘ì„±í•œ ê²Œì‹œê¸€</h3>
       <div class="post"></div>
       <div class="post"></div>
       <div class="pagination">
@@ -214,7 +226,7 @@
     </div>
 
     <div class="section" id="comments">
-      <h3>ÀÛ¼ºÇÑ ´ñ±Û</h3>
+      <h3>ì‘ì„±í•œ ëŒ“ê¸€</h3>
       <div class="comment"></div>
       <div class="comment"></div>
       <div class="comment"></div>
@@ -224,27 +236,27 @@
     </div>
 
     <div class="section" id="tour">
-      <h3>°ü½ÉÀÖ´Â °ü±¤Áö</h3>
-      <div class="scroll-btn">¡ã</div>
+      <h3>ê´€ì‹¬ìˆëŠ” ê´€ê´‘ì§€</h3>
+      <div class="scroll-btn">â–²</div>
       <div class="cards">
         <div class="card">
-          <img src="/path/to/image.jpg" alt="°ü±¤Áö">
-          <div>Á¦¸ñ</div>
+          <img src="/path/to/image.jpg" alt="ê´€ê´‘ì§€">
+          <div>ì œëª©</div>
         </div>
       </div>
-      <div class="scroll-btn">¡å</div>
+      <div class="scroll-btn">â–¼</div>
     </div>
 
     <div class="section" id="festival">
-      <h3>°ü½ÉÀÖ´Â ÃàÁ¦</h3>
-      <div class="scroll-btn">¡ã</div>
+      <h3>ê´€ì‹¬ìˆëŠ” ì¶•ì œ</h3>
+      <div class="scroll-btn">â–²</div>
       <div class="cards">
         <div class="card">
-          <img src="/path/to/image.jpg" alt="ÃàÁ¦">
-          <div>Á¦¸ñ</div>
+          <img src="/path/to/image.jpg" alt="ì¶•ì œ">
+          <div>ì œëª©</div>
         </div>
       </div>
-      <div class="scroll-btn">¡å</div>
+      <div class="scroll-btn">â–¼</div>
     </div>
   </div>
 </div>

@@ -9,8 +9,37 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/ehr/resources/js/common.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function(){
+document.addEventListener('DOMContentLoaded', function(){
     console.log('DOMContentLoaded')
+    
+    const deleteButtons = document.querySelectorAll(".deleteUserBtn");
+    
+    deleteButtons.forEach(function (button) {
+        button.addEventListener("click", function (event) {
+            const targetUserId = button.getAttribute("data-userid");
+            console.log("강퇴 버튼 클릭됨:", targetUserId);
+
+            if (confirm(targetUserId + "님을 정말 삭제하시겠습니까?")) {
+                $.ajax({
+                    type: "POST",
+                    url: "/ehr/user/deleteUser.do",
+                    dataType: "json",
+                    data: {
+                        targetUserId: targetUserId
+                    },
+                    success: function (response) {
+                        console.log("삭제 성공:", response);
+                        alert(response.message);
+                        location.reload(); // 페이지 새로고침
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("삭제 실패:", error);
+                        alert("오류가 발생했습니다.");
+                    }
+                });
+            }
+        });
+    });
 });
 </script>
 </head>
@@ -52,6 +81,7 @@
         <th>전화번호</th>
         <th>주소</th>
         <th>가입날짜</th>
+        <th>강퇴</th>
       </tr>
     </thead>
     <tbody>
@@ -68,6 +98,7 @@
                         <td>${vo.mobile }</td>
                         <td>${vo.address }</td>
                         <td>${vo.regDt }</td>
+                        <td><input type="button" value="강퇴" class="deleteUserBtn" data-userid="${vo.userId}"></td>
                     </tr>
                 </c:forEach>
             </c:when>
