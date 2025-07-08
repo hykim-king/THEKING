@@ -97,7 +97,16 @@
     </update>
 
     <select id="doSelectOne" parameterType="FestivalDTO" resultType="FestivalDTO">
-        SELECT *
+        SELECT festa_no AS festaNo,
+               name,
+               subtitle,
+               contents,
+               views,
+               address,
+               tel,
+               fee,
+               TO_CHAR(start_date,'YYYY-MM-DD') AS startDate,
+               TO_CHAR(end_date,'YYYY-MM-DD') AS endDate
             FROM festival
         WHERE festa_no = #{festaNo}
     </select>
