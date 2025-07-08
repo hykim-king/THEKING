@@ -18,11 +18,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
+import com.pcwk.ehr.cmn.FileUtil;
 import com.pcwk.ehr.cmn.MessageDTO;
 import com.pcwk.ehr.cmn.PcwkString;
 import com.pcwk.ehr.cmn.SearchDTO;
+import com.pcwk.ehr.image.domain.ImageDTO;
+import com.pcwk.ehr.mapper.ImageMapper;
 import com.pcwk.ehr.region.domain.RegionDTO;
 import com.pcwk.ehr.tour.domain.TourDTO;
 import com.pcwk.ehr.tour.service.TourService;
@@ -35,6 +39,9 @@ public class TourController {
 
 	@Autowired
 	TourService tourService;
+	
+	@Autowired
+	ImageMapper imageMapper;
 
 	public TourController() {
 		log.debug("┌─────────────────────────────────────────────────────────┐");
@@ -243,26 +250,38 @@ public class TourController {
 
 	@PostMapping(value = "/doSave.do", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String doSave(TourDTO param) throws SQLException {
+	public String doSave(@RequestParam(value = "imageFile", required = false) MultipartFile file, @ModelAttribute TourDTO param) throws SQLException {
 		log.debug("┌──────────────────────────────┐");
 		log.debug("│ *doSave()*                   │");
 		log.debug("└──────────────────────────────┘");
-		String jsonString = "";
 
-		log.debug("1 param: {}", param);
+		log.debug("param: {}", param);
+		log.debug("file:{}", file);
 
 		// 서비스 호출
 		int flag = tourService.doSave(param);
-		String massage = "";
-		if (1 == flag) {
-			massage = param.getName() + " 관광지가 등록 되었습니다.";
-		} else {
-			massage = param.getName() + " 관광지가 등록 실패 되었습니다.";
-		}
-		MessageDTO messageDTO = new MessageDTO(flag, massage);
-		jsonString = new Gson().toJson(messageDTO);
-		log.debug("2 jsonString:{}", jsonString);
+		if (flag == 1) {
+			// 이미지 저장
+			if (file != null && !file.isEmpty()) {
 
-		return jsonString;
+				log.debug("이미지 전송");
+				String uploadDir = "C:/Users/user/THEKING/TheKing/sw_theking/src/main/webapp/resources/images/festival";
+				String savedFilename = FileUtil.saveFileWithUUID(file, uploadDir);
+
+				ImageDTO imageDTO = new ImageDTO();
+				imageDTO.setImageName(file.getOriginalFilename());
+				imageDTO.setImageUrl("src/main/webapp/resources/images/tour/");
+				imageDTO.setSaveName(savedFilename);
+				imageDTO.setTableName("TOUR");
+				imageDTO.setTargetNo(param.getTourNo());
+
+				imageMapper.doSave(imageDTO);
+			}
+
+		} else {
+			return null;
+		}
+
+		return "redirect:doSave.do";
 	}
 }

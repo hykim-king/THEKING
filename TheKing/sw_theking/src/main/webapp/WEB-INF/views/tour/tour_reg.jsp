@@ -7,11 +7,31 @@
 <head>
 <meta charset="UTF-8">
 <title>tour_reg</title>
+<link rel="stylesheet" href="/ehr/resources/css/festival_reg.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
+<!-- 카카오 우편번호 서비스 스크립트 -->
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/ehr/resources/js/common.js"></script>
+<script>
+function execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            document.getElementById('postcode').value = data.zonecode;
+            document.getElementById("roadAddress").value = data.roadAddress;
+        }
+    }).open();
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    // 나머지 초기화 코드들
+});
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOMContentLoaded');
+    
 
     function isEmpty(value) {
         return value == null || value.trim() === '';
@@ -24,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const contentsInput  = document.querySelector("#contents");
     const addressInput   = document.querySelector("#address");
     const imageInput     = document.querySelector("#image");
-    formData.append("image", imageInput.files[0]);
     const telInput       = document.querySelector("#tel");
     const timeInput      = document.querySelector("#time");
     const holidayInput   = document.querySelector("#holiday");
@@ -77,6 +96,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (!confirm('관광지를 등록합니다.')) {
 				return;
 			}
+			const fullAddress = $("#roadAddress").val() + " " + $("#detailAddress").val();
+
 
 			// AJAX 요청
 			$.ajax({
@@ -88,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					"name" : nameInput.value,
 					"subtitle" : subtitleInput.value,
 					"contents" : contentsInput.value,
-					"address" : addressInput.value,
+					"address" : fullAddress,
 					"image" : imageInput.value,
 					"tel" : telInput.value,
 					"time" : timeInput.value,
@@ -119,13 +140,33 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <body>
-    <h2>관광지 상세 등록</h2>
+    <div class="header">
+        <div class="nav">
+            <span>떠나볼지도</span>
+            <a href="/ehr/tour/doRetrieve.do">관광지</a>
+            <a href="/ehr/festival/main.do">축제</a>
+            <a href="#">게시판</a>
+            <a href="#">공지사항</a>
+        </div>
+        <div class="login">
+            <a href="/ehr/user/signUpPage.do">로그인</a>
+            <a href="/ehr/user/loginPage.do">회원가입</a>
+        </div>
+    </div>
+    <div class="container">
+         <div class="logo-container">
+            <h1>떠나볼지도</h1>
+            <p>Get going</p>
+            <a href="/ehr/festival/main.do">
+                <img alt="로고이미지" src="${pageContext.request.contextPath}/resources/images/logo.png">
+            </a>
+        </div>
+    <h4>관광지 상세 등록</h4>
     <hr>
-    <div>
     <!-- form area -->
-    <form action="/ehr/tour/doSave.do" method="post" >
+    <form action="/ehr/tour/doSave.do" method="post" enctype="multipart/form-data">
     <div>
-	    <label for="title" >제목</label>
+	    <label for="title" >제목*</label>
 	    <input type="text" name="name" id="name" maxlength="200" required placeholder="제목" >
     </div>
     <div>
@@ -133,17 +174,22 @@ document.addEventListener('DOMContentLoaded', function() {
         <input type="text" name="subtitle" id="subtitle" maxlength="20" required  placeholder="소제목">
     </div>
     <div>
-        <label for="contents" >내용</label>
+        <label for="contents" >내용*</label>
         <textarea id="contents" name="contents"  placeholder="내용" class="contents"></textarea>
     </div>
+	<div class="form-group form-inline">
+	    <label>주소*</label> 
+	    <input type="text" id="postcode" placeholder="우편번호" readonly>
+	    <button type="button" onclick="execDaumPostcode()">주소 검색</button>
+	</div>
+	
+	<div class="detail-address">
+	    <input type="text" id="roadAddress" name="roadAddress" placeholder="도로명 주소" readonly><br>
+	    <input type="text" id="detailAddress" name="detailAddress" placeholder="상세 주소 입력">
+	</div>
     <div>
-        <label for="address" >주소</label>
-        <input type="text" name="address" id="address" maxlength="20" required  placeholder="주소">
-    </div>
-    <!-- 이미지 변수명 뭐 넣어야 하지 -->
-    <div>
-        <label for="image" >이미지</label>
-        <input type="file" name="image.imageName" id="imageName" > 
+        <label for="imageFile" >이미지</label>
+        <input type="file" name="imageFile" id="imageFile" > 
     </div>
     <div>
         <label for="tel" >연락처</label>
@@ -169,5 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </form>
     <!--// Button area -->
 </div>
+
+<footer> Footer </footer>
 </body>
 </html>

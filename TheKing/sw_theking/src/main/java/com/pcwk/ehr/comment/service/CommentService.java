@@ -26,4 +26,5 @@ public interface CommentService {
 	
 	List<CommentDTO> getBoardComments(String userId) throws SQLException;
 	
+	public List<CommentDTO> getCommentsByTarget(int targetNo, String tableName);
 }

@@ -39,6 +39,8 @@
  }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function(){
     console.log('DOMContentLoaded');
@@ -64,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const params = new URLSearchParams(window.location.search);
         const sido = params.get("region.regionSido");
         const gugun = params.get("region.regionGugun");
-        return { sido, gugun }; //객체 상태로 리턴
+        return { sido,gugun }; //객체 상태로 리턴
     }
 
 
@@ -959,19 +961,6 @@ document.addEventListener('DOMContentLoaded', function(){
             </c:choose>
         </tbody>
     </table>
-    <!-- 페이징 영역 -->
-<!-- <div> -->
-<%--     <c:forEach var="i" begin="1" end="${pagination.totalPage}"> --%>
-<%--         <c:url var="pageUrl" value="/ehr/tour/doRetrieve.do"> --%>
-<%--             <c:param name="search.pageNo" value="${i}" /> --%>
-<%--             <c:param name="search.pageSize" value="${search.pageSize}" /> --%>
-<%--             <c:param name="search.searchDiv" value="${search.searchDiv}" /> --%>
-<%--             <c:param name="search.searchWord" value="${search.searchWord}" /> --%>
-<%--             <c:param name="region.regionSido" value="${region.regionSido}" /> --%>
-<%--             <c:param name="region.regionGugun" value="${region.regionGugun}" /> --%>
-<%--         </c:url> --%>
-<%--         <a href="${pageUrl}" class="${i == search.pageNo ? 'active' : ''}">${i}</a> --%>
-<%--     </c:forEach> --%>
-<!-- </div> -->
+<footer> Footer </footer>
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.pcwk.ehr.mapper;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.stream.events.Comment;
 
@@ -29,4 +30,7 @@ public interface CommentMapper extends WorkDiv<CommentDTO>{
 	List<CommentDTO> getFestivalComments(String userId);
 	
 	List<CommentDTO> getBoardComments(String userId);
+	
+	List<CommentDTO> getCommentsByTarget(Map<String, Object> param);
+
 }

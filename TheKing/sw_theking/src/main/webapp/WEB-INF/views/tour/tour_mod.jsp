@@ -13,8 +13,35 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<!-- 카카오 우편번호 서비스 스크립트 -->
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="/ehr/resources/js/common.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const fullAddress = "${TourDTO.address}";
+    const addressParts = fullAddress.trim().split(" ");
+    const road = addressParts.slice(0, 3).join(" ");
+    const detail = addressParts.slice(3).join(" ");
 
+    document.getElementById("roadAddress").value = road;
+    document.getElementById("detailAddress").value = detail;
+});
+</script>
+<script>
+function execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            document.getElementById('postcode').value = data.zonecode;
+            document.getElementById("roadAddress").value = data.roadAddress;
+        }
+    }).open();
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+    // 나머지 초기화 코드들
+});
+</script>
 <script>
 document.addEventListener('DOMContentLoaded', function(){ 
     console.log('DOMContentLoaded');
@@ -81,6 +108,8 @@ document.addEventListener('DOMContentLoaded', function(){
         // 사용자 확인
         if(confirm('게시글을 수정 하시겠습니까?')===false) return;
         
+        const fullAddress = $("#roadAddress").val() + " " + $("#detailAddress").val();
+        
         $.ajax({
             type:"POST",    //GET/POST
             url:"/ehr/tour/doUpdate.do", //서버측 URL
@@ -90,7 +119,7 @@ document.addEventListener('DOMContentLoaded', function(){
             	"name" : nameInput.value,
                 "subtitle" : subtitleInput.value,
                 "contents" : contentsInput.value,
-                "address" : addressInput.value,
+                "address" : fullAddress,
                 "image" : imageInput.value,
                 "tel" : telInput.value,
                 "time" : timeInput.value,
@@ -169,11 +198,16 @@ document.addEventListener('DOMContentLoaded', function(){
 	                <label for="contents">내용</label>
 	                <textarea class="contents" id="contents" name="contents">${TourDTO.contents }</textarea>
 	            </div>
-	            <div>
-	                <label for="address">주소</label>
-	                <textarea class="address" id="address" name="address">${TourDTO.address }</textarea>
-	        
-	            </div>
+	            <div class="form-group form-inline">
+				    <label>주소*</label>
+				    <input type="text" id="postcode" value="" placeholder="우편번호" readonly>
+				    <button type="button" onclick="execDaumPostcode()">주소 검색</button>
+				</div>
+				
+				<div class="detail-address">
+				    <input type="text" id="roadAddress" placeholder="도로명 주소" readonly><br/>
+				    <input type="text" id="detailAddress" placeholder="상세 주소 입력">
+				</div>
 	            <div>
 	                <label for="time">운영시간</label>
 	                <textarea class="time" id="time" name="time">${TourDTO.time }</textarea>
@@ -198,5 +232,6 @@ document.addEventListener('DOMContentLoaded', function(){
 	<!-- 댓글 목록 -->
 
 	<!-- //댓글 목록 -->
+	<footer> Footer </footer>
 </body>
 </html>
