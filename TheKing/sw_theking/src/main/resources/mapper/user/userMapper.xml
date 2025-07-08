@@ -135,14 +135,14 @@
     <update id="doUpdate" parameterType="UserDTO">
 	    UPDATE user_tk
 	    SET 
-	        user_id   = #{userId},
-	        password  = #{password},
-	        name      = #{name},
-	        nickname  = #{nickname},
-	        email     = #{email},
-	        mobile    = #{mobile},
-	        address   = #{address},
-	        role      = #{role},
+	        <if test="userId != null">   user_id = #{userId}, </if>
+            <if test="password != null"> password = #{password}, </if>
+            <if test="name != null">     name = #{name}, </if>
+            <if test="nickname != null"> nickname = #{nickname}, </if>
+            <if test="email != null">    email = #{email}, </if>
+            <if test="mobile != null">   mobile = #{mobile}, </if>
+            <if test="address != null">  address = #{address}, </if>
+            <if test="role != null">     role = #{role}, </if>
 	        mod_date  = SYSDATE
 	    WHERE user_no = #{userNo}
 	</update>

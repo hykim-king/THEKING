@@ -17,7 +17,8 @@
 	<h2>Festival mng</h2>
 	<hr>
 	<!-- 이미지 등록 -->
-	<button onclick="window.location.href='/ehr/festival/test.do?festaNo=${dto.festaNo}';">이미지 등록</button>
+
+	<button onclick="window.location.href='/ehr/festival/test.do?festaNo=${dto.festaNo}';">이미지 등록</button> 
 	<div>
 		<c:choose>
 			<c:when test="${imageList.size() > 0 }">

@@ -42,20 +42,30 @@ document.addEventListener("DOMContentLoaded", function(){
 	 const postcode = document.getElementById("postcode").value;
 	 const roadAddress = document.getElementById("roadAddress").value;
 	 const detailAddress = document.getElementById("detailAddress").value;
-	 const fullAddress = $("#roadAddress").val() + " " + $("#detailAddress").val();
-
-	 const updateBtn = document.getElementById("updateBtn");
 	 
+	 const updateBtn = document.getElementById("updateBtn");
+     
 	 updateBtn.addEventListener('click', function(event){
+		//모바일 합치기
+	     const tel1 = document.querySelector("#tel1").value;
+	     const tel2 = document.querySelector("#tel2").value;
+	     const tel3 = document.querySelector("#tel3").value;
+	     
+		 const fullAddress = $("#roadAddress").val() + " " + $("#detailAddress").val();
+		 const mobile = tel1 + "-" + tel2 + "-" + tel3;
+	     console.log(mobile);
+	     
+	     
 		 $.ajax({
 		      type: "POST",
 		      url: "/ehr/user/doUpdate.do",
 		      data: {
+		    	"userNo": $("#userNo").val(),
 		    	"userId": $("#userId").val(),
 		      	"name": $("#name").val(),
 		      	"nickname": $("#nickname").val(),
 		      	"email": $("#email").val(),
-		      	"mobile": $("#mobile").val(),
+		      	"mobile": mobile,
 		      	"address": fullAddress
 		      },
 		      success: function (response) {
@@ -63,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		          const result = JSON.parse(response);
 		          alert(result.message);
 		          if (result.messageId == 1) {
-		        	  location.href = "/ehr/user/mypage.do";
+		        	  location.href = "/ehr/user/myPage.do";
 		          }
 		        } catch (e) {
 		          console.error("JSON 파싱 에러:", e);
@@ -109,6 +119,7 @@ document.addEventListener("DOMContentLoaded", function(){
     .profile-area img {
       width: 100px;
       height: 100px;
+      object-fit: cover;
       border-radius: 50%;
     }
     .profile-area h3 {
@@ -141,6 +152,19 @@ document.addEventListener("DOMContentLoaded", function(){
       text-decoration: none;
       color: #000;
     }
+
+	.profile-picture-wrapper {
+	    text-align: left;
+	    padding-bottom: 10px;
+	    border: none !important;
+    }   
+
+	.profile-picture-wrapper img {
+	  width: 100px;
+	  height: 100px;
+	  object-fit: cover;   /* 핵심! 이미지를 비율 유지하며 채움 */
+	  border-radius: 50%;  /* 동그란 이미지 원형 처리 */
+	}
 
     .form-area {
       flex-grow: 1;
@@ -228,36 +252,39 @@ document.addEventListener("DOMContentLoaded", function(){
 
 			<div class="form-group">
 				<label>프로필 사진</label>
+				<div class="profile-picture-wrapper">
+				<img src="/ehr/resources/images/user/짱구1.jpg" alt="프로필 이미지">
+				</div>
 				<button id="profileFindBtn">찾기</button>
 				<input type="file" id="fileInput" accept="image/*" style="display:none" />
 			</div>
-
+            <input type="hidden" id="userNo" value="${user.userNo}" />
 			<div class="form-group form-inline">
 				<label>아이디</label> 
-				<input type="text" value="${user.userId}" readonly>
+				<input type="text" id="userId" value="${user.userId}" readonly>
 			</div>
 
 			<div class="form-group form-inline">
 				<label>닉네임*</label>
-				 <input type="text" value="${user.nickname}" placeholder="닉네임">
+				 <input type="text" id="nickname" value="${user.nickname}" placeholder="닉네임">
 				<button>중복확인</button>
 			</div>
 
 			<div class="form-group">
 				<label>이름</label> 
-				<input type="text" value="${user.name}" placeholder="이름">
+				<input type="text" id="name" value="${user.name}" placeholder="이름">
 			</div>
 
 			<div class="form-group">
 				<label>이메일*</label> 
-				<input type="email" value="${user.email}" placeholder="이메일">
+				<input type="email" id="email" value="${user.email}" placeholder="이메일">
 			</div>
 
 			<div class="form-group form-inline">
 				<label>전화번호*</label> 
-				<input type="text" name="tel1" value="${tel1}" maxlength="3"> -
-    			<input type="text" name="tel2" value="${tel2}" maxlength="4"> -
-    			<input type="text" name="tel3" value="${tel3}" maxlength="4">
+				<input type="text" id="tel1" name="tel1" value="${tel1}" maxlength="3"> -
+    			<input type="text" id="tel2" name="tel2" value="${tel2}" maxlength="4"> -
+    			<input type="text" id="tel3" name="tel3" value="${tel3}" maxlength="4">
 			</div>
 
 			<div class="form-group form-inline">
@@ -267,8 +294,8 @@ document.addEventListener("DOMContentLoaded", function(){
 			</div>
 
 			<div class="detail-address">
-				<input type="text" id="roadAddress" placeholder="도로명 주소" readonly><br>
-				<input type="text" id="detailAddress" placeholder="상세 주소 입력">
+				<input type="text" id="roadAddress"  value="${roadAddress}" placeholder="도로명 주소" readonly><br>
+				<input type="text" id="detailAddress" value="${detailAddress}" placeholder="상세 주소 입력">
 			</div>
 			<div class="form-group">
 				<button id="updateBtn" class="updateBtn">수정</button>
