@@ -2,10 +2,11 @@ package com.pcwk.ehr.tour.domain;
 
 import java.util.List;
 
+import com.pcwk.ehr.cmn.DTO;
 import com.pcwk.ehr.image.domain.ImageDTO;
 import com.pcwk.ehr.region.domain.RegionDTO;
 
-public class TourDTO  {
+public class TourDTO extends DTO {
 	private  Integer tourNo	; //관광지 번호
 	private  String name	    ; //관광지명      
 	private  String subtitle	; //소제목
@@ -207,15 +208,13 @@ public class TourDTO  {
 	}
 
 
-
 	@Override
 	public String toString() {
 		return "TourDTO [tourNo=" + tourNo + ", name=" + name + ", subtitle=" + subtitle + ", contents=" + contents
 				+ ", views=" + views + ", address=" + address + ", holiday=" + holiday + ", time=" + time + ", tel="
-				+ tel + ", fee=" + fee + ", regionNo=" + regionNo + ", region=" + region + ", image=" + image + "]";
+				+ tel + ", fee=" + fee + ", regionNo=" + regionNo + ", region=" + region + ", image=" + image
+				+ ", tourImage=" + tourImage + ", toString()=" + super.toString() + "]";
 	}
-
-
 
 	}
 

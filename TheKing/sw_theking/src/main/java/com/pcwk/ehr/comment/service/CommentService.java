@@ -9,6 +9,8 @@ import com.pcwk.ehr.comment.domain.CommentDTO;
 public interface CommentService {
 
 	List<CommentDTO> doRetrieve(SearchDTO param);
+	
+	List<CommentDTO> doRetrieve(CommentDTO param);
 
 	int doDelete(CommentDTO param);
 
@@ -26,5 +28,5 @@ public interface CommentService {
 	
 	List<CommentDTO> getBoardComments(String userId) throws SQLException;
 	
-	public List<CommentDTO> getCommentsByTarget(int targetNo, String tableName);
+	public List<CommentDTO> getCommentsByTarget(int targetNo, String tableName) throws SQLException;
 }

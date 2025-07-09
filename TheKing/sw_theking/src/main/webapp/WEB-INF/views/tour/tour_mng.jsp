@@ -4,7 +4,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="CP" value="${pageContext.request.contextPath }" />
-<c:set var="now" value="<%=new java.util.Date()%>" />
+<%
+    java.util.Date now = new java.util.Date();
+    pageContext.setAttribute("now", now);
+%>
 <c:set var="sysDate"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd_HH:mm:ss" /></c:set> 
 
 <!DOCTYPE html>
@@ -13,73 +16,68 @@
 <meta charset="UTF-8">
 <title>관광지 상세</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script>
-$(document).ready(function () {
-    const tourNo = "${TourDTO.tourNo}";
-    const isLoggedIn = "${not empty sessionScope.user}" === "true";
-    const sessionUserId = "${sessionScope.user.userId != null ? sessionScope.user.userId : ''}";
-
-    // 댓글 목록 불러오기
-    function loadComments() {
-        $.get("/comment/listByTourNo.do", { tourNo: tourNo }, function (res) {
-            if (res.status === 1) {
-                const comments = res.data;
-                const $list = $("#commentList").empty();
-
-                comments.forEach(c => {
-                    $list.append(`
-                        <li>
-                            <strong>${c.userDTO.nickname || '익명'}</strong> (${c.regDt})<br/>
-                            ${c.contents}
-                        </li>
-                    `);
-                });
-            }
-        });
-    }
-
-    // 댓글 등록 버튼 클릭
-    $("#commentSubmitBtn").on("click", function () {
-        const contents = $("#commentContent").val().trim();
-
-        if (!contents) {
-            alert("댓글 내용을 입력하세요.");
-            return;
-        }
-
-        if (!isLoggedIn) {
-            alert("로그인이 필요합니다.");
-            return;
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "/comment/add.do",
-            contentType: "application/json",
-            data: JSON.stringify({
-                contents: contents,
-                targetNo: tourNo
-            }),
-            success: function (res) {
-                const result = JSON.parse(res);
-                alert(result.message);
-                if (result.flag === 1) {
-                    $("#commentContent").val("");
-                    loadComments();
-                }
-            }
-        });
-    });
-
-    loadComments();
-});
-</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const tourNoInput = document.querySelector("#tourNo");
-
+	
+    console.log('DOMContentLoaded');
+    
+    function isEmpty(value) {
+        return value == null || value.trim() === '';
+    }
+    const isLoggedIn = "${not empty sessionScope.user}" === "true";
+    //댓글용
+    const tourNo = document.querySelector("#tourNo").value;
+    const commentContentsInput = document.querySelector("#commentContents");
+    const commentSubmitBtn = document.querySelector("#commentSubmit");
+    //목록 이동용
     const moveToUpdateBtn = document.querySelector("#moveToUpdate");
+    
+    function loadComments(tourNo) { //고유번호 
+    	  console.log("loadComments 호출, tourNo:", tourNo);
+    	  $("#commentContainer").load('/ehr/commentsList.do?tourNo='+tourNo, function(response, status, xhr){
+    	    console.log("댓글 목록 리로드 상태:", status);
+    	  });
+    	}
+    
+    commentSubmitBtn.addEventListener('click', function() {
+        const contents = commentContentsInput.value.trim();
+        if (!contents) {
+            alert('내용을 입력하세요.');
+            commentContentsInput.focus();
+            return;
+        }
+        if (!isLoggedIn) {
+            alert('로그인이 필요합니다.');
+            commentContentsInput.focus();
+            return;
+        }
+
+        if (!confirm('댓글을 등록하시겠습니까?')) return;
+
+        $.ajax({
+            type: 'POST',
+            url: '/ehr/comment/tourCommentsadd.do',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({ 
+            	contents : contents, 
+            	targetNo: Number(tourNo) }),
+            success: function(res) {
+                if (res.messageId === 1) {
+                    alert(res.message);
+                    commentContentsInput.value = '';
+                    loadComments(tourNo);
+                } else {
+                    alert(res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("댓글 등록 실패:", status, error);
+            }
+        });
+    });
+    
     moveToUpdateBtn.addEventListener('click', function() {
         if (confirm('수정 페이지로 이동합니다.')) {
             window.location.href = '/ehr/tour/doUpdateView.do?tourNo=' + tourNoInput.value;
@@ -128,6 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <!-- 관광지 정보 -->
     <div class="container">
+        <!-- 관광지 번호 -->
+        <input type="hidden" id="tourNo" name="tourNo" value="<c:out value='${TourDTO.tourNo }'/>">
         <div>
             <label for="name">관광지명</label>
             <input type="text" id="name" name="name" value="${TourDTO.name }">
@@ -162,16 +162,21 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 
-    <!-- 댓글 입력 영역 -->
-    <textarea id="commentContent" placeholder="댓글을 입력하세요."></textarea>
-    <button id="commentSubmitBtn">등록</button>
+	<%--     <c:if test="${empty sessionScope.user}"> --%>
+	<!--         <p style="color: gray;">※ 등록하려면 로그인이 필요합니다.</p> -->
+	<%--     </c:if> --%>
+	
+	<!-- 댓글 목록 -->
+	
+	<!-- 댓글 입력 영역 -->
+	<textarea id="commentContents" name="contents" placeholder="댓글을 입력하세요."></textarea>
+	<input type="button" id="commentSubmit" value="등록" />
+	
+	<!-- 댓글 목록 영역 -->
+	<div id="commentContainer">
+	    <jsp:include page="/WEB-INF/views/comment/comment_list.jsp" />
+	</div>
 
-    <c:if test="${empty sessionScope.user}">
-        <p style="color: gray;">※ 등록하려면 로그인이 필요합니다.</p>
-    </c:if>
-
-    <!-- 댓글 목록 -->
-    <ul id="commentList"></ul>
 <footer> Footer </footer>
 </body>
 </html>

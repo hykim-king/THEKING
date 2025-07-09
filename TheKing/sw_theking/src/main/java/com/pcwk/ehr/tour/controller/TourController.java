@@ -25,6 +25,8 @@ import com.pcwk.ehr.cmn.FileUtil;
 import com.pcwk.ehr.cmn.MessageDTO;
 import com.pcwk.ehr.cmn.PcwkString;
 import com.pcwk.ehr.cmn.SearchDTO;
+import com.pcwk.ehr.comment.domain.CommentDTO;
+import com.pcwk.ehr.comment.service.CommentService;
 import com.pcwk.ehr.image.domain.ImageDTO;
 import com.pcwk.ehr.mapper.ImageMapper;
 import com.pcwk.ehr.region.domain.RegionDTO;
@@ -42,6 +44,9 @@ public class TourController {
 	
 	@Autowired
 	ImageMapper imageMapper;
+	
+	@Autowired
+	CommentService commentService;
 
 	public TourController() {
 		log.debug("┌─────────────────────────────────────────────────────────┐");
@@ -98,24 +103,6 @@ public class TourController {
 		    log.debug("│ *doRetrieve()*               │");
 		    log.debug("└──────────────────────────────┘");
 		    
-//		    //로그인 여부 확인
-//		    // 현재 로그인 사용자 꺼내기
-//		    UserDTO loggedInUser = (UserDTO) session.getAttribute("loginUser");	
-//		    
-//		    boolean isAdmin = false;
-//		    
-//		    // 로그인 여부 확인
-//		    if (loggedInUser == null) {
-//		        return "user/accessDenied";
-//		    }
-//		    // 관리자 여부 확인
-//		    if (loggedInUser != null) {
-//		        isAdmin = PcwkString.isAdmin(loggedInUser);
-//		        if(isAdmin == false) {
-//		        	return "user/accessDenied";
-//		        }
-//		    }
-//		    log.debug("isAdmin:{}",isAdmin);
 		    
 		    //로그인 사용자 정보를 JSP에서 활용할 수 있게만 전달
 		    UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
@@ -130,7 +117,7 @@ public class TourController {
 
 		    regionSido = PcwkString.nullToEmpty(regionSido);
 		    regionGugun = PcwkString.nullToEmpty(regionGugun);
-
+		    		    
 		    log.debug("pageNo: {}", pageNo);
 		    log.debug("pageSize: {}", pageSize);
 		    log.debug("searchDiv: {}", searchDiv);
@@ -157,11 +144,22 @@ public class TourController {
 
 		    // 서비스 호출
 		    List<TourDTO> list = tourService.doRetrieve(paramMap);
+		    
+		    //총 글자 수 세기.
+
+			int totalCnt = 0;
+			
+			if(null != list && list.size()>0) {
+				TourDTO totalVO =  list.get(0);
+				totalCnt = totalVO.getTotalCnt();
+			}
+			log.debug("totalCnt:{}",totalCnt);
 
 		    model.addAttribute("list", list);
 		    model.addAttribute("paramMap", paramMap);
 		    model.addAttribute("search", search);
 		    model.addAttribute("region", region);
+		    model.addAttribute("totalCnt", totalCnt);
 
 		    return viewName;
 		}
@@ -219,6 +217,11 @@ public class TourController {
 		inVO.setTourNo(tourNo);
 		
 		TourDTO outVO = tourService.doSelectOne(inVO);
+		
+	    // 댓글 목록 조회
+	    List<CommentDTO> commentList = commentService.getCommentsByTarget(tourNo, "TOUR");
+	    
+	    model.addAttribute("list", commentList);
 		
 		model.addAttribute("TourDTO",outVO);
 		

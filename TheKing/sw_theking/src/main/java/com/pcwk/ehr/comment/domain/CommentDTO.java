@@ -16,26 +16,9 @@ public class CommentDTO extends DTO {
 	private UserDTO userDTO;
 	private String userName;
 	private String userNickname;
-	/**
-	 * @param comNo
-	 * @param userId
-	 * @param contents
-	 * @param targetNo
-	 * @param tableName
-	 * @param regDt
-	 * @param modDt
-	 */
-	
 
-
-
-
-	/**
-	 * 
-	 */
 	public CommentDTO() {
 	}
-
 
 	/**
 	 * @param comNo
@@ -153,10 +136,43 @@ public class CommentDTO extends DTO {
 		this.modDt = modDt;
 	}
 	
+	
+	public UserDTO getUserDTO() {
+		return userDTO;
+	}
+
+
+	public void setUserDTO(UserDTO userDTO) {
+		this.userDTO = userDTO;
+	}
+
+
+	public String getUserName() {
+		return userName;
+	}
+
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+
+	public String getUserNickname() {
+		return userNickname;
+	}
+
+
+	public void setUserNickname(String userNickname) {
+		this.userNickname = userNickname;
+	}
+
+
 	@Override
 	public String toString() {
-		return "commentDTO [comNo=" + comNo + ", userId=" + userId + ", contents=" + contents + ", targetNo=" + targetNo
-				+ ", tableName=" + tableName + ", regDt=" + regDt + ", modDt=" + modDt + "]";
+		return "CommentDTO [comNo=" + comNo + ", userId=" + userId + ", contents=" + contents + ", targetNo=" + targetNo
+				+ ", tableName=" + tableName + ", regDt=" + regDt + ", modDt=" + modDt + ", userDTO=" + userDTO
+				+ ", userName=" + userName + ", userNickname=" + userNickname + ", toString()=" + super.toString()
+				+ "]";
 	}
 
 }
