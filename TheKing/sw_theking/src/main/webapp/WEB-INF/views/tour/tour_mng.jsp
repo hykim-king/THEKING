@@ -102,11 +102,8 @@ document.addEventListener('DOMContentLoaded', function() {
 </head>
 
 <body>
-    <h2>Tour MOD</h2>
-    <hr>
-    <a href="/ehr/festival/main.do">
-        <img alt="로고이미지" src="${CP}/resources/images/logo.png">
-    </a>
+    <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+    
     <h4>관광지 수정</h4>
     <hr>
 
@@ -176,6 +173,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <p>※ 등록하려면 로그인이 필요합니다.</p>
     </c:if>
 
-<footer> Footer </footer>
+<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>
 </html>
