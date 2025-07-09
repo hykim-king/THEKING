@@ -45,4 +45,6 @@ public interface UserMapper extends WorkDiv<UserDTO> {
 	int isDuplicateEmail(String email);
 	
 	UserDTO getUserImage(UserDTO userNo);
+
+	
 }

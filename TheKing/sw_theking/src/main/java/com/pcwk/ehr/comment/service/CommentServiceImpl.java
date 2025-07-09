@@ -17,6 +17,7 @@ import com.pcwk.ehr.comment.domain.CommentDTO;
 import com.pcwk.ehr.mapper.CommentMapper;
 import com.pcwk.ehr.mapper.UserMapper;
 import com.pcwk.ehr.user.domain.UserDTO;
+import com.pcwk.ehr.user.service.UserService;
 import com.pcwk.ehr.user.service.UserValidation;
 
 @Service
@@ -29,6 +30,9 @@ public class CommentServiceImpl implements CommentService{
 
 	@Autowired
 	private CommentMapper mapper;
+	
+	@Autowired
+	private UserMapper userMapper;
 	
 	
 	public CommentServiceImpl() {
@@ -81,10 +85,35 @@ public class CommentServiceImpl implements CommentService{
 	}
 
 	@Override
-	public List<CommentDTO> getCommentsByTarget(int targetNo, String tableName) {
+	public List<CommentDTO> getCommentsByTarget(int targetNo, String tableName) throws SQLException{
 		Map<String, Object> param = new HashMap<>();
 	    param.put("targetNo", targetNo);
 	    param.put("tableName", tableName);
-	    return mapper.getCommentsByTarget(param);
+	    
+	    List<CommentDTO> commentList = mapper.getCommentsByTarget(param);
+	    //유저 이름과 유저 닉네임 구하기.
+	    for (CommentDTO comment : commentList) {
+	        String userId = comment.getUserId();
+	        if (userId != null && !userId.isEmpty()) {
+	            UserDTO inDTO = new UserDTO();
+	            inDTO.setUserId(userId);
+
+	            UserDTO userDTO = userMapper.doLogin(inDTO);
+	            if (userDTO != null) {
+	                comment.setUserName(userDTO.getName());
+	                comment.setUserNickname(userDTO.getNickname());
+	            }
+	        }
+	    }
+
+
+	    return commentList;
+	}
+
+
+	@Override
+	public List<CommentDTO> doRetrieve(CommentDTO param) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -5,7 +5,7 @@
     SELECT 
         c.*, u.name, u.nickname
     FROM comments c
-    JOIN user_tk u ON c.user_id = u.user_id
+    LEFT JOIN user_tk u ON c.user_id = u.user_id
     WHERE c.target_no = #{targetNo}
       AND c.table_name = #{tableName}
     ORDER BY c.reg_date DESC
@@ -49,23 +49,7 @@
     JOIN user_tk u ON c.user_id = u.user_id
 </select>
 
-    <sql id="commentWhere">
-        <where>
-            <if test="searchDiv !='' ">
-                <choose>
-                    <when test="searchDiv == '10'">
-                        user_id LIKE #{searchWord} || '%'
-                    </when>
-                    <when test="searchDiv == '20'">
-                        target_no LIKE #{searchWord} || '%'
-                    </when>
-                    <when test="searchDiv == '30'">
-                        table_name LIKE #{searchWord} || '%'
-                    </when>
-                </choose>                           
-            </if>
-        </where>
-    </sql>
+
     
     <select id="doRetrieve" parameterType="SearchDTO" resultType="CommentDTO">
 	    SELECT A.*, B.*
@@ -82,8 +66,7 @@
 	            SELECT ROWNUM AS RNUM, tt2.*
 	            FROM (
 	                SELECT t1.*
-	                FROM comments t1
-	                <include refid="commentWhere"/>
+	                FROM comments t1   
 	                ORDER BY t1.reg_date DESC
 	            ) tt2
 	            <![CDATA[
@@ -94,7 +77,6 @@
 	    CROSS JOIN (
 	        SELECT COUNT(*) AS total_cnt
 	        FROM comments
-	        <include refid="commentWhere"/>
 	    ) B
     </select>
     

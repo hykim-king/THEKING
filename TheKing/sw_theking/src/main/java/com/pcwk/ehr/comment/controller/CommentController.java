@@ -1,6 +1,7 @@
 package com.pcwk.ehr.comment.controller;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,35 +42,62 @@ public class CommentController {
     public String getAllComments(Model model) throws SQLException {
         List<CommentDTO> list = commentService.getAllComments();
         model.addAttribute("comments", list);
-        return "comment/list"; // → comment/list.jsp 또는 .html
+        return "comment/list"; 
     }
 	
+	@GetMapping("/commentsList.do")
+	public String reloadList(@RequestParam("tourNo") int tourNo, Model model) throws SQLException {
+	    List<CommentDTO> list = commentService.getCommentsByTarget(tourNo, "tour");
+	    
+	    // 날짜 포맷을 위한 설정
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+	    // 날짜를 포맷해서 DTO에 다시 셋팅
+	    for (CommentDTO comment : list) {
+	        if (comment.getRegDt() == null && comment.getRegDt() != null) {
+	            comment.setRegDt(sdf.format(comment.getRegDt()));
+	        }
+	    }
+	    
+	    model.addAttribute("list", list);
+	    return "comment/comment_list"; //상세 페이지 안에 넣을 view - JSP 조각
+	}
 	
 	//댓글 목록 조회(Tour)
 	@GetMapping(value = "/listByTourNo.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String listByTourNo(@RequestParam("tourNo") int tourNo) throws SQLException {
 	    List<CommentDTO> commentList = commentService.getCommentsByTarget(tourNo, "tour");
-
+	    
 	    Map<String, Object> resultMap = new HashMap<>();
 	    resultMap.put("status", 1);
-	    resultMap.put("data", commentList);
+	    resultMap.put("list", commentList);
 
 	    return new Gson().toJson(resultMap);
-	}
+	} //ajax 요청용
+	
 	//댓글 등록
-	@PostMapping(value = "/add.do", produces = "application/json;charset=UTF-8")
+	@PostMapping(value = "/tourCommentsadd.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String addComment(@RequestBody CommentDTO commentDTO, HttpSession session) throws SQLException {
-	    UserDTO user = (UserDTO) session.getAttribute("user");
+	public MessageDTO addComment(@RequestBody CommentDTO commentDTO, HttpSession session) throws SQLException {
 
-	    if (user == null) {
-	        return new Gson().toJson(new MessageDTO(0, "로그인이 필요합니다."));
-	    }
+		UserDTO user = (UserDTO) session.getAttribute("loginUser");
+		
+		
+		//테스트용
+//	    if (user != null) {
+//	        commentDTO.setUserId(user.getUserId());
+//	    } else {
+//	        commentDTO.setUserId("guest");  
+//	    }
 
-	    commentDTO.setUserId(user.getUserId());
-	    commentDTO.setTableName("tour");
-
+		if (loginUser == null) {
+			return new MessageDTO(0, "로그인이 필요합니다.");
+		}
+		
+		commentDTO.setUserId(user.getUserId());
+	    commentDTO.setTableName("TOUR");
+	    
 	    int result = commentService.doSave(commentDTO);
 	    String message = "";
 	    		
@@ -78,8 +106,8 @@ public class CommentController {
 	    }else {
 	    	message = "댓글 등록 실패!";
 	    }
-
-	    return new Gson().toJson(new MessageDTO(result, message));
+		
+	    return new MessageDTO(result, message);
 	}
 	
 	//관광지 댓글 정보 가져오기

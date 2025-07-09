@@ -1,10 +1,41 @@
 <%-- <%@ page language="java" contentType="text/html; charset=UTF-8" --%>
 <%--     pageEncoding="UTF-8"%> --%>
+<%@page import="com.pcwk.ehr.cmn.PcwkString"%>
+<%@page import="com.pcwk.ehr.cmn.SearchDTO"%>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="CP" value="${pageContext.request.contextPath}"></c:set>
-
+<%
+    int bottomCount = 5;
+    int pageSize    = 0;//페이지 사이즈
+    int pageNo      = 0;//페이지 번호
+    int maxNum      = 0;//총글수
+    
+    String url      = "";//호출URL
+    String scriptName="";//자바스크립트 이름
+    
+    
+    //request: 요청 처리를 할수 있는 jsp 내장 객체
+    String totalCntString = request.getAttribute("totalCnt").toString();
+    //out.print("totalCntString:"+totalCntString);
+    maxNum = Integer.parseInt(totalCntString);  
+    
+    SearchDTO  paramVO = (SearchDTO)request.getAttribute("search");   
+    pageSize = paramVO.getPageSize();
+    pageNo   = paramVO.getPageNo();
+    
+    String cp = request.getContextPath();
+       //out.print("cp:"+cp);
+       
+       url = cp+"/tour/doRetrieve.do";
+       //out.print("url:"+url);
+       
+       scriptName = "pagerDoRetrieve";
+       
+       String pageHtml=PcwkString.renderingPager(maxNum, pageNo, pageSize, bottomCount, url, scriptName);
+       
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -42,10 +73,18 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <script>
+//서버 이동 함수
+function navigateWithRegion(sido, gugun = "") {//gugun = "" : 생략 하면 빈문자열
+    let url = "/ehr/tour/doRetrieve.do?region.regionSido=" + encodeURIComponent(sido);
+    if (gugun) {
+        url += "&region.regionGugun=" + encodeURIComponent(gugun);
+    }
+    window.location.href = url; //해당 주소로 이동
+}
 document.addEventListener('DOMContentLoaded', function(){
     console.log('DOMContentLoaded');
     
-    const {sido, gugun} = getUrlParams();
+    const {sido,gugun} = getUrlParams();
      //등록 버튼 이동
     const moveToSaveButton=document.querySelector("#moveToSave");
     console.log(moveToSaveButton);
@@ -66,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function(){
         const params = new URLSearchParams(window.location.search);
         const sido = params.get("region.regionSido");
         const gugun = params.get("region.regionGugun");
-        return { sido,gugun }; //객체 상태로 리턴
+        return {sido,gugun}; //객체 상태로 리턴
     }
 
 
@@ -85,14 +124,7 @@ document.addEventListener('DOMContentLoaded', function(){
         $("#svg-" + regionKey).show(); //해당시도
     }
 
-    // 서버 이동 함수
-    function navigateWithRegion(sido, gugun = "") {//gugun = "" : 생략 하면 빈문자열
-        let url = "/ehr/tour/doRetrieve.do?region.regionSido=" + encodeURIComponent(sido);
-        if (gugun) {
-            url += "&region.regionGugun=" + encodeURIComponent(gugun);
-        }
-        window.location.href = url; //해당 주소로 이동
-    }
+    
 
     // 전체보기 버튼
     $("#allBtn").on("click", function () {
@@ -124,8 +156,35 @@ document.addEventListener('DOMContentLoaded', function(){
             alert("시도 정보가 없습니다.");
         }
     });
+    //
+    function doRetieve(pageNo){
+        console.log('doRetieve pageNo:'+pageNo);
+     
+        //form
+        const userForm = document.userForm;
+        userForm.pageNo.value =pageNo;
+        
+        userForm.action="/ehr/board/doRetrieve.do";
+        
+        userForm.submit();
+    }
 
 });
+
+//페이징 
+function pagerDoRetrieve(url, pageNo){   
+    console.log('pagerDoRetrieve pageNo:'+pageNo);
+    console.log('pagerDoRetrieve url:'+url);
+    
+    //form
+    const userForm = document.userForm;
+    userForm.pageNo.value =pageNo;
+    
+    userForm.action=url;
+    
+    userForm.submit();     
+    
+}   
 </script>
 </head>
 <body>
@@ -961,6 +1020,11 @@ document.addEventListener('DOMContentLoaded', function(){
             </c:choose>
         </tbody>
     </table>
+        <!-- paging -->
+    <%
+        out.print(pageHtml);
+    %>
+    <!--// paging end -->
 <footer> Footer </footer>
 </body>
 </html>
