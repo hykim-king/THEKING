@@ -26,6 +26,7 @@ import com.pcwk.ehr.cmn.PcwkString;
 import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.comment.domain.CommentDTO;
 import com.pcwk.ehr.comment.service.CommentService;
+import com.pcwk.ehr.favorites.service.FavoritesService;
 import com.pcwk.ehr.festival.domain.FestivalDTO;
 import com.pcwk.ehr.mapper.UserMapper;
 import com.pcwk.ehr.tour.domain.TourDTO;
@@ -45,6 +46,9 @@ public class UserController {
 	
 	@Autowired
 	private CommentService commentService;
+	
+	@Autowired
+	private FavoritesService favoritesService;
 	
 	public UserController() {
 		log.debug("┌─────────────────────────────────┐");
@@ -85,9 +89,10 @@ public class UserController {
 		       return "user/loginDenied";
 		   }
 		 
+			List<FestivalDTO> favoriteFestivals = favoritesService.getFavoriteFestivals(loginUser.getUserId());
 		 	List<CommentDTO> userComments = commentService.getAllComments(loginUser.getUserId());
 		    model.addAttribute("comments", userComments);
-
+		    model.addAttribute("favoriteFestivals", favoriteFestivals);
 		    // 사용자 정보 등도 모델에 넣기
 		    model.addAttribute("user", loginUser);
 		    

@@ -1,0 +1,119 @@
+@charset "UTF-8";
+  /* 테이블 전체 스타일 */
+  .searchClass {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px;
+  }
+
+  .searchClass label {
+    font-weight: 600;
+    min-width: 40px;
+  }
+
+  .searchClass select,
+  .searchClass input[type="search"] {
+    padding: 6px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline-color: #4CAF50;
+    transition: border-color 0.3s ease;
+  }
+
+  .searchClass select:hover,
+  .searchClass input[type="search"]:hover {
+    border-color: #3a8d40;
+  }
+
+  .searchClass select:focus,
+  .searchClass input[type="search"]:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 5px #4CAF50aa;
+  }
+
+  .searchClass input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 7px 16px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .searchClass input[type="submit"]:hover {
+    background-color: #388e3c;
+  }
+
+  
+  #ListTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  /* 헤더 스타일 */
+  #ListTable thead tr {
+    background-color: #4CAF50;
+    color: white;
+    text-align: center;
+  }
+
+  #ListTable thead th {
+    padding: 12px 10px;
+    border: 1px solid #ddd;
+  }
+
+  /* 본문 행 스타일 */
+  #ListTable tbody tr {
+    border-bottom: 1px solid #ddd;
+  }
+
+  /* 홀수행 배경색 */
+  #ListTable tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+
+  /* 짝수행 배경색 */
+  #ListTable tbody tr:nth-child(even) {
+    background-color: #fff;
+  }
+
+  /* 마우스 올렸을 때 하이라이트 */
+  #ListTable tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+
+  /* 셀 텍스트 가운데 정렬 */
+  #ListTable tbody td, #ListTable thead th {
+    text-align: center;
+    padding: 8px 10px;
+  }
+
+  /* 강퇴 버튼 스타일 */
+  .deleteUserBtn {
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+
+  .deleteUserBtn:hover {
+    background-color: #c0392b;
+  }
+
+  /* 반응형 (화면 작을 때 가로 스크롤) */
+  @media (max-width: 768px) {
+    #ListTable {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  }

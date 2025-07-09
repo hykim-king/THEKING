@@ -121,7 +121,7 @@
     }
 
     .card {
-      width: 150px;
+      width: 180px;
       text-align: center;
       border: 1px solid #6363632d;
       border-radius: 5px;
@@ -135,7 +135,7 @@
     }
 
     .card-name {
-      background-color: #eee;
+      background-color: #eee;	
     }
     .scroll-btn {
       text-align: center;

@@ -107,26 +107,32 @@
 
     <div class="section" id="tour">
       <h3>관심있는 관광지</h3>
-      <div class="scroll-btn">▲</div>
       <div class="cards">
-        <div class="card">
-          <img src="/path/to/image.jpg" alt="관광지">
-          <div class="card-name">제목</div>
-        </div>
-      </div>
-      <div class="scroll-btn">▼</div>
+    	<c:forEach var="tour" items="${favoriteTours}">
+      	<div class="card">
+        	<img src="${tour.image.imageUrl}" alt="${tour.name} 관광지 이미지" width="100" height="100" />
+        	<div class="card-name">${tour.name}</div>
+      	</div>
+    	</c:forEach>
+    	<c:if test="${empty favoriteTours}">
+      		<p>즐겨찾기한 관광지가 없습니다.</p>
+    	</c:if>
+  	  </div>
     </div>
 
     <div class="section" id="festival">
       <h3>관심있는 축제</h3>
-      <div class="scroll-btn">▲</div>
       <div class="cards">
-        <div class="card">
-          <img src="/path/to/image.jpg" alt="축제">
-          <div class="card-name">제목</div>
-        </div>
-      </div>
-      <div class="scroll-btn">▼</div>
+    	<c:forEach var="festival" items="${favoriteFestivals}">
+      	<div class="card">
+        	<img src="${festival.image.imageUrl}" alt="${festival.name} 축제 이미지" width="100" height="100" />
+        	<div class="card-name">${festival.name}</div>
+      	</div>
+    	</c:forEach>
+    	<c:if test="${empty favoriteFestivals}">
+      		<p>즐겨찾기한 축제가 없습니다.</p>
+    	</c:if>
+  	  </div>
     </div>
   </div>
 </div>

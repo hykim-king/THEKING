@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="/ehr/resources/css/user/userList.css">
 <title>떠나볼지도 회원 조회</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/ehr/resources/js/common.js"></script>
@@ -45,12 +46,9 @@ document.addEventListener('DOMContentLoaded', function(){
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-  <h2>회원 목록</h2>
-  <hr>
   <!-- 검색 구분 -->
   <form action="/ehr/user/doRetrieve.do" name="userForm" method="get" enctype="application/x-www-form-urlencoded">
-    <div>   
-      <label>구분</label>
+    <div class="searchClass"> 
       <select name="searchDiv" id="searchDiv">
         <option value="">전체</option>
         <option value="10">아이디</option>
@@ -82,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function(){
         <th>전화번호</th>
         <th>주소</th>
         <th>가입날짜</th>
-        <th>강퇴</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>

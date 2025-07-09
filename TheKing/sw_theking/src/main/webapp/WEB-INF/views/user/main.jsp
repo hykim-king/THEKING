@@ -13,7 +13,6 @@
 <c:if test="${not empty message}">
     <div>${message}</div>
 </c:if>
-<a href="/ehr/user/myPage.do">마이페이지</a>
 <jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>
 </html>
