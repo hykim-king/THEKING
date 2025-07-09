@@ -22,21 +22,27 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    public BoardController() {
+        log.debug("┌─────────────────────────────────┐");
+        log.debug("│ BoardController()               │");
+        log.debug("└─────────────────────────────────┘");
+    }
+
     // 목록 조회
-    @GetMapping("/list")
+    @GetMapping("/list.do")
     public String list(SearchDTO search, Model model) {
-        log.debug("board/list 호출: {}", search);
+        log.debug("board/list.do 호출: {}", search);
 
         List<BoardDTO> list = boardService.doRetrieve(search);
         model.addAttribute("list", list);
 
-        return "board/list";
+        return "board/board_list";
     }
 
     // 글 상세 보기 
-    @GetMapping("/view")
+    @GetMapping("/view.do")
     public String view(@RequestParam("boardNo") int boardNo, Model model) {
-        log.debug("board/view?boardNo={} 호출", boardNo);
+        log.debug("board/view.do?boardNo={} 호출", boardNo);
 
         BoardDTO param = new BoardDTO();
         param.setBoardNo(boardNo);
@@ -45,48 +51,48 @@ public class BoardController {
         BoardDTO dto = boardService.doSelectOne(param);
 
         model.addAttribute("board", dto);
-        return "board/view";
+        return "board/board_view";
     }
 
     // 글쓰기 폼
-    @GetMapping("/write")
+    @GetMapping("/write.do")
     public String writeForm() {
-        return "board/write";
+        return "board/board_write";
     }
 
     // 글 등록 처리
-    @PostMapping("/write")
+    @PostMapping("/write.do")
     public String write(BoardDTO dto) {
         log.debug("글쓰기 처리: {}", dto);
         boardService.doSave(dto);
-        return "redirect:/board/list";
+        return "redirect:/board/list.do";
     }
 
     // 수정 폼
-    @GetMapping("/edit")
+    @GetMapping("/edit.do")
     public String editForm(@RequestParam("boardNo") int boardNo, Model model) {
         BoardDTO param = new BoardDTO();
         param.setBoardNo(boardNo);
 
         BoardDTO dto = boardService.doSelectOne(param);
         model.addAttribute("board", dto);
-        return "board/edit";
+        return "board/board_edit";
     }
 
     // 글 수정 처리
-    @PostMapping("/edit")
+    @PostMapping("/edit.do")
     public String edit(BoardDTO dto) {
         boardService.doUpdate(dto);
-        return "redirect:/board/view?boardNo=" + dto.getBoardNo();
+        return "redirect:/board/view.do?boardNo=" + dto.getBoardNo();
     }
 
     // 글 삭제 처리
-    @PostMapping("/delete")
+    @PostMapping("/delete.do")
     public String delete(@RequestParam("boardNo") int boardNo) {
         BoardDTO param = new BoardDTO();
         param.setBoardNo(boardNo);
 
         boardService.doDelete(param);
-        return "redirect:/board/list";
+        return "redirect:/board/list.do";
     }
 }

@@ -1,0 +1,95 @@
+@charset "UTF-8";
+.container {
+    display: flex;
+    padding: 20px;
+    width: 800px;
+    margin-top: 2%;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-bottom: 5%;
+    height: 90%;
+    box-shadow: 2px 2px 5px #636363;
+    border-radius: 10px;
+    border: 1px solid #6363632d;
+}
+
+#page {
+  padding-left: 25%;
+  padding-top: 25px;
+}
+
+.picture-wrapper img{
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      display: flex;
+      margin-top: 10px;
+      margin-bottom: 15px;
+}
+
+button {
+  width: 80px;
+  height: 30px;
+  background-color: #eee;
+  border-color: #e7e7e7;
+  border-radius: 5px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 15px;
+  margin-bottom: 50px;
+}
+
+.form-row.last-row {
+  margin-bottom: 10px; 
+}
+
+.form-row label {
+  width: 110px;
+  font-weight: bold;
+}
+
+.form-row input {
+  width: 250px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.tel {
+      width: 100px !important; 
+}
+.form-row button {
+  padding: 5px 7px;
+  white-space: nowrap;  /* 줄바꿈 방지 */
+}
+
+.form-inline {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+
+
+.detail-address input {
+  width: 250px;
+  height: 40px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+#signUpButton {
+  width: 80px;
+  height: 30px;
+  background-color: #ffdc9f;
+  border-color: #ffd895;
+  border-radius: 5px;
+}
+
