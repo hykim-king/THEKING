@@ -7,9 +7,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 <meta charset="UTF-8">
 <link rel="stylesheet" href="/ehr/resources/css/footer.css">
 <link rel="stylesheet" href="/ehr/resources/css/nav.css">
@@ -97,14 +94,16 @@
     </div>
 
     <div class="section" id="comments">
-      <h3>작성한 댓글</h3>
-      <div class="comment"></div>
-      <div class="comment"></div>
-      <div class="comment"></div>
-      <div class="pagination">
-        &lt; 1 2 &gt;
+    <h3>작성한 댓글</h3>
+    <c:forEach var="comment" items="${comments}">
+      <div class="comment">
+      	<p>${comment.contents}</p>
       </div>
+  	</c:forEach>
     </div>
+	<div class="pagination">
+    	&lt; 1 2 &gt;  <!-- 페이지네이션은 별도 작업 필요 -->
+  	</div>
 
     <div class="section" id="tour">
       <h3>관심있는 관광지</h3>

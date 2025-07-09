@@ -20,7 +20,7 @@ public interface CommentService {
 
 	int doSave(CommentDTO param) throws SQLException;
 	
-	List<CommentDTO> getAllComments() throws SQLException;
+	List<CommentDTO> getAllComments(String userId) throws SQLException;
 	
 	List<CommentDTO> getTourComments(String userId) throws SQLException;
 	

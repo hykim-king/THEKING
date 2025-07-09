@@ -39,8 +39,9 @@ public class CommentController {
 	
 	
 	@GetMapping("/allComment.do")
-    public String getAllComments(Model model) throws SQLException {
-        List<CommentDTO> list = commentService.getAllComments();
+    public String getAllComments(HttpSession session, Model model) throws SQLException {
+		UserDTO user = (UserDTO) session.getAttribute("loginUser");
+		List<CommentDTO> list = commentService.getAllComments(user.getUserId());
         model.addAttribute("comments", list);
         return "comment/list"; 
     }

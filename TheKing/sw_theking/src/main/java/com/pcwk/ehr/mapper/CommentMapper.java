@@ -23,7 +23,7 @@ public interface CommentMapper extends WorkDiv<CommentDTO>{
 	
 	int getCount() throws SQLException;
 
-	List<CommentDTO> getAllComments() throws SQLException;
+	List<CommentDTO> getAllComments(String userId) throws SQLException;
 	
 	List<CommentDTO> getTourComments(String userId);
 	

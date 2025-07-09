@@ -80,8 +80,8 @@ public class CommentServiceImpl implements CommentService{
 	}
 	
 	@Override
-	public List<CommentDTO> getAllComments() throws SQLException {
-	    return mapper.getAllComments();
+	public List<CommentDTO> getAllComments(String userId) throws SQLException {
+	    return mapper.getAllComments(userId);
 	}
 
 	@Override

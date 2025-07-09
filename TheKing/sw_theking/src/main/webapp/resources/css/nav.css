@@ -11,8 +11,7 @@
       background-color: #ffdc9f;
       padding: 5px;
       display: flex;
-      align-items: flex-start;
-      padding-top: 25px;     
+      align-items: center;  
       overflow: hidden;        /* 넘치는 콘텐츠는 숨김 */
       white-space: nowrap;     /* 줄바꿈 방지 */
       box-shadow: 0px 2px 5px #44444bee;
@@ -31,7 +30,6 @@
     }
     
     nav img {
-      margin-left: 25px;
       width: 220px;
     }
 

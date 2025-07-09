@@ -1,1 +1,57 @@
 @charset "UTF-8";
+.carousel-wrapper {
+  position: relative;
+  width: 700px;
+  height: 320px;
+  margin: 0 auto;
+  overflow: hidden;
+  margin-left: auto;
+  margin-right: 0;
+  margin-bottom: 30px;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-track a {
+  flex: 0 0 400px; /* 한 이미지 크기 */
+  margin-right: 40px; /* 다음 이미지 살짝 보이게 */
+  display: block;
+}
+
+.carousel-track img {
+  width: 500px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.carousel-btn {
+  background-color: #eee; /* 배경 하얀색 */
+  color: black;            /* 글자색 검정 (대비 위해) */
+  width: 50px;             /* 가로 세로 같게 */
+  height: 50px;
+  padding: 0;              /* 내부 여백 제거 */
+  border-radius: 50%;      /* 정확한 원 */
+  font-size: 30px;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;           /* 중앙 정렬용 */
+  justify-content: center; /* 중앙 정렬용 */
+  align-items: center;     /* 중앙 정렬용 */
+}
+
+.carousel-btn.left {
+  left: 20px;
+}
+
+.carousel-btn.right {
+  right: 20px;
+}

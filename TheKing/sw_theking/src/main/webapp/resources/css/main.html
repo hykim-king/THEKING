@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>떠나볼지도</title>
+<link rel="stylesheet" href="nav.css">
+<link rel="stylesheet" href="footer.css">
+</head>
+<body class="main-page">
+<nav>
+    <a href="/ehr/main.do"><img src="logo2.png">
+    
+    <a href="/ehr/tour/doRetrieve.do">관광지</a>
+    <a href="/ehr/festival/main.do">축제</a>
+    <a href="#">게시판</a>
+    <a href="#">공지사항</a>
+
+    		<a href="/ehr/user/signUpPage.do">회원가입</a>
+    		<a href="/ehr/user/loginPage.do">로그인</a>
+    	</c:when>  
+    	<c:otherwise><a href="/ehr/user/logout.do">로그아웃</a></c:otherwise>
+    </c:choose>
+  </nav>
+<h1>로그인 상태</h1>
+<c:if test="${not empty message}">
+    <div>${message}</div>
+</c:if>
+<a href="/ehr/user/myPage.do">마이페이지</a>
+<footer>
+  		<c:choose>
+            <c:when test="${empty sessionScope.loginUser}">
+                <a href="/ehr/main.do"><img alt="footer_logo" src="logo2.png"></a>
+            </c:when>
+        </c:choose>
+        <div class="team">
+        	<p>TheKing</p>
+        	<p>GGMAP</p>
+        </div>
+	</footer>
+</body>
+</html>

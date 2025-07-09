@@ -41,7 +41,7 @@
 </select>
 
 <!-- 댓글 전체 조회 -->
-<select id="getAllComments" resultMap="commentUserMap">
+<select id="getAllComments" parameterType="string" resultMap="commentUserMap">
     SELECT 
         c.*, 
         u.name, u.nickname

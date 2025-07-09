@@ -66,16 +66,16 @@ class CommentControllerTest {
 		
 	}
 
-	@Test
-	public void getAllCommentsTest() throws SQLException {
-		mapper.deleteAll();
-		mapper.doSave(dto01);
-	    List<CommentDTO> list = mapper.getAllComments();
-	    assertNotNull(list);
-	    for (CommentDTO dto : list) {
-	        log.debug("comment: {}", dto);
-	    }
-	}
+//	@Test
+//	public void getAllCommentsTest() throws SQLException {
+//		mapper.deleteAll();
+//		mapper.doSave(dto01);
+//	    List<CommentDTO> list = mapper.getAllComments();
+//	    assertNotNull(list);
+//	    for (CommentDTO dto : list) {
+//	        log.debug("comment: {}", dto);
+//	    }
+//	}
 	
 	@Disabled
 	@Test

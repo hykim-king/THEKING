@@ -25,6 +25,7 @@ import com.pcwk.ehr.cmn.MessageDTO;
 import com.pcwk.ehr.cmn.PcwkString;
 import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.comment.domain.CommentDTO;
+import com.pcwk.ehr.comment.service.CommentService;
 import com.pcwk.ehr.festival.domain.FestivalDTO;
 import com.pcwk.ehr.mapper.UserMapper;
 import com.pcwk.ehr.tour.domain.TourDTO;
@@ -41,6 +42,9 @@ public class UserController {
 
 	@Autowired
 	private UserMapper userMapper;
+	
+	@Autowired
+	private CommentService commentService;
 	
 	public UserController() {
 		log.debug("┌─────────────────────────────────┐");
@@ -75,15 +79,19 @@ public class UserController {
 		
 	// 마이페이지 화면
 	@GetMapping("/myPage.do")
-	public String myPage(HttpSession session, Model model) {
-		UserDTO loggedInUser = (UserDTO) session.getAttribute("loginUser");
-		if (loggedInUser == null) {
+	public String myPage(HttpSession session, Model model) throws SQLException {
+		UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+		if (loginUser == null) {
 		       return "user/loginDenied";
 		   }
 		 
-		model.addAttribute("user", loggedInUser);
-		
-		return "user/myPage";
+		 	List<CommentDTO> userComments = commentService.getAllComments(loginUser.getUserId());
+		    model.addAttribute("comments", userComments);
+
+		    // 사용자 정보 등도 모델에 넣기
+		    model.addAttribute("user", loginUser);
+		    
+		    return "user/myPage"; // JSP 경로
 	}
 	
 	//회원 정보 수정 화면
