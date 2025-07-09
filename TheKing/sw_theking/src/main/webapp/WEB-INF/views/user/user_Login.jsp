@@ -4,6 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link rel="stylesheet" href="/ehr/resources/css/footer.css">
+<link rel="stylesheet" href="/ehr/resources/css/nav.css">
+<link rel="stylesheet" href="/ehr/resources/css/user/login.css">
 <title>떠나볼지도 로그인</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/ehr/resources/js/common.js"></script>
@@ -65,17 +68,42 @@ document.addEventListener("DOMContentLoaded", function(){
 </script>
 </head>
 <body>
-    <h1>로그인 페이지</h1>
-    <form action="#" id="loginForm" method="post">
-    <div>
-        <label for="userId">아이디:</label>
-        <input type="text" name="userId" id="userId">
+   <nav>
+    <a href="/ehr/user/main.do"><img src="/ehr/resources/images/logo2.png"></a>
+    <a href="/ehr/tour/doRetrieve.do">관광지</a>
+    <a href="/ehr/festival/main.do">축제</a>
+    <a href="#">게시판</a>
+    <a href="#">공지사항</a>
+    <a href="/ehr/user/logout.do">로그아웃</a>
+  </nav>
+<div class="login-container">
+  <div class="login-box">
+    <div class="login-logo">
+      <a href="/ehr/user/main.do">
+        <img src="/ehr/resources/images/logo2.png" alt="떠나볼지도 로고">
+      </a>
     </div>
-    <div>
-        <label for="password">비밀번호:</label>
-        <input type="password" name="password" id="password">
-    </div>
-        <input type="button" id="LoginButton" value="로그인">
+
+    <form id="loginForm" method="post">
+      <div class="form-group">
+        <label for="userId">아이디</label>
+        <input type="text" name="userId" id="userId" />
+      </div>
+      <div class="form-group">
+        <label for="password">비밀번호</label>
+        <input type="password" name="password" id="password" />
+      </div>
+      <div class="form-group">
+        <button type="button" id="LoginButton">로그인</button>
+      </div>
     </form>
+  </div>
+</div>
+<footer>
+  <img src="logo2.png">
+  <div class="team">
+  <p>THE KING</p>
+  </div>
+</footer>
 </body>
 </html>

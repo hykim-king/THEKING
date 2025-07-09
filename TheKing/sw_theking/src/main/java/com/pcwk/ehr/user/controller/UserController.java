@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import com.pcwk.ehr.cmn.PcwkString;
 import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.comment.domain.CommentDTO;
 import com.pcwk.ehr.festival.domain.FestivalDTO;
+import com.pcwk.ehr.mapper.UserMapper;
 import com.pcwk.ehr.tour.domain.TourDTO;
 import com.pcwk.ehr.user.domain.UserDTO;
 import com.pcwk.ehr.user.service.UserService;
@@ -37,6 +39,9 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private UserMapper userMapper;
+	
 	public UserController() {
 		log.debug("┌─────────────────────────────────┐");
 		log.debug("│ UserController()                │");
@@ -45,7 +50,14 @@ public class UserController {
 
 	// 로그인 후 화면
 	@GetMapping("/main.do")
-	public String mainPage() {
+	public String mainPage(HttpSession session, Model model) {
+		UserDTO loggedInUser = (UserDTO) session.getAttribute("loginUser");
+		if (loggedInUser == null) {
+		       return "user/loginDenied";
+		   }
+		 
+		model.addAttribute("user", loggedInUser);
+		
 		return "user/main";
 	}
 
@@ -94,6 +106,32 @@ public class UserController {
 		return "user/user_Update";
 	}
 	
+	@PostMapping(value = "/isDuplicateId.do",produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String isDuplicateId(@RequestParam("userId") String userId) throws SQLException {
+		try {
+			userId = PcwkString.nullToEmpty(userId);
+	        int result = userMapper.isDuplicateUserId(userId);
+	        String message = (result == 1) ? "이미 사용 중인 아이디입니다." : "사용 가능한 아이디입니다.";
+	        return new Gson().toJson(new MessageDTO(result, message));
+	    } catch (IllegalArgumentException e) {
+	        return new Gson().toJson(new MessageDTO(0, e.getMessage()));
+	    }
+	}
+	
+	@PostMapping(value = "/isDuplicateNickname.do",produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String isDuplicateNickname(@RequestParam("nickname") String nickname) throws SQLException {
+		try {
+			nickname = PcwkString.nullToEmpty(nickname);
+	        int result = userMapper.isDuplicateNickname(nickname);
+	        String message = (result == 1) ? "이미 사용 중인 닉네임입니다." : "사용 가능한 닉네임입니다.";
+	        return new Gson().toJson(new MessageDTO(result, message));
+	    } catch (IllegalArgumentException e) {
+	        return new Gson().toJson(new MessageDTO(0, e.getMessage()));
+	    }
+	}
+	
 	@GetMapping(value="/doRetrieve.do")
 	public String doRetrieve(Model model, SearchDTO inVO, HttpSession session) throws SQLException {
 		String viewName = "user/userList";
@@ -115,8 +153,6 @@ public class UserController {
 	        	return "user/accessDenied";
 	        }
 	    }
-		
-	    
 	    
 	    log.debug("isAdmin:{}",isAdmin);
 	    

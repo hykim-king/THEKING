@@ -1,3 +1,5 @@
+<%@page import="com.pcwk.ehr.cmn.PcwkString"%>
+<%@page import="com.pcwk.ehr.cmn.SearchDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -5,11 +7,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
 <meta charset="UTF-8">
+<link rel="stylesheet" href="/ehr/resources/css/footer.css">
+<link rel="stylesheet" href="/ehr/resources/css/nav.css">
+<link rel="stylesheet" href="/ehr/resources/css/user/myPage.css">
 <title>떠나볼지도</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/ehr/resources/js/common.js"></script>
-<div><strong>떠나볼지도</strong> Get going</div>
   <script>
   document.addEventListener("DOMContentLoaded", function() {
   	const userDelete = document.getElementById("userDelete");
@@ -47,150 +54,25 @@
   
 
   </script>
-  <style>
-  body {
-      font-family: 'Arial', sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    nav {
-      background-color: #ffdc9f;
-      padding: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    nav a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: black;
-      font-weight: bold;
-    }
-
-    .container {
-      display: flex;
-      padding: 20px;
-    }
-
-    .profile-area {
-      width: 200px;
-      border: 1px solid #333;
-      padding: 20px;
-      margin-right: 20px;
-    }
-
-    .profile-area img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 50%;
-      display: block;
-      margin: 0 auto 10px auto;
-    }
-
-    .info-area {
-      flex: 1;
-    }
-
-    .section-tabs {
- 	  margin-bottom: 20px;
-	  text-align: left; /* 필요 시 center로 변경 가능 */
-	}
-	
-	.section-tabs button {
-	  margin-right: 10px;
-	  padding: 6px 16px;
-	  background-color: #f0f0f0;
-	  border: 1px solid #bbb;
-	  border-radius: 6px;
-	  font-weight: bold;
-	  cursor: pointer;
-	  transition: background-color 0.2s ease;
-	}
-	
-	.section-tabs button:hover {
-	  background-color: #e0e0e0;
-	}
-	
-	.section-tabs button:focus {
-	  outline: none;
-	  border-color: #999;
-	  background-color: #ddd;
-	}
-
-    .stats {
-      display: flex;
-      justify-content: space-around;
-      padding: 20px;
-      border: 1px solid #333;
-      margin-bottom: 20px;
-    }
-
-    .section {
-      border: 1px solid #333;
-      padding: 15px;
-      margin-bottom: 30px;
-    }
-
-    .post, .comment {
-      background-color: #ccc;
-      height: 20px;
-      margin-bottom: 10px;
-    }
-
-    .pagination {
-      text-align: center;
-    }
-
-    .cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .card {
-      width: 150px;
-      border: 1px solid #999;
-      text-align: center;
-    }
-
-    .card img {
-      width: 100%;
-      height: 100px;
-      object-fit: cover;
-    }
-
-    .scroll-btn {
-      text-align: center;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    footer {
-      background-color: #eee;
-      padding: 10px;
-      text-align: center;
-    }
-  </style>
-  
 </head>
 <body>
-<nav>
-    <a href="/ehr/user/main.do">홈</a>
-    <a href="#">관광지</a>
-    <a href="#">축제</a>
-    <a href="#">게시판</a>
-    <a href="#">공지사항</a>
-    <a href="/ehr/user/logout.do">로그아웃</a>
-  </nav>
+    <header>
+        <nav>
+            <a href="/ehr/user/main.do"><img src="/ehr/resources/images/logo2.png"></a>
+            <a href="/ehr/tour/doRetrieve.do">관광지</a>
+            <a href="/ehr/festival/main.do">축제</a>
+            <a href="#">게시판</a>
+            <a href="#">공지사항</a>
+            <a href="/ehr/user/logout.do">로그아웃</a>
+        </nav>
+    </header>
   
-	<div class="container">
-  <h2>MY</h2>
+  <h1 id ="page">MY</h1>
+  <div class="container">
   <div class="profile-area">
-    <img src="/ehr/resources/images/user/짱구1.jpg" alt="프로필 이미지">
-    <h3>${user.name}</h3>
-    <p>${user.email}</p>
+    <img src="/ehr/resources/images/user/짱구1.jpg" alt="프로필 이미지"> <br>
+    <h3 id="user-name">${user.name}</h3><br>
+    <p id="user-email">${user.email}</p><br>
     <br><br>
     <ul>
         <li><a href="/ehr/user/updatePage.do">정보 수정</a></li>
@@ -241,7 +123,7 @@
       <div class="cards">
         <div class="card">
           <img src="/path/to/image.jpg" alt="관광지">
-          <div>제목</div>
+          <div class="card-name">제목</div>
         </div>
       </div>
       <div class="scroll-btn">▼</div>
@@ -253,7 +135,7 @@
       <div class="cards">
         <div class="card">
           <img src="/path/to/image.jpg" alt="축제">
-          <div>제목</div>
+          <div class="card-name">제목</div>
         </div>
       </div>
       <div class="scroll-btn">▼</div>
