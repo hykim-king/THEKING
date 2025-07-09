@@ -21,6 +21,9 @@
 	<button class="carousel-btn left">&#10094;</button>
   	<button class="carousel-btn right">&#10095;</button>
 </div>
+<div>
+	<p>인기 관광지</p>
+</div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 <script src="/ehr/resources/js/carousel.js"></script>
 </body>

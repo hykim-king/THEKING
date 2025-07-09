@@ -14,8 +14,10 @@ and target_no = #{targetNo}
 <select id="getFavoriteTour" parameterType="string" resultType="TourDTO">
     SELECT
         t.*
+        i.image_url
     FROM favorites f
     JOIN tour t ON f.target_no = t.tour_no
+    LEFT JOIN image i ON t.tour_no = i.target_no AND i.table_name = 'tour'
     WHERE f.user_id = #{userId}
       AND f.table_name = 'tour'
 </select>
@@ -23,9 +25,11 @@ and target_no = #{targetNo}
 <!-- 즐겨찾기한 축제 목록 조회 -->
 <select id="getFavoriteFestival" parameterType="string" resultType="FestivalDTO">
     SELECT
-        f2.*
+        f2.*,
+        i.image_url
     FROM favorites f
     JOIN festival f2 ON f.target_no = f2.festa_no
+    LEFT JOIN image i ON f2.festa_no = i.target_no AND i.table_name = 'festival'
     WHERE f.user_id = #{userId}
       AND f.table_name = 'festival'
 </select>
