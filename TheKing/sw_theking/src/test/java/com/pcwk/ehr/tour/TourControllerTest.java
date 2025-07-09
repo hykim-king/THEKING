@@ -74,6 +74,8 @@ class TourControllerTest {
 		log.debug("│ *tearDown()*              │");
 		log.debug("└───────────────────────────┘");
 	}
+
+	
 	@Test
 	void doRetrieve() throws Exception {
 		log.debug("┌───────────────────────────┐");

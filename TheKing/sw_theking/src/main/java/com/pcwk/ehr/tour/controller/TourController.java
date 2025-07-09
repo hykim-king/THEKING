@@ -146,20 +146,20 @@ public class TourController {
 		    List<TourDTO> list = tourService.doRetrieve(paramMap);
 		    
 		    //총 글자 수 세기.
-
+	
 			int totalCnt = 0;
-			
-			if(null != list && list.size()>0) {
-				TourDTO totalVO =  list.get(0);
-				totalCnt = totalVO.getTotalCnt();
+			if (null != list && !list.isEmpty()) {
+			    TourDTO totalVO = list.get(0);
+			    totalCnt = totalVO.getTotalCnt();
 			}
-			log.debug("totalCnt:{}",totalCnt);
+			log.debug("totalCnt: {}", totalCnt);
+			model.addAttribute("totalCnt", totalCnt);
 
 		    model.addAttribute("list", list);
 		    model.addAttribute("paramMap", paramMap);
 		    model.addAttribute("search", search);
 		    model.addAttribute("region", region);
-		    model.addAttribute("totalCnt", totalCnt);
+
 
 		    return viewName;
 		}
