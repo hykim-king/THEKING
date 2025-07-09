@@ -1,11 +1,10 @@
 package com.pcwk.ehr.festival.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,14 +20,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
-import com.pcwk.ehr.board.domain.BoardDTO;
 import com.pcwk.ehr.cmn.FileUtil;
 import com.pcwk.ehr.cmn.MessageDTO;
 import com.pcwk.ehr.cmn.SearchDTO;
+import com.pcwk.ehr.favorites.domain.FavoritesDTO;
 import com.pcwk.ehr.festival.domain.FestivalDTO;
 import com.pcwk.ehr.festival.service.FestivalService;
 import com.pcwk.ehr.image.domain.ImageDTO;
+import com.pcwk.ehr.mapper.FavoritesMapper;
 import com.pcwk.ehr.mapper.ImageMapper;
+import com.pcwk.ehr.user.domain.UserDTO;
 
 @Controller
 @RequestMapping("/festival")
@@ -40,6 +41,9 @@ public class FestivalController {
 
 	@Autowired
 	ImageMapper imageMapper;
+
+	@Autowired
+	FavoritesMapper favoritesMapper;
 
 	public FestivalController() {
 		log.debug("┌─────────────────────────────────┐");
@@ -77,12 +81,12 @@ public class FestivalController {
 
 		// 총글수
 		int totalCnt = 0;
-		
-		if(null != list && list.size()>0) {
-			FestivalDTO totalVO =  list.get(0);
+
+		if (null != list && list.size() > 0) {
+			FestivalDTO totalVO = list.get(0);
 			totalCnt = totalVO.getTotalCnt();
 		}
-		log.debug("totalCnt:{}",totalCnt);
+		log.debug("totalCnt:{}", totalCnt);
 
 		model.addAttribute("search", dto);
 		model.addAttribute("list", list);
@@ -104,15 +108,38 @@ public class FestivalController {
 	}
 
 	@GetMapping("/doSelectOne.do")
-	public String doSelectOne(int festaNo, Model model) {
+	public String doSelectOne(int festaNo, Model model, HttpSession session) {
 		service.upViews(festaNo);
 		FestivalDTO dto = service.doSelectOne(festaNo);
 		List<ImageDTO> imageList = imageMapper.getImages(festaNo, "festival");
-
 		log.debug("imageList:{}", imageList);
+
+		boolean flag = false;
+
+		UserDTO user = (UserDTO) session.getAttribute("loginUser");
+		if (user != null) {
+
+			FavoritesDTO vo = new FavoritesDTO();
+			vo.setTableName("festival");
+			vo.setTargetNo(festaNo);
+			vo.setUserId(user.getUserId());
+
+			FavoritesDTO isFav = favoritesMapper.doSelectOne(vo);
+
+			if (isFav != null) {
+				flag = true;
+			} else {
+				flag = false;
+			}
+		}else {
+			flag = false;
+		}
 
 		model.addAttribute("imageList", imageList);
 		model.addAttribute("dto", dto);
+		model.addAttribute("favoritesCount", favoritesMapper.getFestaFavoriteCount(festaNo));
+		model.addAttribute("isFavorite", flag);
+
 		return "/festival/festival_mng";
 	}
 

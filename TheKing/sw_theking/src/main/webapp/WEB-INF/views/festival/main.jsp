@@ -4,6 +4,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
+    String sido = request.getParameter("sido");
+    request.setAttribute("sido", sido);
+
 	int bottomCount = 5;
 	int pageSize    = 0;//페이지 사이즈
 	int pageNo      = 0;//페이지 번호
@@ -80,37 +83,38 @@ function pagerDoRetrieve(url, pageNo){
 				<input type="date" name="date"> 
 				<select name="sido">
 					<option value="">전체</option>
-					<option>서울특별시</option>
-					<option>경기도</option>
-					<option>인천광역시</option>
-					<option>부산광역시</option>
-					<option>대구광역시</option>
-					<option>광주광역시</option>
-					<option>대전광역시</option>
-					<option>울산광역시</option>
-					<option>강원특별자치도</option>
-					<option>충청북도</option>
-					<option>충청남도</option>
-					<option>전북특별자치도</option>
-					<option>전라남도</option>
-					<option>경상북도</option>
-					<option>경상남도</option>
-					<option>제주특별자치도</option>
+					<option ${sido == '서울특별시' ? 'selected' : ''}>서울특별시</option>
+					<option ${sido == '경기도' ? 'selected' : ''}>경기도</option>
+					<option ${sido == '인천광역시' ? 'selected' : ''}>인천광역시</option>
+					<option ${sido == '부산광역시' ? 'selected' : ''}>부산광역시</option>
+					<option ${sido == '대구광역시' ? 'selected' : ''}>대구광역시</option>
+					<option ${sido == '광주광역시' ? 'selected' : ''}>광주광역시</option>
+					<option ${sido == '대전광역시' ? 'selected' : ''}>대전광역시</option>
+					<option ${sido == '울산광역시' ? 'selected' : ''}>울산광역시</option>
+					<option ${sido == '강원특별자치도' ? 'selected' : ''}>강원특별자치도</option>
+					<option ${sido == '충청북도' ? 'selected' : ''}>충청북도</option>
+					<option ${sido == '충청남도' ? 'selected' : ''}>충청남도</option>
+					<option ${sido == '전북특별자치도' ? 'selected' : ''}>전북특별자치도</option>
+					<option ${sido == '전라남도' ? 'selected' : ''}>전라남도</option>
+					<option ${sido == '경상북도' ? 'selected' : ''}>경상북도</option>
+					<option ${sido == '경상남도' ? 'selected' : ''}>경상남도</option>
+					<option ${sido == '제주특별자치도' ? 'selected' : ''}>제주특별자치도</option>
 				</select>
 				<select style="width:100px" name="pageSize" id="pageSize">
-		            <option value="10">10개씩</option>
-		            <option value="20">20개씩</option>
-		            <option value="30">30개씩</option>
+		            <option value="10" ${search.pageSize == 10 ? 'selected' : ''}>10개씩</option>
+		            <option value="20" ${search.pageSize == 20 ? 'selected' : ''}>20개씩</option>
+		            <option value="30" ${search.pageSize == 30 ? 'selected' : ''}>30개씩</option>
 		        </select>
 		        <input type="hidden" name="pageNo" id="pageNo">
 				<button type="submit" id="searchButton">검색</button>
 			</div>
 		</form>
  
-		<!-- 등록 버튼 -->
-		<button class="register-btn"
-			onclick="window.location.href='/ehr/festival/doSave.do';">+
-			축제 등록</button>
+        <c:if test="${sessionScope.loginUser.role =='admin'  }">
+        <!-- 등록 버튼 -->
+        <button class="register-btn" onclick="window.location.href='/ehr/festival/doSave.do';">+ 축제 등록</button>
+        </c:if>
+		
 
 		<!-- 테이블 리스트 -->
 		<div class="table-wrapper">
