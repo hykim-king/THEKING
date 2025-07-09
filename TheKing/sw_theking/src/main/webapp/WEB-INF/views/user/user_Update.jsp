@@ -72,19 +72,48 @@ document.addEventListener("DOMContentLoaded", function(){
 		        try {
 		          const result = JSON.parse(response);
 		          alert(result.message);
-		          if (result.messageId == 1) {
-		        	  location.href = "/ehr/user/myPage.do";
-		          }
 		        } catch (e) {
 		          console.error("JSON 파싱 에러:", e);
+		          
 		        }
 		      },
 		      error: function (xhr, status, error) {
 		        console.error("AJAX 오류:", error);
-		        alert("수정 중 오류 발생");
+		        alert("중복 확인 중 오류 발생");
 		      }
 		    });
 	 });
+	document.getElementById("checkNicknameBtn").addEventListener("click", function () {
+	  const nickname = document.getElementById("nickname").value.trim();
+	  const resultSpan = document.getElementById("nicknameResult");
+	
+	  if (nickname === "") {
+	    resultSpan.textContent = "닉네임을 입력하세요.";
+	    resultSpan.style.color = "red";
+	    return;
+	  }
+	    
+	  $.ajax({
+		     type: "POST",
+		     url: "/ehr/user/isDuplicateNickname.do",
+		     data: {
+		       "nickname": $("#nickname").val(),
+		     },
+		     success: function (response) {
+		       try {
+		        const result = JSON.parse(response);
+		        alert(result.message);
+		       } catch (e) {
+		        console.error("JSON 파싱 에러:", e);
+		       }
+		     },
+		     error: function (xhr, status, error) {
+		       console.error("AJAX 오류:", error);
+		       alert("수정 중 오류 발생");
+		     }
+		});
+	});
+	 
 	 
 });
 </script>
@@ -226,17 +255,14 @@ document.addEventListener("DOMContentLoaded", function(){
 </head>
 <body>
 	<header>
-		<div>
-			<strong>떠나볼지도</strong> Get going
-		</div>
 		<nav>
-			<a href="#">홈</a>
-			 <a href="#">관광지</a>
-			  <a href="#">축제</a> 
-			  <a href="#">게시판</a>
-			<a href="#">공지사항</a>
-			 <a href="#">로그인</a>
-		</nav>
+            <a href="/ehr/user/main.do"><img src="/ehr/resources/images/logo2.png"></a>
+            <a href="/ehr/tour/doRetrieve.do">관광지</a>
+            <a href="/ehr/festival/main.do">축제</a>
+            <a href="#">게시판</a>
+            <a href="#">공지사항</a>
+            <a href="/ehr/user/logout.do">로그아웃</a>
+        </nav>
 	</header>
 
 	<div class="container">
@@ -266,8 +292,9 @@ document.addEventListener("DOMContentLoaded", function(){
 
 			<div class="form-group form-inline">
 				<label>닉네임*</label>
-				 <input type="text" id="nickname" value="${user.nickname}" placeholder="닉네임">
-				<button>중복확인</button>
+				<input type="text" id="nickname" value="${user.nickname}" placeholder="닉네임">
+				<button type="button" id="checkNicknameBtn">중복확인</button>
+			    <span id="nicknameResult" style="margin-left:10px;"></span>
 			</div>
 
 			<div class="form-group">
@@ -276,8 +303,8 @@ document.addEventListener("DOMContentLoaded", function(){
 			</div>
 
 			<div class="form-group">
-				<label>이메일*</label> 
-				<input type="email" id="email" value="${user.email}" placeholder="이메일">
+				<label>이메일</label> 
+				<input type="email" id="email" value="${user.email}" placeholder="이메일" readonly>
 			</div>
 
 			<div class="form-group form-inline">

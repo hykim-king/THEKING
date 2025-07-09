@@ -5,51 +5,69 @@
 <head>
 <meta charset="UTF-8">
 <title>떠나볼지도 회원가입</title>
-</head>
-<body>
+<link rel="stylesheet" href="/ehr/resources/css/footer.css">
+<link rel="stylesheet" href="/ehr/resources/css/nav.css">
+<link rel="stylesheet" href="/ehr/resources/css/user/signUp.css">
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="/ehr/resources/js/common.js"></script>
 <script>
-	//DOM문서(HTML)문서가 로드가 완료되면 수행
-	document.addEventListener("DOMContentLoaded", function(){
-	    console.log("DOMContentLoaded");
-	    
-	    const userIdInput = document.querySelector("#userId");
-	    console.log(userIdInput);
-	    
-	    const passwordInput = document.querySelector("#password");
-	    console.log(passwordInput);
-	    
-	    const nameInput = document.querySelector("#name");
-	    console.log(nameInput);
-	    
-	    const nicknameInput = document.querySelector("#nickname");
-	    console.log(nicknameInput);
-	    
-	    const emailInput = document.querySelector("#email");
-	    console.log(emailInput);
-	    
-	    const mobileInput = document.querySelector("#mobile");
-	    console.log(mobileInput);
-	    
-	    const addressInput = document.querySelector("#address");
-	    console.log(addressInput);
-	    
-	    const doSaveButton = document.querySelector("#signUpButton"); //id값
-	    console.log(doSaveButton);
-	    
-	    console.log('userIdInput.value: ' + userIdInput.value);
-	    console.log('passwordInput.value: ' + passwordInput.value);
-	    console.log('nameInput.value: ' + nameInput.value);
-	    console.log('nicknameInput.value: ' + nicknameInput.value);
-	    console.log('emailInput.value: ' + emailInput.value);
-	    console.log('mobileInput.value: ' + mobileInput.value);
-	    console.log('addressInput.value: ' + addressInput.value);
+function execDaumPostcode() {
+    new daum.Postcode({
+        oncomplete: function(data) {
+            document.getElementById('postcode').value = data.zonecode; // 우편번호
+            document.getElementById("roadAddress").value = data.roadAddress; // 도로명 주소
+            }
+        }).open();
+}
+    //DOM문서(HTML)문서가 로드가 완료되면 수행
+    document.addEventListener("DOMContentLoaded", function(){
+        console.log("DOMContentLoaded");
+        
+        const profileFindBtn = document.getElementById('profileFindBtn');
+         const fileInput = document.getElementById('fileInput');
+         
+         profileFindBtn.addEventListener('click', function(event) {
+                fileInput.click();  // 숨겨진 input[type=file] 클릭 이벤트 발생
+              });
+         
+         fileInput.addEventListener('change', function(event) {
+                const files = event.target.files;
+                if (files.length > 0) {
+                  alert("선택한 파일: " + files[0].name);
+                  // 여기에 선택한 파일을 서버로 업로드하거나 처리하는 코드 작성 가능
+                }
+              });   
+         
+        const userIdInput = document.querySelector("#userId");
+        console.log(userIdInput);
+        
+        const passwordInput = document.querySelector("#password");
+        console.log(passwordInput);
+        
+        const nameInput = document.querySelector("#name");
+        console.log(nameInput);
+        
+        const nicknameInput = document.querySelector("#nickname");
+        console.log(nicknameInput);
+        
+        const emailInput = document.querySelector("#email");
+        console.log(emailInput);
+        
+        const doSaveButton = document.querySelector("#signUpButton"); //id값
+        console.log(doSaveButton);
+        
+      //등록 버튼 이벤트 감지
+        doSaveButton.addEventListener("click",function(event){
+            console.log('doSaveButton: click');
+            //모바일 합치기
+            const tel1 = document.querySelector("#tel1").value;
+            const tel2 = document.querySelector("#tel2").value;
+            const tel3 = document.querySelector("#tel3").value;
             
-	  //등록 버튼 이벤트 감지
-	    doSaveButton.addEventListener("click",function(event){
-	        console.log('doSaveButton: click');
-	        
+            const fullAddress = $("#roadAddress").val() + " " + $("#detailAddress").val();
+            const mobile = tel1 + "-" + tel2 + "-" + tel3;
+            
             //아이디 필수 입력 처리
             if(isEmpty($("#userId").val()) === true){
               alert('아이디를 입력 하세요')
@@ -86,19 +104,11 @@
             }
             
             //전화번호 필수 입력 처리
-            if(isEmpty($("#mobile").val()) === true){
+            if(isEmpty(mobile) === true){
               alert('전화번호를 입력 하세요')
-               $("#mobile").focus();
               return;
             }
-            
-            //주소 필수 입력 처리
-            if(isEmpty($("#address").val()) === true){
-              alert('주소를 입력 하세요')
-               $("#address").focus();
-              return;
-            }
-            
+ 
             $.ajax({
                 type:"POST",     //GET/ POST
                 url:"/ehr/user/signUp.do", //서버측URL
@@ -110,11 +120,11 @@
                     "name": $("#name").val(),
                     "nickname": $("#nickname").val(),
                     "email": $("#email").val(),
-                    "mobile": $("#mobile").val(),
-                    "address": $("#address").val()
+                    "mobile": mobile,
+                    "address": fullAddress
                 },
                 success:function(response){ //요청성공
-                	const data = JSON.parse(response);
+                    const data = JSON.parse(response);
                     if (data.messageId === 1) {
                         alert(data.message);
                         location.href = "/ehr/user/main.do";
@@ -123,34 +133,165 @@
                     }
                 },
                 error:function(response){ //요청 실패
-                	console.log("error:");
+                    console.log("error:");
                     console.log("error:"+response)
                 }
                 
             });
-	    });
-	});
+        });
+      
+        document.getElementById("idCheck").addEventListener("click", function () {
+            const userId = document.getElementById("userId").value.trim();
+            const resultSpan = document.getElementById("idResult");
+            const idRegex = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z0-9_-]{6,12}$/;
+            
+            if (userId === "") {
+              resultSpan.textContent = "아이디를 입력하세요.";
+              resultSpan.style.color = "red";
+              return;
+            }
+            
+            if (!idRegex.test(userId)) {
+                resultSpan.textContent = "아이디는 영문자  + 숫자, _, -포함 6~12자리여야 합니다.";
+                resultSpan.style.color = "red";
+                return; // 함수 종료
+            }
+             
+            $.ajax({
+                       type: "POST",
+                       url: "/ehr/user/isDuplicateId.do",
+                       data: {
+                           "userId": $("#userId").val()
+                       },
+                       success: function (response) {
+                         try {
+                           const result = JSON.parse(response);
+                           if (result.messageId === 1) {
+                               // 중복된 닉네임
+                               resultSpan.textContent = result.message; // 예: "이미 사용 중인 닉네임입니다."
+                               resultSpan.style.color = "red";
+                           } else {
+                               // 사용 가능한 닉네임
+                               resultSpan.textContent = result.message; // 예: "사용 가능한 닉네임입니다."
+                               resultSpan.style.color = "green";
+                           }
+                         } catch (e) {
+                           console.error("JSON 파싱 에러:", e);
+                         }
+                       },
+                       error: function (xhr, status, error) {
+                         console.error("AJAX 오류:", error);
+                         alert("수정 중 오류 발생");
+                       }
+                  });
+          });
+        
+        document.getElementById("nicknameCheck").addEventListener("click", function () {
+            const nickname = document.getElementById("nickname").value.trim();
+            const resultSpan = document.getElementById("nicknameResult");
+          
+            if (nickname === "") {
+              resultSpan.textContent = "닉네임을 입력하세요.";
+              resultSpan.style.color = "red";
+              return;
+            }
+              
+            $.ajax({
+                       type: "POST",
+                       url: "/ehr/user/isDuplicateNickname.do",
+                       data: {
+                         "nickname": $("#nickname").val(),
+                       },
+                       success: function (response) {
+                         try {
+                           const result = JSON.parse(response);
+                           if (result.messageId === 1) {
+                               // 중복된 닉네임
+                               resultSpan.textContent = result.message; // 예: "이미 사용 중인 닉네임입니다."
+                               resultSpan.style.color = "red";
+                           } else {
+                               // 사용 가능한 닉네임
+                               resultSpan.textContent = result.message; // 예: "사용 가능한 닉네임입니다."
+                               resultSpan.style.color = "green";
+                           }
+                         } catch (e) {
+                           console.error("JSON 파싱 에러:", e);
+                         }
+                       },
+                       error: function (xhr, status, error) {
+                         console.error("AJAX 오류:", error);
+                         alert("수정 중 오류 발생");
+                       }
+                     });
+          });
+    });
 </script>
-
-    <h1>signUpPage</h1>
-    <hr>
-    
+</head>
+<body>
+  <nav>
+    <a href="/ehr/user/main.do"><img src="/ehr/resources/images/logo2.png"></a>
+    <a href="/ehr/tour/doRetrieve.do">관광지</a>
+    <a href="/ehr/festival/main.do">축제</a>
+    <a href="#">게시판</a>
+    <a href="#">공지사항</a>
+    <a href="/ehr/user/logout.do">로그아웃</a>
+  </nav>
+  <h1 id="page">회원 가입</h1>
+    <div class="container">
     <form id="signUpForm" method="post">
-        <label for="userId">아이디:</label>
-        <input type="text" name="userId" id="userId"><br>
-        <label for="password">비밀번호:</label>
-        <input type="password" name="password" id="password"><br>
-        <label for="name">이름:</label>
-        <input type="text" name="name" id="name"><br>
-        <label for="nickname">닉네임:</label>
-        <input type="text" name="nickname" id="nickname"><br>
-        <label for="email">이메일:</label>
-        <input type="email" name="email" id="email"><br>
-        <label for="mobile">전화번호:</label>
-        <input type="tel" name="mobile" id="mobile"><br>
-        <label for="address">주소:</label>
-        <input type="text" name="address" id="address"><br>
+        <div class="form-group">
+            <div class="picture-wrapper">
+                <p>프로필 사진</p>
+                <img src="/ehr/resources/images/user/짱구1.jpg" alt="프로필 이미지">
+                <button type="button" id="profileFindBtn">찾기</button><br>
+            </div>
+            <input type="file" id="fileInput" accept="image/*" style="display:none" />
+        </div>
+        <div class="form-group">
+        <div class="form-row">
+            <label for="userId">아이디:</label>
+            <input type="text" name="userId" id="userId">
+            <button type="button" id="idCheck">중복 확인</button>
+            <span id="idResult" style="margin-left:10px;"></span>
+        </div>
+        <div class="form-row">
+            <label for="password">비밀번호:</label>
+            <input type="password" name="password" id="password">
+        </div>
+        <div class="form-row">
+            <label for="name">이름:</label>
+            <input type="text" name="name" id="name">
+        </div>
+        <div class="form-row">
+            <label label for="nickname">닉네임:</label>
+            <input type="text" name="nickname" id="nickname">
+            <button type="button" id="nicknameCheck">중복 확인</button>
+            <span id="nicknameResult" style="margin-left:10px;"></span>
+        </div>
+        <div class="form-row">
+            <label for="email">이메일:</label>
+            <input type="email" name="email" id="email">
+        </div>
+        <div class="form-row form-inline">
+            <label>전화번호*</label>
+            <input type="text" class="tel" id="tel1" name="tel1" value="${tel1}" maxlength="3"> -
+            <input type="text" class="tel" id="tel2" name="tel2" value="${tel2}" maxlength="4"> -
+            <input type="text" class="tel" id="tel3" name="tel3" value="${tel3}" maxlength="4">
+        </div>
+
+        <div class="form-row form-inline last-row">
+            <label>주소 (선택사항)*</label>
+            <input type="text" id="postcode" placeholder="우편번호" readonly>
+            <button type="button" onclick="execDaumPostcode()">주소 검색</button>
+        </div>
+
+        <div class="detail-address">
+            <input type="text" id="roadAddress"  value="${roadAddress}" placeholder="도로명 주소" readonly><br>
+            <input type="text" id="detailAddress" value="${detailAddress}" placeholder="상세 주소 입력">
+        </div>
         <input type="button" id="signUpButton" value="가입하기">
+        </div>
     </form>
+    </div>
 </body>
 </html>
