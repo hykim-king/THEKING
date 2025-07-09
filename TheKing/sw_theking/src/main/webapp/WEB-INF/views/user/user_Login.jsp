@@ -68,14 +68,7 @@ document.addEventListener("DOMContentLoaded", function(){
 </script>
 </head>
 <body>
-   <nav>
-    <a href="/ehr/user/main.do"><img src="/ehr/resources/images/logo2.png"></a>
-    <a href="/ehr/tour/doRetrieve.do">관광지</a>
-    <a href="/ehr/festival/main.do">축제</a>
-    <a href="#">게시판</a>
-    <a href="#">공지사항</a>
-    <a href="/ehr/user/logout.do">로그아웃</a>
-  </nav>
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <div class="login-container">
   <div class="login-box">
     <div class="login-logo">
@@ -99,11 +92,6 @@ document.addEventListener("DOMContentLoaded", function(){
     </form>
   </div>
 </div>
-<footer>
-  <img src="logo2.png">
-  <div class="team">
-  <p>THE KING</p>
-  </div>
-</footer>
+<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>
 </html>

@@ -5,8 +5,6 @@
 <head>
 <meta charset="UTF-8">
 <title>떠나볼지도 회원가입</title>
-<link rel="stylesheet" href="/ehr/resources/css/footer.css">
-<link rel="stylesheet" href="/ehr/resources/css/nav.css">
 <link rel="stylesheet" href="/ehr/resources/css/user/signUp.css">
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -228,14 +226,7 @@ function execDaumPostcode() {
 </script>
 </head>
 <body>
-  <nav>
-    <a href="/ehr/user/main.do"><img src="/ehr/resources/images/logo2.png"></a>
-    <a href="/ehr/tour/doRetrieve.do">관광지</a>
-    <a href="/ehr/festival/main.do">축제</a>
-    <a href="#">게시판</a>
-    <a href="#">공지사항</a>
-    <a href="/ehr/user/logout.do">로그아웃</a>
-  </nav>
+  <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
   <h1 id="page">회원 가입</h1>
     <div class="container">
     <form id="signUpForm" method="post">
@@ -293,5 +284,6 @@ function execDaumPostcode() {
         </div>
     </form>
     </div>
+<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>
 </html>

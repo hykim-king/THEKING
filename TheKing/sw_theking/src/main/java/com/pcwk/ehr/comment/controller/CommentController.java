@@ -91,7 +91,7 @@ public class CommentController {
 //	        commentDTO.setUserId("guest");  
 //	    }
 
-		if (loginUser == null) {
+		if (user == null) {
 			return new MessageDTO(0, "로그인이 필요합니다.");
 		}
 		

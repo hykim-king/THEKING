@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 </head>
 <body>
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
   <h2>회원 목록</h2>
   <hr>
   <!-- 검색 구분 -->
@@ -110,6 +111,6 @@ document.addEventListener('DOMContentLoaded', function(){
         </c:choose>
     </tbody>
   </table>
-  
+ <jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>
 </html>

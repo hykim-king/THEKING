@@ -214,7 +214,7 @@ public class UserController {
 	public String logout(HttpSession httpSession) {
 		String viewName = "redirect:/main.do";
 		
-		if(httpSession.getAttribute("user") != null) {
+		if(httpSession.getAttribute("loginUser") != null) {
 			//session삭제
 			httpSession.invalidate();
 		}

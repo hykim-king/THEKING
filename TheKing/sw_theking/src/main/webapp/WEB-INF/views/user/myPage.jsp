@@ -56,17 +56,7 @@
   </script>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="/ehr/user/main.do"><img src="/ehr/resources/images/logo2.png"></a>
-            <a href="/ehr/tour/doRetrieve.do">관광지</a>
-            <a href="/ehr/festival/main.do">축제</a>
-            <a href="#">게시판</a>
-            <a href="#">공지사항</a>
-            <a href="/ehr/user/logout.do">로그아웃</a>
-        </nav>
-    </header>
-  
+  <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
   <h1 id ="page">MY</h1>
   <div class="container">
   <div class="profile-area">
@@ -77,7 +67,6 @@
     <ul>
         <li><a href="/ehr/user/updatePage.do">정보 수정</a></li>
         <li><a href="#" id="userDelete">계정 탈퇴</a></li>
-       
         <c:choose>
             <c:when test="${sessionScope.loginUser.role eq 'admin'}">
                 <li><a href="/ehr/user/doRetrieve.do" id="userRetrieve">회원 조회</a></li>
@@ -143,8 +132,6 @@
   </div>
 </div>
 
-<footer>
-  Footer
-</footer>
+<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>
 </html>

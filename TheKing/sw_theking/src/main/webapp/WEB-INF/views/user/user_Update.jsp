@@ -123,18 +123,6 @@ document.addEventListener("DOMContentLoaded", function(){
       margin: 0;
       padding: 0;
     }
-    header {
-      background-color: #f8c471;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    nav a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: black;
-    }
     .container {
       display: flex;
       padding: 40px;
@@ -245,25 +233,10 @@ document.addEventListener("DOMContentLoaded", function(){
       font-weight: bold;
     }
     
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: #eee;
-      margin-top: 50px;
-    }
     </style>
 </head>
 <body>
-	<header>
-		<nav>
-            <a href="/ehr/user/main.do"><img src="/ehr/resources/images/logo2.png"></a>
-            <a href="/ehr/tour/doRetrieve.do">관광지</a>
-            <a href="/ehr/festival/main.do">축제</a>
-            <a href="#">게시판</a>
-            <a href="#">공지사항</a>
-            <a href="/ehr/user/logout.do">로그아웃</a>
-        </nav>
-	</header>
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
 	<div class="container">
 		<div class="profile-area">
@@ -330,6 +303,6 @@ document.addEventListener("DOMContentLoaded", function(){
 		</div>
 	</div>
 
-	<footer> Footer </footer>
+<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>
 </html>

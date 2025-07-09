@@ -9,9 +9,9 @@ footer {
   overflow: hidden;
   white-space: nowrap;
   }
-footer .team {
+.team {
   position: relative;
-  margin-left: 1600px;
+  margin-left: 400px;
   font-size: 25px;
 }
 
