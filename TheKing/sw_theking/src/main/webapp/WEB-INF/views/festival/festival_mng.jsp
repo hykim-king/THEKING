@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    boolean isFavorite = (boolean)request.getAttribute("isFavorite");
+    int favoriteCount = (Integer)request.getAttribute("favoritesCount");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,9 +13,11 @@
 <script src="/ehr/resources\asset\js\common.js"></script>
 <script
     src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="/ehr/resources/css/festival_mng.css">
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function () {
+	if('${sessionScope.loginUser.role  }'==='admin'){
 	const doDeleteButton = document.getElementById('doDelete');
 	
 	doDeleteButton.addEventListener('click',function(){
@@ -48,7 +54,35 @@ document.addEventListener("DOMContentLoaded", function () {
 	
 	    });
 	});
+	
+	}
+	$('#likeBtn').on('click', function () {
+	    const $btn = $(this);
+	    const liked = $btn.data('liked');
+	    const targetNo = $btn.data('festival-id');
+
+	    $.ajax({
+	      url: '/ehr/favorites/toggle.do',
+	      method: 'POST',
+	      data: { targetNo: targetNo },
+	      success: function (res) {
+	        if (res.success) {
+	          const imgSrc = res.liked ? '${pageContext.request.contextPath}/resources/images/heart-on.png' : '${pageContext.request.contextPath}/resources/images/heart-off.png';
+	          $btn.attr('src', imgSrc);
+	          $btn.data('liked', res.liked);
+	          $('#likeCount').text(res.count);
+	        } else {
+	          alert(res.message || "에러가 발생했습니다.");
+	        }
+	      },
+	      error: function () {
+	        alert('서버 통신 오류');
+	      }
+	    });
+	  });
 });
+
+
 </script>
 </head>
 <body>
@@ -69,6 +103,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 	<!--<button onclick="window.location.href='/ehr/festival/test.do?festaNo=${dto.festaNo}';">이미지 등록</button> -->
 <div class="container">
+    <img 
+		  id="likeBtn"
+		  src="${pageContext.request.contextPath}/resources/images/<%= isFavorite ? "heart-on.png" : "heart-off.png" %>"
+		  data-liked="<%= isFavorite %>"
+		  data-festival-id="${dto.festaNo }"
+		  style="width: 24px; cursor: pointer;"
+		/>
+<span id="likeCount"><%= favoriteCount %></span>
     <h2>축제 상세보기</h2>
 
     <!-- 이미지 등록 -->
@@ -135,11 +177,12 @@ document.addEventListener("DOMContentLoaded", function () {
         <h3>종료일</h3>
         <p>${dto.endDate}</p>
     </div>
-
+    <c:if test="${sessionScope.loginUser.role =='admin'  }">
     <div class="btn-group">
         <button onclick="location.href='/ehr/festival/doUpdate.do?festaNo=${dto.festaNo}'">수정</button>
         <button id="doDelete">삭제</button>
     </div>
+    </c:if>
 </div>
 
 
