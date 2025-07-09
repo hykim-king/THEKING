@@ -162,11 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 
-	<%--     <c:if test="${empty sessionScope.user}"> --%>
-	<!--         <p style="color: gray;">※ 등록하려면 로그인이 필요합니다.</p> -->
-	<%--     </c:if> --%>
 	
-	<!-- 댓글 목록 -->
 	
 	<!-- 댓글 입력 영역 -->
 	<textarea id="commentContents" name="contents" placeholder="댓글을 입력하세요."></textarea>
@@ -176,6 +172,9 @@ document.addEventListener('DOMContentLoaded', function() {
 	<div id="commentContainer">
 	    <jsp:include page="/WEB-INF/views/comment/comment_list.jsp" />
 	</div>
+    <c:if test="${empty sessionScope.user}">
+        <p>※ 등록하려면 로그인이 필요합니다.</p>
+    </c:if>
 
 <footer> Footer </footer>
 </body>

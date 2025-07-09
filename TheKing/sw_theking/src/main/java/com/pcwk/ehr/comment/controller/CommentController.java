@@ -44,7 +44,7 @@ public class CommentController {
         model.addAttribute("comments", list);
         return "comment/list"; 
     }
-	
+	//상세 페이지 안에 넣을 view - JSP 조각
 	@GetMapping("/commentsList.do")
 	public String reloadList(@RequestParam("tourNo") int tourNo, Model model) throws SQLException {
 	    List<CommentDTO> list = commentService.getCommentsByTarget(tourNo, "tour");
@@ -76,7 +76,7 @@ public class CommentController {
 	    return new Gson().toJson(resultMap);
 	} //ajax 요청용
 	
-	//댓글 등록
+	//댓글 등록 tour
 	@PostMapping(value = "/tourCommentsadd.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public MessageDTO addComment(@RequestBody CommentDTO commentDTO, HttpSession session) throws SQLException {
