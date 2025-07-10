@@ -210,9 +210,13 @@ public class TourController {
 		log.debug("└──────────────────────────────┘");
 		log.debug("tourNo:{}", tourNo);
 		
+		//로그인 확인
 		UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
 	    model.addAttribute("loginUser", loginUser);
-		
+	    //이미지
+		List<ImageDTO> imageList = imageMapper.getImages(tourNo, "TOUR");
+		log.debug("imageList:{}", imageList);
+	    
 		TourDTO inVO = new TourDTO();
 		inVO.setTourNo(tourNo);
 		
@@ -221,8 +225,8 @@ public class TourController {
 	    // 댓글 목록 조회
 	    List<CommentDTO> commentList = commentService.getCommentsByTarget(tourNo, "TOUR");
 	    
-	    model.addAttribute("list", commentList);
-		
+	    model.addAttribute("imageList", imageList);
+	    model.addAttribute("list", commentList);		
 		model.addAttribute("TourDTO",outVO);
 		
 
@@ -251,40 +255,65 @@ public class TourController {
 		return jsonString;
 	}
 
-	@PostMapping(value = "/doSave.do", produces = "text/plain;charset=UTF-8")
+	@PostMapping(value = "/doSave.do", produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String doSave(@RequestParam(value = "imageFile", required = false) MultipartFile file, @ModelAttribute TourDTO param) throws SQLException {
-		log.debug("┌──────────────────────────────┐");
-		log.debug("│ *doSave()*                   │");
-		log.debug("└──────────────────────────────┘");
+	public Map<String, Object> doSave(
+	        @RequestParam("name") String name,
+	        @RequestParam(value = "subtitle", required = false) String subtitle,
+	        @RequestParam("contents") String contents,
+	        @RequestParam("address") String address,
+	        @RequestParam(value = "imageFile", required = false) MultipartFile imageFile,
+	        @RequestParam(value = "tel", required = false) String tel,
+	        @RequestParam(value = "time", required = false) String time,
+	        @RequestParam(value = "holiday", required = false) String holiday,
+	        @RequestParam(value = "fee", required = false) Integer fee
+	) {
+	    Map<String, Object> result = new HashMap<>();
+	    try {
+		    if (fee == null) {
+	            fee = 0;  // 또는 적절한 기본값을 설정할 수 있습니다.
+	        }
+		    // 1. DTO에 값 세팅
+	        TourDTO tour = new TourDTO();
+	        tour.setName(name);
+	        tour.setSubtitle(subtitle);
+	        tour.setContents(contents);
+	        tour.setAddress(address);
+	        tour.setTel(tel);
+	        tour.setTime(time);
+	        tour.setHoliday(holiday);
+	        tour.setFee(fee);
+	        
+	        tourService.doSave(tour);
 
-		log.debug("param: {}", param);
-		log.debug("file:{}", file);
+	        // 1. 받은 데이터 로그 확인
+	        System.out.println("name = " + name);
+	        System.out.println("subtitle = " + subtitle);
+	        System.out.println("contents = " + contents);
+	        System.out.println("address = " + address);
+	        System.out.println("tel = " + tel);
+	        System.out.println("time = " + time);
+	        System.out.println("holiday = " + holiday);
+	        System.out.println("fee = " + fee);
 
-		// 서비스 호출
-		int flag = tourService.doSave(param);
-		if (flag == 1) {
-			// 이미지 저장
-			if (file != null && !file.isEmpty()) {
+	        // 2. 이미지 파일 처리 (있는 경우)
+	        if (imageFile != null && !imageFile.isEmpty()) {
+	            System.out.println("이미지 파일명: " + imageFile.getOriginalFilename());
+	            // 예: 서버 경로에 저장 또는 DB 저장 로직 구현
+	            // String savePath = "/upload/images/";
+	            // File dest = new File(savePath + imageFile.getOriginalFilename());
+	            // imageFile.transferTo(dest);
+	        }
 
-				log.debug("이미지 전송");
-				String uploadDir = "C:/Users/user/THEKING/TheKing/sw_theking/src/main/webapp/resources/images/festival";
-				String savedFilename = FileUtil.saveFileWithUUID(file, uploadDir);
+	        // 3. DB 저장 로직 구현 (service 호출 등)
 
-				ImageDTO imageDTO = new ImageDTO();
-				imageDTO.setImageName(file.getOriginalFilename());
-				imageDTO.setImageUrl("src/main/webapp/resources/images/tour/");
-				imageDTO.setSaveName(savedFilename);
-				imageDTO.setTableName("TOUR");
-				imageDTO.setTargetNo(param.getTourNo());
-
-				imageMapper.doSave(imageDTO);
-			}
-
-		} else {
-			return null;
-		}
-
-		return "redirect:doSave.do";
+	        result.put("messageId", 1);
+	        result.put("message", "등록 성공!");
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        result.put("messageId", 0);
+	        result.put("message", "등록 실패: " + e.getMessage());
+	    }
+	    return result;
 	}
 }

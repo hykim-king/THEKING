@@ -46,22 +46,7 @@
 <title>Tour List</title>
 <link rel="stylesheet" href="/ehr/resources/css/tour_list.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script type="text/javascript">
-//페이징 
-function pagerDoRetrieve(url, pageNo){   
-    console.log('pagerDoRetrieve pageNo:'+pageNo);
-    console.log('pagerDoRetrieve url:'+url);
-    
-    //form
-    const searchForm = document.searchForm;
-    searchForm.pageNo.value =pageNo;
-    
-    searchForm.action=url;
-    
-    searchForm.submit();     
-    
-}
-</script>
+
 <script>
 //서버 이동 함수
 function navigateWithRegion(sido, gugun = "") {//gugun = "" : 생략 하면 빈문자열
@@ -73,6 +58,10 @@ function navigateWithRegion(sido, gugun = "") {//gugun = "" : 생략 하면 빈�
 }
 document.addEventListener('DOMContentLoaded', function(){
     console.log('DOMContentLoaded');
+    
+    //조회버튼
+    const doRetieveButton=document.querySelector("#doRetrieve");
+    console.log(doRetieveButton);
     
     const {sido,gugun} = getUrlParams();
     //등록 버튼 이동
@@ -88,6 +77,15 @@ document.addEventListener('DOMContentLoaded', function(){
         window.location.href ="/ehr/tour/doSaveView.do";
         
     });
+    
+    doRetieveButton.addEventListener("click",function(event){
+        event.stopPropagation();// 이벤트 버블링 중지
+        console.log('doRetieveButton click');
+        doRetieve(1);
+        
+    });
+    
+
 
 
     // URL 파라미터 추출
@@ -150,13 +148,16 @@ document.addEventListener('DOMContentLoaded', function(){
     function doRetieve(pageNo){
         console.log('doRetieve pageNo:'+pageNo);
      
+        if (!pageNo || pageNo === '') {
+            pageNo = 1;  // 기본값 1로 설정
+        }
         //form
-        const userForm = document.userForm;
-        userForm.pageNo.value =pageNo;
+        const tourForm = document.tourForm;
+        tourForm.pageNo.value =pageNo;
         
-        userForm.action="/ehr/board/doRetrieve.do";
+        tourForm.action="/ehr/tour/doRetrieve.do";
         
-        userForm.submit();
+        tourForm.submit();
     }
 
 });
@@ -182,15 +183,16 @@ function pagerDoRetrieve(url, pageNo){
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
     <!-- 00 검색 영역 -->
-    <form action="#" class="tourForm" name="tourForm" method="get" enctype="application/x-www-form-urlencoded">
+    <form action="#" class="search-form" name="tourForm" method="get" enctype="application/x-www-form-urlencoded">
         <div>
             <input type="hidden" name="pageNo" id="pageNo">
-            <input type="search" name="searchWord" id="searchWord" size="30">
-            <input type="submit" value="검색" id="doRetrieveButton">
+	        <input type="search" name="searchWord" id="searchWord" size="30" value="${search.searchWord}">
+	        <input type="button" value="검색" id="doRetrieve">
+	        <input type="button" value="등록" id="moveToSave">
 <%--             <c:if test="${sessionScope.loginUser != null and sessionScope.loginUser.userId == 'admin'}"> --%>
 <!-- 			    <input type="button" value="등록" id="moveToSave"> -->
 <%-- 			</c:if> --%>
-			<input type="button" value="등록" id="moveToSave">
+	
         </div> 
 
     </form>

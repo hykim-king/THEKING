@@ -42,15 +42,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const nameInput      = document.querySelector("#name");
     const subtitleInput  = document.querySelector("#subtitle");
     const contentsInput  = document.querySelector("#contents");
-    const addressInput   = document.querySelector("#address");
-    const imageInput     = document.querySelector("#image");
+    const roadAddressInput   = document.querySelector("#roadAddress");
+    const detailAddressInput   = document.querySelector("#detailAddress");
+    const imageInput     = document.querySelector("#imageFile");
     const telInput       = document.querySelector("#tel");
     const timeInput      = document.querySelector("#time");
     const holidayInput   = document.querySelector("#holiday");
     const feeInput       = document.querySelector("#fee");
     const doSaveButton   = document.querySelector("#doSave");
 
-    console.log(tourNoInput, nameInput, subtitleInput, contentsInput, addressInput,
+    console.log(tourNoInput, nameInput, subtitleInput, contentsInput,roadAddressInput,detailAddressInput,
                 imageInput, telInput, timeInput, holidayInput, feeInput, doSaveButton);
 
     // 목록으로 이동 버튼
@@ -69,94 +70,85 @@ document.addEventListener('DOMContentLoaded', function() {
         });
  
 	// 등록 버튼이 존재할 경우
+        doSaveButton.addEventListener('click', function(event) {
+            console.log('doSaveButton click');
 
-		doSaveButton.addEventListener('click', function(event) {
-			console.log('doSaveButton click');
+            // 필수값 체크
+            if (isEmpty(nameInput.value)) {
+                alert('제목을 입력 하세요');
+                nameInput.focus();
+                return;
+            }
 
-			// 필수값 체크
-			if (isEmpty(nameInput.value)) {
-				alert('제목을 입력 하세요');
-				nameInput.focus();
-				return;
-			}
+            if (isEmpty(contentsInput.value)) {
+                alert('내용을 입력 하세요');
+                contentsInput.focus();
+                return;
+            }
 
-			if (isEmpty(contentsInput.value)) {
-				alert('내용을 입력 하세요');
-				contentsInput.focus();
-				return;
-			}
+            if (isEmpty(roadAddressInput.value)) {
+                alert('주소를 입력 하세요');
+                roadAddressInput.focus();
+                return;
+            }
 
-			if (isEmpty(addressInput.value)) {
-				alert('주소를 입력 하세요');
-				addressInput.focus();
-				return;
-			}
+            // 사용자 확인
+            if (!confirm('관광지를 등록합니다.')) {
+                return;
+            }
 
-			// 사용자 확인
-			if (!confirm('관광지를 등록합니다.')) {
-				return;
-			}
-			const fullAddress = $("#roadAddress").val() + " " + $("#detailAddress").val();
+            // 주소 합치기
+            const fullAddress = $("#roadAddress").val() + " " + $("#detailAddress").val();
 
+            // FormData 객체 생성
+            var formData = new FormData();
 
-			// AJAX 요청
-			$.ajax({
-				type : "POST",
-				url : "/ehr/tour/doSave.do",
-				async : true,
-				dataType : "html",
-				data : {
-					"name" : nameInput.value,
-					"subtitle" : subtitleInput.value,
-					"contents" : contentsInput.value,
-					"address" : fullAddress,
-					"image" : imageInput.value,
-					"tel" : telInput.value,
-					"time" : timeInput.value,
-					"holiday" : holidayInput.value,
-					"fee" : feeInput.value
-				},
-				success : function(response) {
-					console.log("success: " + response);
-					const message = JSON.parse(response);
+            // 폼 데이터 삽입
+            formData.append("name", nameInput.value);
+            formData.append("subtitle", subtitleInput.value);
+            formData.append("contents", contentsInput.value);
+            formData.append("address", fullAddress);
 
-					alert(message.message);
+            // 이미지 파일 첨부
+            if (imageInput.files.length > 0) {
+                formData.append("imageFile", imageInput.files[0]);
+            }
 
-					if (message.messageId == 1) {
-						alert(message.message);
-						
-						window.location.href = '/ehr/tour/doRetrieve.do';
-					}else{
-                        alert(message.message);
-					}
-				},
-				error : function(response) {
-					console.log("error: " + response);
-					alert("등록 중 오류가 발생했습니다.");
-				}
-			});
-		});
+            formData.append("tel", telInput.value);
+            formData.append("time", timeInput.value);
+            formData.append("holiday", holidayInput.value);
+            formData.append("fee", feeInput.value);
+
+            $.ajax({
+                type: "POST",
+                url: "/ehr/tour/doSave.do",
+                data: formData,
+                processData: false,  // 필수! 데이터를 query string으로 변환하지 않음
+                contentType: false,  // 필수! multipart/form-data 헤더를 자동 설정
+                dataType: "json",    // 서버가 JSON 응답일 경우
+                success: function(response) {
+                    console.log("success: ", response);
+
+                    alert(response.message);
+
+                    if (response.messageId == 1) {
+                        window.location.href = '/ehr/tour/doRetrieve.do';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("error: ", error);
+                    alert("등록 중 오류가 발생했습니다.");
+                }
+            });
+        });
 	});
 </script>
 
 <body>
-    <div class="header">
-        <div class="nav">
-            <span>떠나볼지도</span>
-            <a href="/ehr/tour/doRetrieve.do">관광지</a>
-            <a href="/ehr/festival/main.do">축제</a>
-            <a href="#">게시판</a>
-            <a href="#">공지사항</a>
-        </div>
-        <div class="login">
-            <a href="/ehr/user/signUpPage.do">로그인</a>
-            <a href="/ehr/user/loginPage.do">회원가입</a>
-        </div>
-    </div>
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+
     <div class="container">
          <div class="logo-container">
-            <h1>떠나볼지도</h1>
-            <p>Get going</p>
             <a href="/ehr/festival/main.do">
                 <img alt="로고이미지" src="${pageContext.request.contextPath}/resources/images/logo.png">
             </a>
@@ -164,10 +156,10 @@ document.addEventListener('DOMContentLoaded', function() {
     <h4>관광지 상세 등록</h4>
     <hr>
     <!-- form area -->
-    <form action="/ehr/tour/doSave.do" method="post" enctype="multipart/form-data">
+    <form action="doSave.do" method="post" enctype="multipart/form-data">
     <div>
-	    <label for="title" >제목*</label>
-	    <input type="text" name="name" id="name" maxlength="200" required placeholder="제목" >
+	    <label for="name" >제목*</label>
+	    <input type="text" name="name" id="name" autocomplete="name" maxlength="200" required placeholder="제목" >
     </div>
     <div>
         <label for="subtitle" >소제목</label>
@@ -178,7 +170,8 @@ document.addEventListener('DOMContentLoaded', function() {
         <textarea id="contents" name="contents"  placeholder="내용" class="contents"></textarea>
     </div>
 	<div class="form-group form-inline">
-	    <label>주소*</label> 
+	    <label for="postcode">주소*</label> 
+	    <input type="hidden" id="address" name="address">
 	    <input type="text" id="postcode" placeholder="우편번호" readonly>
 	    <button type="button" onclick="execDaumPostcode()">주소 검색</button>
 	</div>
@@ -193,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div>
         <label for="tel" >연락처</label>
-        <input type="text" name="tel" id="tel" maxlength="20" required  placeholder="연락처">
+        <input type="text" name="tel" id="tel" autocomplete="tel" maxlength="20" required  placeholder="연락처">
     </div>
     <div>
         <label for="time" >운영시간</label>
@@ -216,6 +209,6 @@ document.addEventListener('DOMContentLoaded', function() {
     <!--// Button area -->
 </div>
 
-<footer> Footer </footer>
+<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>
 </html>
