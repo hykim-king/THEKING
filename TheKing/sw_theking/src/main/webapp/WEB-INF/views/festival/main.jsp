@@ -61,19 +61,7 @@ function pagerDoRetrieve(url, pageNo){
 </head>
 <body>
 
-	<div class="header">
-		<div class="nav">
-			<span>떠나볼지도</span> 
-			<a href="#">관광지</a>
-			<a href="#">축제</a> 
-			<a href="#">게시판</a> 
-			<a href="#">공지사항</a>
-		</div>
-		<div class="login">
-			<a href="#">로그인</a> 
-			<a href="#">회원가입</a>
-		</div>
-	</div>
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<div class="container">
     <h1 style="text-align: center;">축제 목록</h1>
 
@@ -134,7 +122,7 @@ function pagerDoRetrieve(url, pageNo){
 						<c:when test="${list.size() > 0}">
 							<c:forEach var="vo" items="${list}">
 								<tr>
-									<td><img alt="이미지"
+									<td><img class="listImage" alt="이미지"
 										src="${pageContext.request.contextPath}/resources/images/festival/${vo.getImage().getSaveName()}">
 									</td>
 									<td><a
@@ -162,6 +150,6 @@ function pagerDoRetrieve(url, pageNo){
 		    %>
 		    <!--// paging end -->
 	</div>
-
+<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>
 </html>

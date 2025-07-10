@@ -11,19 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    <div class="header">
-        <div class="nav">
-            <span>떠나볼지도</span>
-            <a href="#">관광지</a>
-            <a href="#">축제</a>
-            <a href="#">게시판</a>
-            <a href="#">공지사항</a>
-        </div>
-        <div class="login">
-            <a href="#">로그인</a>
-            <a href="#">회원가입</a>
-        </div>
-    </div>
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
     <div class="container">
         <div class="logo-container">
@@ -90,6 +78,6 @@
         </form>
     </div>
 
-    <div class="footer">Footer</div>
+    <jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>
 </html>
