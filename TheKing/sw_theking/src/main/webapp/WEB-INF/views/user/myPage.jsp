@@ -86,11 +86,23 @@
 
     <div class="section" id="posts">
       <h3>작성한 게시글</h3>
-      <div class="post"></div>
-      <div class="post"></div>
-      <div class="pagination">
-        &lt; 1 2 &gt;
-      </div>
+      <div class="post">
+<%--         <c:forEach var="post" items="${posts}"> --%>
+<!--           <div class="post"> -->
+<%--           <c:choose> --%>
+<%--               <c:when test="${post.div == 10}"> --%>
+<%--                 <a href="${pageContext.request.contextPath}/tour/doSelectOne.do?div=10&seq=${post.seq}"> --%>
+<%--                     ${post.title} --%>
+<!--                 </a> -->
+<%--               </c:when> --%>
+<%--               <c:when test="${post.div == 20}"> --%>
+<%--                 <a href="${pageContext.request.contextPath}/tour/doSelectOne.do?div=20&seq=${post.seq}"> --%>
+<%--                     ${post.title} --%>
+<!--                 </a> -->
+<%--               </c:when> --%>
+<%--             </c:choose> --%>
+<!--           </div> -->
+<%--         </c:forEach> --%>
     </div>
 
     <div class="section" id="comments">
@@ -115,7 +127,6 @@
 			    </a>
 			  </c:otherwise>
 			</c:choose>
-	      	
 	      </div>
 	  	</c:forEach>
   	  </div>
@@ -126,7 +137,7 @@
       <div class="cards">
     	<c:forEach var="tour" items="${favoriteTours}">
       	<div class="card">
-        	<img src="${tour.image.imageUrl}" alt="${tour.name} 관광지 이미지" width="100" height="100" />
+        	<img src="${pageContext.request.contextPath}/resources/images/tour/${tour.image.saveName}" alt="${tour.name} 관광지 이미지" width="100" height="100" />
         	<div class="card-name">${tour.name}</div>
       	</div>
     	</c:forEach>
