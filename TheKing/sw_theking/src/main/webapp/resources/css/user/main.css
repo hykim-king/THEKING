@@ -1,8 +1,12 @@
 @charset "UTF-8";
+.main-page {
+  background-repeat: no-repeat;
+}
+
 .carousel-wrapper {
   position: relative;
-  width: 700px;
-  height: 320px;
+  width: 1000px;
+  height: 400px;
   margin: 0 auto;
   overflow: hidden;
   margin-left: auto;
@@ -16,14 +20,14 @@
 }
 
 .carousel-track a {
-  flex: 0 0 400px; /* 한 이미지 크기 */
+  flex: 0 0 700px; /* 한 이미지 크기 */
   margin-right: 40px; /* 다음 이미지 살짝 보이게 */
   display: block;
 }
 
 .carousel-track img {
-  width: 500px;
-  height: 300px;
+  width: 700px;
+  height: 350px;
   object-fit: cover;
   border-radius: 10px;
   margin-top: 20px;
@@ -54,4 +58,85 @@
 
 .carousel-btn.right {
   right: 20px;
+}
+
+.tour-wrapper {
+  display: flex;          /* 가로 정렬 */
+  justify-content: flex-start;
+  align-items: flex-start; /* 위쪽 정렬 */
+  gap: 20px;              /* 요소 사이 간격 */
+  margin-bottom: 150px;
+}
+
+.tour-column {
+  display: flex;
+  width: 100%;
+  flex-direction: column; /* 세로 정렬 */
+  align-items: flex-end; 
+  margin-right: 20px;
+}
+
+.t-main-img {
+  border-radius: 10px;
+  width: 600px; 
+  height: 500px;
+  object-fit: cover;
+}
+
+.t-sub-img {
+  display: flex;
+  border-radius: 10px;
+  width: 350px; 
+  height: auto;
+  margin-top: 10px;
+  object-fit: cover;
+}
+
+.t-sub-img-row {
+  display: flex;              /* 가로 정렬 */
+  gap: 20px;                  /* 이미지 간 간격 */
+  margin-top: 10px;
+}
+
+.festival-wrapper {
+  display: flex;          /* 가로 정렬 */
+  justify-content: flex-start;
+  align-items: flex-start; /* 위쪽 정렬 */
+  gap: 20px;              /* 요소 사이 간격 */
+  margin-bottom: 150px;
+}
+
+.festival-column {
+  display: flex;
+  width: 100%;
+  flex-direction: column; /* 세로 정렬 */
+  align-items: flex-start; 
+  margin-left: 20px;
+}
+
+.f-main-img {
+  border-radius: 10px;
+  width: 600px; 
+  height: 500px;
+  object-fit: cover;
+}
+
+.f-sub-img {
+  display: flex;
+  border-radius: 10px;
+  width: 300px; 
+  height: auto;
+  margin-top: 10px;
+  object-fit: cover;
+}
+
+.f-sub-img-row {
+  display: flex;              /* 가로 정렬 */
+  gap: 20px;                  /* 이미지 간 간격 */
+  margin-top: 10px;
+}
+
+.notice-wrapper {
+  margin-left: 20px;
+  margin-bottom: 20px;
 }
