@@ -12,7 +12,39 @@
 <head>
 <meta charset="UTF-8">
 <title>관광지 수정</title>
-
+<style>
+#container{
+    width: 80%;
+    max-width: 600px;
+    margin: 30px auto;
+}
+#h4{
+   text-align:left; 
+   font-size: 24px;
+   margin-bottom: 10px;
+}
+#modBtn{
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;    
+}
+#doUpdate,
+#moveToList{
+        padding: 10px 30px;
+        border: none;
+        border-radius: 20px;
+        background-color: #999;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+}
+#doUpdate:hover,
+#moveToList:hover {
+       background-color: #666;
+    
+}
+</style>
 <link rel="stylesheet" href="/ehr/resources/css/festival_reg.css">
 </head>
 <!-- 카카오 우편번호 서비스 스크립트 -->
@@ -154,15 +186,15 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 <body>
     <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<div class="container">
+<div id="container" class="container">
 	<div class="logo-container">
-            <h1>떠나볼지도</h1>
-            <p>Get going</p>
+            
             <a href="/ehr/festival/main.do">
                 <img alt="로고이미지" src="${pageContext.request.contextPath}/resources/images/logo2.png">
             </a>
     </div>
-	<h4>관광지 상세 페이지 수정</h4>
+	<h4 id="h4">관광지 상세 페이지 수정</h4>
+	<hr>
 	<form action="doUpdate.do" method="post">		
 		<!-- form area -->
 		        <input type="hidden" name="tourNo" id="tourNo" value="<c:out value='${TourDTO.tourNo }'/>">
@@ -211,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	                <textarea class="fee" id="fee" name="fee">${TourDTO.fee }</textarea>
 	            </div>	
 	       </form>
-	    <div class="button-group">
+	    <div id="modBtn" class="button-group">
             <input type="hidden" id="tourNo" value="${TourDTO.tourNo}">
             <input type="button" id="doUpdate" value="수정"> 
             <input type="button" id="moveToList" value="취소">
