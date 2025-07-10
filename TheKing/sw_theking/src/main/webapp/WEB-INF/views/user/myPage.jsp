@@ -57,19 +57,19 @@
   <h1 id ="page">MY</h1>
   <div class="container">
   <div class="profile-area">
-    <img src="/ehr/resources/images/user/짱구1.jpg" alt="프로필 이미지"> <br>
+    <img src="${pageContext.request.contextPath}/resources/images/user/${user.profileImage.saveName}" alt="프로필 이미지">
     <h3 id="user-name">${user.name}</h3><br>
     <p id="user-email">${user.email}</p><br>
     <br><br>
     <ul>
         <li><a href="/ehr/user/updatePage.do">정보 수정</a></li>
+        <li><a href="/ehr/user/passwordPage.do">비밀번호변경</a></li>
         <li><a href="#" id="userDelete">계정 탈퇴</a></li>
         <c:choose>
             <c:when test="${sessionScope.loginUser.role eq 'admin'}">
                 <li><a href="/ehr/user/doRetrieve.do" id="userRetrieve">회원 조회</a></li>
             </c:when>
             <c:otherwise>
-            
             </c:otherwise>
         </c:choose>
     </ul>
@@ -94,16 +94,32 @@
     </div>
 
     <div class="section" id="comments">
-    <h3>작성한 댓글</h3>
-    <c:forEach var="comment" items="${comments}">
-      <div class="comment">
-      	<p>${comment.contents}</p>
-      </div>
-  	</c:forEach>
+      <h3>작성한 댓글</h3>
+      <div class="comment-list">
+	    <c:forEach var="comment" items="${comments}">
+	      <div class="comment">
+	      <c:choose>
+			  <c:when test="${comment.tableName == 'tour'}">
+			    <a href="${pageContext.request.contextPath}/${comment.tableName}/doSelectOne.do?tourNo=${comment.targetNo}">
+			        ${comment.contents}
+			    </a>
+			  </c:when>
+			  <c:when test="${comment.tableName == 'festival'}">
+			    <a href="${pageContext.request.contextPath}/${comment.tableName}/doSelectOne.do?festaNo=${comment.targetNo}">
+			        ${comment.contents}
+			    </a>
+			  </c:when>
+			  <c:otherwise>
+			    <a href="${pageContext.request.contextPath}/${comment.tableName}/doSelectOne.do?targetNo=${comment.targetNo}">
+			        ${comment.contents}
+			    </a>
+			  </c:otherwise>
+			</c:choose>
+	      	
+	      </div>
+	  	</c:forEach>
+  	  </div>
     </div>
-	<div class="pagination">
-    	&lt; 1 2 &gt;  <!-- 페이지네이션은 별도 작업 필요 -->
-  	</div>
 
     <div class="section" id="tour">
       <h3>관심있는 관광지</h3>

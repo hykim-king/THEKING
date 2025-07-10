@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -107,34 +108,41 @@ function execDaumPostcode() {
               return;
             }
  
+            const formData = new FormData();
+            formData.append("userId", $("#userId").val());
+            formData.append("password", $("#password").val());
+            formData.append("name", $("#name").val());
+            formData.append("nickname", $("#nickname").val());
+            formData.append("email", $("#email").val());
+            formData.append("mobile", mobile);
+            formData.append("address", fullAddress);
+
+            const fileInput = document.getElementById("fileInput");
+            if (fileInput.files.length > 0) {
+                formData.append("imageFile", fileInput.files[0]);
+            }
+
             $.ajax({
-                type:"POST",     //GET/ POST
-                url:"/ehr/user/signUp.do", //서버측URL
-                async:"true",     //비동기
-                dataType:"html", //서버에서 받을 데이터 타입
-                data:{           //파라메터
-                    "userId": $("#userId").val(),
-                    "password": $("#password").val(),
-                    "name": $("#name").val(),
-                    "nickname": $("#nickname").val(),
-                    "email": $("#email").val(),
-                    "mobile": mobile,
-                    "address": fullAddress
-                },
-                success:function(response){ //요청성공
+                type: "POST",
+                url: "/ehr/user/signUp.do",
+                async: true,
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "html",
+                success: function(response) {
                     const data = JSON.parse(response);
                     if (data.messageId === 1) {
                         alert(data.message);
-                        location.href = "/ehr/user/main.do";
+                        location.href = "/ehr/main.do";
                     } else {
                         alert(data.message);
                     }
                 },
-                error:function(response){ //요청 실패
+                error: function(response) {
                     console.log("error:");
-                    console.log("error:"+response)
+                    console.log("error:" + response);
                 }
-                
             });
         });
       
@@ -229,14 +237,20 @@ function execDaumPostcode() {
   <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
   <h1 id="page">회원 가입</h1>
     <div class="container">
-    <form id="signUpForm" method="post">
+    <form id="signUpForm" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <div class="picture-wrapper">
                 <p>프로필 사진</p>
-                <img src="/ehr/resources/images/user/짱구1.jpg" alt="프로필 이미지">
+                <c:choose>
+                  <c:when test="${not empty user.profileImage.saveName}">
+                    <img src="${pageContext.request.contextPath}/resources/images/user/${user.profileImage.saveName}" alt="프로필 이미지">
+                  </c:when>
+                  <c:otherwise>
+                  </c:otherwise>
+                </c:choose>
                 <button type="button" id="profileFindBtn">찾기</button><br>
             </div>
-            <input type="file" id="fileInput" accept="image/*" style="display:none" />
+            <input type="file" id="fileInput" accept="image/*" name="imageFile" style="display:none" />
         </div>
         <div class="form-group">
         <div class="form-row">
@@ -254,7 +268,7 @@ function execDaumPostcode() {
             <input type="text" name="name" id="name">
         </div>
         <div class="form-row">
-            <label label for="nickname">닉네임:</label>
+            <label for="nickname">닉네임:</label>
             <input type="text" name="nickname" id="nickname">
             <button type="button" id="nicknameCheck">중복 확인</button>
             <span id="nicknameResult" style="margin-left:10px;"></span>

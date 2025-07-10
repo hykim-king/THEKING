@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcwk.ehr.mapper.UserMapper">
+
+    <update id="updatePassword" parameterType="UserDTO">
+        UPDATE user_tk
+		SET
+		    password=#{password}
+		WHERE
+		    user_no=#{userNo}
+    </update>
+    
     <sql id="userWhere">
         <where>
             <if test="searchDiv !='' ">
@@ -24,23 +33,30 @@
     </sql>
     
     <!-- 사용자 상세조회 (이미지 포함) -->
-    <select id="getUserImage" parameterType="UserDTO" resultMap="userImageMap">
-	    SELECT u.user_no,
-	           u.user_id,
-	           u.password,
-	           u.name,
-	           u.nickname,
-	           u.email,
-	           u.mobile,
-	           u.address,
-	           u.role,
-	           TO_CHAR(u.reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt,
-	           TO_CHAR(u.mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt,
-	           i.save_name AS profileImage
+    <select id="getUserImage" parameterType="int" resultMap="userImageMap">
+	     SELECT 
+	        u.user_no,
+	        u.user_id,
+	        u.password,
+	        u.name,
+	        u.nickname,
+	        u.email,
+	        u.mobile,
+	        u.address,
+	        u.role,
+	        TO_CHAR(u.reg_date, 'YYYY/MM/DD HH24:MI:SS') AS regDt,
+	        TO_CHAR(u.mod_date, 'YYYY/MM/DD HH24:MI:SS') AS modDt,
+	        i.image_id,
+	        i.target_no,
+	        i.table_name,
+	        i.image_name,
+	        i.image_url,
+	        i.save_name,
+	        TO_CHAR(i.reg_date, 'YYYY/MM/DD HH24:MI:SS') AS reg_date
 	    FROM user_tk u
 	    LEFT JOIN image i 
-	           ON i.table_name = 'user' 
-	          AND i.target_no = u.user_no
+	      ON i.table_name = 'user_tk' 
+	     AND i.target_no = u.user_no
 	    WHERE u.user_no = #{userNo}
 	</select>
     
@@ -193,20 +209,28 @@
     </resultMap>
     
     <resultMap type="UserDTO" id="userImageMap">
-        <id column="user_no" property="userNo"/>
-        <result column="user_id" property="userId"/>
-        <result column="password" property="password"/>
-        <result column="name" property="name"/>
-        <result column="nickname" property="nickname"/>
-        <result column="email" property="email"/>
-        <result column="mobile" property="mobile"/>
-        <result column="address" property="address"/>
-        <result column="role" property="role"/>
-        <result column="regDt" property="regDt"/>
-        <result column="modDt" property="modDt"/>
-        <result column="profileImage" property="profileImage"/>
+    <id column="user_no" property="userNo"/>
+    <result column="user_id" property="userId"/>
+    <result column="password" property="password"/>
+    <result column="name" property="name"/>
+    <result column="nickname" property="nickname"/>
+    <result column="email" property="email"/>
+    <result column="mobile" property="mobile"/>
+    <result column="address" property="address"/>
+    <result column="role" property="role"/>
+    <result column="regDt" property="regDt"/>
+    <result column="modDt" property="modDt"/>
+    <association property="profileImage" javaType="ImageDTO">
+        <result column="save_name" property="saveName"/>
+        <result column="image_id" property="imageId"/>
+        <result column="target_no" property="targetNo"/>
+        <result column="table_name" property="tableName"/>
+        <result column="image_name" property="imageName"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="reg_date" property="regDate"/>
+    </association>
     </resultMap>
-
+    
     <select id="getAll" resultType="UserDTO">
 	    SELECT
 	        user_no,

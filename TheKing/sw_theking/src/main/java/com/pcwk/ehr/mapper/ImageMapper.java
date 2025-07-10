@@ -18,5 +18,8 @@ public interface ImageMapper extends WorkDiv<ImageDTO> {
 	int getCount() throws SQLException;
 	
 	List<ImageDTO> getImages(@Param("targetNo")int targetNo,@Param("tableName") String tableName); //이미지 조회
+	
+	int deleteImages(@Param("tableName") String tableName, @Param("targetNo") int targetNo); //이미지 삭제
 
+	ImageDTO doSelectOneByTarget(@Param("tableName") String tableName, @Param("targetNo") int targetNo);
 }

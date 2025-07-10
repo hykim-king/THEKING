@@ -14,6 +14,17 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class FileUtil {
 	
+	public static boolean deleteFile(String filePath) {
+        File file = new File(filePath);
+        
+        if (file.exists()) {
+            return file.delete();
+        } else {
+            System.out.println("파일이 존재하지 않습니다: " + filePath);
+            return false;
+        }
+    }
+	
     public static String saveFileWithUUID(MultipartFile file, String uploadDir) {
         if (file.isEmpty()) return null;
  

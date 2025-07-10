@@ -87,7 +87,7 @@
   display: flex;
   border-radius: 10px;
   width: 350px; 
-  height: auto;
+  height: 230px;
   margin-top: 10px;
   object-fit: cover;
 }
@@ -125,7 +125,7 @@
   display: flex;
   border-radius: 10px;
   width: 300px; 
-  height: auto;
+  height: 420px;
   margin-top: 10px;
   object-fit: cover;
 }

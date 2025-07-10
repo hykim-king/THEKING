@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.pcwk.ehr.board.domain.BoardDTO;
+import com.pcwk.ehr.cmn.FileUtil;
 import com.pcwk.ehr.cmn.MessageDTO;
 import com.pcwk.ehr.cmn.PcwkString;
 import com.pcwk.ehr.cmn.SearchDTO;
@@ -28,6 +30,8 @@ import com.pcwk.ehr.comment.domain.CommentDTO;
 import com.pcwk.ehr.comment.service.CommentService;
 import com.pcwk.ehr.favorites.service.FavoritesService;
 import com.pcwk.ehr.festival.domain.FestivalDTO;
+import com.pcwk.ehr.image.domain.ImageDTO;
+import com.pcwk.ehr.mapper.ImageMapper;
 import com.pcwk.ehr.mapper.UserMapper;
 import com.pcwk.ehr.tour.domain.TourDTO;
 import com.pcwk.ehr.user.domain.UserDTO;
@@ -50,25 +54,28 @@ public class UserController {
 	@Autowired
 	private FavoritesService favoritesService;
 	
+	@Autowired
+	private ImageMapper imageMapper;
+	
 	public UserController() {
 		log.debug("┌─────────────────────────────────┐");
 		log.debug("│ UserController()                │");
 		log.debug("└─────────────────────────────────┘");
 	}
 
-	// 로그인 후 화면
-	@GetMapping("/main.do")
-	public String mainPage(HttpSession session, Model model) {
-		UserDTO loggedInUser = (UserDTO) session.getAttribute("loginUser");
-		if (loggedInUser == null) {
+	// 비밀번호 변경 화면
+	@GetMapping("/passwordPage.do")
+	public String passwordPage(HttpSession session, Model model) {
+		UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+		if (loginUser == null) {
 		       return "user/loginDenied";
 		   }
-		 
-		model.addAttribute("user", loggedInUser);
 		
-		return "user/main";
+		model.addAttribute("user", loginUser);
+		
+		return "user/user_password";
 	}
-
+	
 	// 회원가입 화면
 	@GetMapping("/signUpPage.do")
 	public String signUPPage() {
@@ -97,6 +104,21 @@ public class UserController {
 		    model.addAttribute("user", loginUser);
 		    
 		    return "user/myPage"; // JSP 경로
+	}
+	
+	@PostMapping(value = "/updatePassword.do", produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String updatePassword(@RequestParam("userNo") int userNo,
+            					 @RequestParam("password") String password) throws SQLException {
+		UserDTO user = new UserDTO();
+	    user.setUserNo(userNo);
+	    user.setPassword(password);
+
+	    int flag = userMapper.updatePassword(user);
+	    String message = (flag == 1) ? "비밀번호가 성공적으로 변경되었습니다." : "비밀번호 변경에 실패했습니다.";
+
+	    MessageDTO messageDTO = new MessageDTO(flag, message);
+	    return new Gson().toJson(messageDTO);
 	}
 	
 	//회원 정보 수정 화면
@@ -196,7 +218,7 @@ public class UserController {
 	// 회원가입
 	@PostMapping(value="/signUp.do",produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String doSave(UserDTO user) throws SQLException {
+	public String doSave(@RequestParam(value = "imageFile", required = false) MultipartFile file, UserDTO user) throws SQLException {
 		String jsonString = "";
 		log.debug("user:{}", user);
 		
@@ -205,6 +227,23 @@ public class UserController {
 			String message = "";
 			
 			if(1 == flag) {
+				if (file != null && !file.isEmpty()) {
+
+					log.debug("이미지 전송");
+					String uploadDir = "C:/Users/user/THEKING/TheKing/sw_theking/src/main/webapp/resources/images/user";
+					String savedFilename = FileUtil.saveFileWithUUID(file, uploadDir);
+
+					ImageDTO imageDTO = new ImageDTO();
+					imageDTO.setImageName(file.getOriginalFilename());
+					imageDTO.setImageUrl("src/main/webapp/resources/images/user/");
+					imageDTO.setSaveName(savedFilename);
+					imageDTO.setTableName("user_tk");
+					imageDTO.setTargetNo(user.getUserNo());
+
+					imageMapper.doSave(imageDTO);
+				} else {
+					log.debug("이미지 전송 실패");
+				}
 				message = "회원가입 되었습니다.";
 			} else {
 				message = "회원가입에 실패 했습니다.";
@@ -255,6 +294,12 @@ public class UserController {
 		    return new Gson().toJson(failMessage);
 	    } else {  // 3.로그인 성공 시
 	    	int flag = 1;
+	    	// 유저 프로필 이미지 조회
+	    	ImageDTO profileImage = imageMapper.doSelectOneByTarget("user_tk", loginUser.getUserNo());
+	    	if (profileImage != null) {
+	    		loginUser.setProfileImage(profileImage); // UserDTO에 이미지 DTO 추가
+	    	}
+
 	    	message = "로그인 되었습니다.";
 	    	MessageDTO messageDTO = new MessageDTO(flag, message);
 			session.setAttribute("loginUser", loginUser);
@@ -266,17 +311,20 @@ public class UserController {
 	// doUpdate
 	@PostMapping(value = "/doUpdate.do", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
-	public String doUpdate(UserDTO param, Model model) throws SQLException {
+	public String doUpdate(@RequestParam(value = "imageFile", required = false) MultipartFile file, HttpSession session, UserDTO user, Model model) throws SQLException {
 		// 비동기 통신
 		// 회원등록
 		// db입력
 		// 성공실패: JSON
-
 		log.debug("┌───────────────────────────┐");
 		log.debug("│ *doUpdate()*              │");
 		log.debug("└───────────────────────────┘");
+		UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+		if (loginUser == null) {
+		       return "user/loginDenied";
+		   }	
 		String jsonString = "";
-		UserDTO inVO = param;
+		UserDTO inVO = user;
 
 		log.debug("inVO:{}", inVO);
 
@@ -284,6 +332,39 @@ public class UserController {
 
 		String message = "";
 		if (1 == flag) {
+			if (file != null && !file.isEmpty()) {
+                log.debug("새 이미지 업로드 요청");
+
+                // 2. 기존 이미지 조회
+                ImageDTO existingImage = imageMapper.doSelectOneByTarget("user_tk", user.getUserNo());
+
+                if (existingImage != null) {
+                    // 3. 기존 이미지 파일 삭제
+                    String existingFilePath = "C:/Users/user/THEKING/TheKing/sw_theking/src/main/webapp/resources/images/user/" + existingImage.getSaveName();
+                    FileUtil.deleteFile(existingFilePath);
+
+                    // 4. DB에서 기존 이미지 정보 삭제
+                    imageMapper.deleteImages("user_tk", user.getUserNo());
+                    log.debug("기존 이미지 삭제 완료");
+                }
+
+                // 5. 새 이미지 저장
+                String uploadDir = "C:/Users/user/THEKING/TheKing/sw_theking/src/main/webapp/resources/images/user";
+                String savedFilename = FileUtil.saveFileWithUUID(file, uploadDir);
+
+                ImageDTO newImage = new ImageDTO();
+                newImage.setImageName(file.getOriginalFilename());
+                newImage.setImageUrl("src/main/webapp/resources/images/user/");
+                newImage.setSaveName(savedFilename);
+                newImage.setTableName("user_tk");
+                newImage.setTargetNo(user.getUserNo());
+                
+                imageMapper.doSave(newImage);
+                log.debug("새 이미지 등록 완료");
+            } else {
+                log.debug("이미지 변경 없음 - 기존 이미지 유지");
+            }
+			
 			message = inVO.getUserId() + "님이 수정 되었습니다.";
 		} else {
 			message = inVO.getUserId() + "님이 수정 실패 했습니다.";

@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pcwk.ehr.mapper.ImageMapper">
+
+    <select id="doSelectOneByTarget" parameterType="map" resultType="ImageDTO">
+	    SELECT *
+	      FROM image
+	     WHERE table_name = #{tableName}
+	       AND target_no = #{targetNo}
+    </select>
+  
+    <!-- 기존 이미지 삭제 -->
+	<delete id="deleteImages" parameterType="map">
+	  DELETE FROM image
+	   WHERE table_name = #{tableName}
+	    AND target_no = #{targetNo}
+	</delete>
+  
     <select id="getImages" parameterType="map" resultType="ImageDTO">
         SELECT * 
         FROM image

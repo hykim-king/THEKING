@@ -46,5 +46,5 @@ public interface UserMapper extends WorkDiv<UserDTO> {
 	
 	UserDTO getUserImage(UserDTO userNo);
 
-	
+	int updatePassword(UserDTO user);
 }

@@ -1,6 +1,7 @@
 package com.pcwk.ehr.user.domain;
 
 import com.pcwk.ehr.cmn.DTO;
+import com.pcwk.ehr.image.domain.ImageDTO;
 import com.pcwk.ehr.region.domain.RegionDTO;
 
 public class UserDTO extends DTO {
@@ -15,7 +16,7 @@ public class UserDTO extends DTO {
 	private String role;
 	private String regDt;
 	private String modDt;
-	private String profileImage;
+	private ImageDTO profileImage;
 	
 	public UserDTO() {
 		
@@ -37,11 +38,11 @@ public class UserDTO extends DTO {
 		this.modDt = modDt;
 	}
 
-	public String getProfileImage() {
+	public ImageDTO getProfileImage() {
 		return profileImage;
 	}
 
-	public void setProfileImage(String profileImage) {
+	public void setProfileImage(ImageDTO profileImage) {
 		this.profileImage = profileImage;
 	}
 
