@@ -2,6 +2,21 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<script>
+function commentDelete(comNo,tableName,targetNo){
+	if(confirm("댓글을 삭제하시겠습니까??")===true){
+		  let url = '/ehr/comment/doDelete.do?';
+		  url += 'comNo=' + comNo;
+		  url += '&tableName=' + tableName;
+	      url += '&targetNo=' + targetNo;
+		    
+	      window.location.href = url;
+	}else{
+		return;
+	}
+
+}
+</script>
 
 <c:choose>
     <c:when test="${not empty list}">
@@ -17,7 +32,7 @@
                 </div>
                 <c:if test="${sessionScope.loginUser.userId eq comment.userId}">
                     <div class="comment-submit-wrapper">
-                     <input type="button" id="commentDeleteSubmit" value="삭제" />
+                     <input type="button" onclick="javascript:commentDelete(${comment.comNo},'${comment.tableName }',${comment.targetNo })" value="삭제" />
                     </div>
                 </c:if>
             </div>
