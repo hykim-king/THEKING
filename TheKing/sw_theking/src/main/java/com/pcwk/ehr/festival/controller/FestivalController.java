@@ -1,6 +1,7 @@
 package com.pcwk.ehr.festival.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +24,8 @@ import com.google.gson.Gson;
 import com.pcwk.ehr.cmn.FileUtil;
 import com.pcwk.ehr.cmn.MessageDTO;
 import com.pcwk.ehr.cmn.SearchDTO;
+import com.pcwk.ehr.comment.domain.CommentDTO;
+import com.pcwk.ehr.comment.service.CommentService;
 import com.pcwk.ehr.favorites.domain.FavoritesDTO;
 import com.pcwk.ehr.festival.domain.FestivalDTO;
 import com.pcwk.ehr.festival.service.FestivalService;
@@ -44,6 +47,9 @@ public class FestivalController {
 
 	@Autowired
 	FavoritesMapper favoritesMapper;
+	
+	@Autowired
+	CommentService commentService;
 
 	public FestivalController() {
 		log.debug("┌─────────────────────────────────┐");
@@ -108,7 +114,7 @@ public class FestivalController {
 	}
 
 	@GetMapping("/doSelectOne.do")
-	public String doSelectOne(int festaNo, Model model, HttpSession session) {
+	public String doSelectOne(int festaNo, Model model, HttpSession session) throws SQLException {
 		service.upViews(festaNo);
 		FestivalDTO dto = service.doSelectOne(festaNo);
 		List<ImageDTO> imageList = imageMapper.getImages(festaNo, "festival");
@@ -134,6 +140,12 @@ public class FestivalController {
 		}else {
 			flag = false;
 		}
+		
+		// 댓글 목록 조회
+	    List<CommentDTO> commentList = commentService.getCommentsByTarget(festaNo, "festival");
+	    log.debug("commentList:{}",commentList);
+	    
+	    model.addAttribute("list", commentList);
 
 		model.addAttribute("imageList", imageList);
 		model.addAttribute("dto", dto);

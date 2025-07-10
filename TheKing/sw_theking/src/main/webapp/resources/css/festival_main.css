@@ -1,35 +1,8 @@
-@charset "UTF-8";
     body {
         font-family: 'Arial', sans-serif;
         margin: 0;
         padding: 0;
         background-color: #fdfdfd;
-    }
-    .header {
-        background-color: #FDD7DD;
-        padding: 10px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .nav {
-        display: flex;
-        gap: 20px;
-        font-weight: bold;
-    }
-
-    .nav a {
-        align-items: center;
-        text-decoration: none;
-        color: #000;
-    }
-
-    .login {
-        font-size: 14px;
-        text-decoration: none;
-        color: #000;
-        font-weight: bold;
     }
 
     .container {
@@ -127,7 +100,7 @@
         background-color: #f9f9f9;
     }
 
-    img {
+    .listImage{
         width: 80px;
         height: 80px;
         object-fit: cover;
@@ -151,7 +124,7 @@
   font-size: 16px;
   gap: 5px;
 }
-
+ 
 .pagination  a{
   display: inline-block;
   padding: 8px 12px;

@@ -15,11 +15,14 @@
     src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet" href="/ehr/resources/css/festival_mng.css">
+<link rel="stylesheet" href="/ehr/resources/css/comment.css">
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function () {
 	if('${sessionScope.loginUser.role  }'==='admin'){
 	const doDeleteButton = document.getElementById('doDelete');
 	
+	
+	//삭제 버튼
 	doDeleteButton.addEventListener('click',function(){
 		           
 		if (confirm('삭제 하시겠습니까?') === false)
@@ -56,6 +59,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	});
 	
 	}
+	
+	//좋아요 버튼 
 	$('#likeBtn').on('click', function () {
 	    const $btn = $(this);
 	    const liked = $btn.data('liked');
@@ -80,37 +85,67 @@ document.addEventListener("DOMContentLoaded", function () {
 	      }
 	    });
 	  });
+	//댓글용
+    const festaNo = ${dto.festaNo};
+    const commentContentsInput = document.querySelector("#commentContents");
+    const commentSubmitBtn = document.querySelector("#commentSubmit");
+
+    
+    commentSubmitBtn.addEventListener('click', function() {
+        const contents = commentContentsInput.value.trim();
+        if (!contents) {
+            alert('내용을 입력하세요.');
+            commentContentsInput.focus();
+            return;
+        }
+
+        if (!confirm('댓글을 등록하시겠습니까?')) return;
+
+        $.ajax({
+            type: 'POST',
+            url: '/ehr/comment/festaNoCommentsadd.do',
+            contentType: 'application/json',
+            dataType: 'json',
+            data: JSON.stringify({ 
+                contents : contents, 
+                targetNo: Number(festaNo) }),
+            success: function(res) {
+                if (res.messageId === 1) {
+                    alert(res.message);
+                    window.location.href='/ehr/festival/doSelectOne.do?festaNo='+festaNo;
+                } else {
+                    alert(res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("댓글 등록 실패:", status, error);
+            }
+        });
+    });
+	
 });
 
 
 </script>
 </head>
 <body>
-    <div class="header">
-        <div class="nav">
-            <span>떠나볼지도</span>
-            <a href="#">관광지</a>
-            <a href="#">축제</a>
-            <a href="#">게시판</a>
-            <a href="#">공지사항</a>
-        </div>
-        <div class="login">
-            <a href="#">로그인</a>
-            <a href="#">회원가입</a>
-         </div>
-    </div>
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 	<!-- 이미지 등록 -->
 
 	<!--<button onclick="window.location.href='/ehr/festival/test.do?festaNo=${dto.festaNo}';">이미지 등록</button> -->
 <div class="container">
-    <img 
-		  id="likeBtn"
-		  src="${pageContext.request.contextPath}/resources/images/<%= isFavorite ? "heart-on.png" : "heart-off.png" %>"
-		  data-liked="<%= isFavorite %>"
-		  data-festival-id="${dto.festaNo }"
-		  style="width: 24px; cursor: pointer;"
-		/>
-<span id="likeCount"><%= favoriteCount %></span>
+	<div style="float:right;">
+	    <img 
+			  id="likeBtn"
+			  src="${pageContext.request.contextPath}/resources/images/<%= isFavorite ? "heart-on.png" : "heart-off.png" %>"
+			  data-liked="<%= isFavorite %>"
+			  data-festival-id="${dto.festaNo }"
+			  style="width: 24px; cursor: pointer;"
+			/>
+	<span id="likeCount"><%= favoriteCount %></span>
+	    <img style="width: 24px;" alt="조회수" src="${pageContext.request.contextPath}/resources/images/views.png">
+	<span>${dto.views}</span>
+	</div>
     <h2>축제 상세보기</h2>
 
     <!-- 이미지 등록 -->
@@ -149,11 +184,6 @@ document.addEventListener("DOMContentLoaded", function () {
     </div>
 
     <div class="info-group">
-        <h3>조회수</h3>
-        <p>${dto.views}</p>
-    </div>
-
-    <div class="info-group">
         <h3>주소</h3>
         <p>${dto.address}</p>
     </div>
@@ -183,8 +213,26 @@ document.addEventListener("DOMContentLoaded", function () {
         <button id="doDelete">삭제</button>
     </div>
     </c:if>
+	<!-- 댓글 입력 영역 -->
+	<div class="comment-input-box">
+	    <div class="comment-input-wrapper">
+	        <textarea id="commentContents" name="contents" placeholder="댓글을 입력하세요."></textarea>
+	        <div class="comment-submit-wrapper">
+	            <input type="button" id="commentSubmit" value="등록" />
+	        </div>
+	    </div>
+	</div>
+	<c:if test="${empty sessionScope.loginUser.userId}">
+        <p>※ 등록하려면 로그인이 필요합니다.</p>
+    </c:if>
+	
+	<!-- 댓글 목록 영역 -->
+	<div id="commentContainer">
+	    <jsp:include page="/WEB-INF/views/comment/comment_list.jsp" />
+	</div>
+	
 </div>
-
+<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 
 </body>
 </html>

@@ -8,18 +8,23 @@
         <c:forEach var="comment" items="${list}">
             <div class="comment-box">
                 <div class="comment-header">
-                    <span class="userNickname">${comment.userNickname}</span>
-                    <span class="userName">${comment.userName}</span>
-                    <span class="date">${comment.regDt}</span> 
+                    <span class="user-nickname">${comment.userNickname}</span>
+                    <span class="user-name">${comment.userName}</span>
+                    <span class="comment-date">${comment.regDt}</span>
                 </div>
                 <div class="comment-content">
                     ${comment.contents}
-                </div>  
+                </div>
+                <c:if test="${sessionScope.loginUser.userId eq comment.userId}">
+                    <div class="comment-submit-wrapper">
+                     <input type="button" id="commentDeleteSubmit" value="삭제" />
+                    </div>
+                </c:if>
             </div>
         </c:forEach>
     </c:when>
     <c:otherwise>
-        <p>작성된 댓글이 없습니다.</p>
+        <p class="no-comment">작성된 댓글이 없습니다.</p>
     </c:otherwise>
 </c:choose>
 
