@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -160,10 +161,6 @@ public class TourServiceImpl implements TourService {
 			throw new IllegalArgumentException("내용을 입력해 주세요.");
 		}
 
-		// 2.정규 표현식 검사
-		if (!TourValidation.isValidTel(param.getTel())) {
-			throw new IllegalArgumentException("전화번호 형식이 올바르지 않습니다. (예: 010-1234-5678)");
-		}
 		// 3.글자 수 확인
 		if (param.getName() != null && param.getName().length() > 30) {
 			throw new IllegalArgumentException("관광지명은 1자 이상 30자 이내로 입력해 주세요.");
@@ -176,7 +173,28 @@ public class TourServiceImpl implements TourService {
 		}
 		return param;
 	}
+	
+	private static final Map<String, String> sidoNameMapping = new HashMap<>();
 
+	static {
+	    sidoNameMapping.put("서울", "서울특별시");
+	    sidoNameMapping.put("부산", "부산광역시");
+	    sidoNameMapping.put("대구", "대구광역시");
+	    sidoNameMapping.put("인천", "인천광역시");
+	    sidoNameMapping.put("광주", "광주광역시");
+	    sidoNameMapping.put("대전", "대전광역시");
+	    sidoNameMapping.put("울산", "울산광역시");
+	    sidoNameMapping.put("세종", "세종특별자치시");
+	    sidoNameMapping.put("경기", "경기도");
+	    sidoNameMapping.put("강원", "강원도");
+	    sidoNameMapping.put("충북", "충청북도");
+	    sidoNameMapping.put("충남", "충청남도");
+	    sidoNameMapping.put("전북", "전라북도");
+	    sidoNameMapping.put("전남", "전라남도");
+	    sidoNameMapping.put("경북", "경상북도");
+	    sidoNameMapping.put("경남", "경상남도");
+	    sidoNameMapping.put("제주", "제주특별자치도");
+	}
 	/**
 	 * 주소 유효성 확인
 	 * 
@@ -193,13 +211,18 @@ public class TourServiceImpl implements TourService {
 		String regionSido = null;
 		String regionGugun = null;
 
-		if (parts.length > 0 && "세종특별자치시".equals(parts[0])) {
-			regionSido = parts[0];
-			regionGugun = null;
-		} else if (parts.length > 1) {
-			regionSido = parts[0];
-			regionGugun = parts[1];
-		}
+		// 첫 번째 단어가 sido일 경우, 이를 변환
+	    if (parts.length > 0) {
+	        regionSido = parts[0];  // '서울', '부산' 등
+	        if (sidoNameMapping.containsKey(regionSido)) {
+	            // sidoNameMapping을 통해 실제 시도명으로 변환
+	            regionSido = sidoNameMapping.get(regionSido);
+	        }
+	    }
+	    // 두 번째 단어는 구 이름
+	    if (parts.length > 1) {
+	        regionGugun = parts[1];  // '마포구', '중구' 등
+	    }
 
 		Integer regionNo = tourMapper.getRegionNo(regionSido, regionGugun);
 		log.debug("주소 파싱: sido={}, gugun={}", regionSido, regionGugun);

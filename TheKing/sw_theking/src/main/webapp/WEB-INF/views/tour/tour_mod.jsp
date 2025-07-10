@@ -150,22 +150,16 @@ document.addEventListener('DOMContentLoaded', function(){
     });
 });
 </script>
-<style>
-    img{
-        width:400px;
-        height:200px;
-    }
-</style>
 <body>
-	<h2>Tour MOD</h2>
-	<hr>
+    <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+
 	<a href="/ehr/festival/main.do"><img alt="로고이미지" src="${pageContext.request.contextPath}/resources/images/logo.png"></a>
-	<h4>관광지 수정</h4>
+	<h4>관광지 상세 페이지 수정</h4>
 	<form action="/ehr/tour/doSave.do" method="post">
-		<div class="button-area">
+		<div class="button-group">
 		    <input type="hidden" id="tourNo" value="${TourDTO.tourNo}">
 			<input type="button" id="doUpdate" value="수정"> 
-			<input type="button" id="moveToList"   value="취소">
+			<input type="button" id="moveToList" value="취소">
 		</div>
 
 		<div>
@@ -229,9 +223,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	<%-- <p>Image URL: ${imgUrl}</p> --%>
 	<%-- <p>regionSido: ${TourDTO.region.regionSido }</p> --%>
 	<%-- <p>regionGugun: ${TourDTO.region.regionGugun }</p> --%>
-	<!-- 댓글 목록 -->
 
-	<!-- //댓글 목록 -->
-	<footer> Footer </footer>
+<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>
 </html>

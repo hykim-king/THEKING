@@ -16,6 +16,7 @@
 <meta charset="UTF-8">
 <title>관광지 상세</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/ehr/resources/css/festival_mng.css">
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -74,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     moveToUpdateBtn.addEventListener('click', function() {
         if (confirm('수정 페이지로 이동합니다.')) {
-            window.location.href = '/ehr/tour/doUpdateView.do?tourNo=' + tourNoInput.value;
+            window.location.href = '/ehr/tour/doUpdateView.do?tourNo=' + tourNo;
         }
     });
 
@@ -86,20 +87,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
-<style>
-    img {
-        width: 400px;
-        height: 200px;
-    }
-</style>
 </head>
 
 <body>
     <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-    
-    <h4>관광지 수정</h4>
-    <hr>
+<div class="container"> 
+    <h2>관광지 상세보기</h2>
 
     <!-- 버튼 영역 -->
     <div class="button-area">
@@ -113,60 +106,86 @@ document.addEventListener('DOMContentLoaded', function() {
         <input type="text" maxlength="9" name="regionSido" id="regionSido" value="${TourDTO.region.regionSido }">
         <input type="text" maxlength="9" name="regionGugun" id="regionGugun" value="${TourDTO.region.regionGugun }">
     </div>
-    <hr>
-
-    <!-- 관광지 정보 -->
-    <div class="container">
-        <!-- 관광지 번호 -->
-        <input type="hidden" id="tourNo" name="tourNo" value="<c:out value='${TourDTO.tourNo }'/>">
-        <div>
-            <label for="name">관광지명</label>
-            <input type="text" id="name" name="name" value="${TourDTO.name }">
-        </div>
-        <div>
-            <label for="subtitle">소제목</label>
-            <input type="text" id="subtitle" name="subtitle" value="${TourDTO.subtitle }">
-        </div>
-        <div>
-            <c:url var="imgUrl" value="${TourDTO.image.imageUrl}" />   
-            <img src="${imgUrl}" alt="${TourDTO.name}" width="800" />
-        </div>
-        <div>
-            <label for="contents">내용</label>
-            <textarea class="contents" id="contents" name="contents">${TourDTO.contents }</textarea>
-        </div>
-        <div>
-            <label for="address">주소</label>
-            <textarea class="address" id="address" name="address">${TourDTO.address }</textarea>
-        </div>
-        <div>
-            <label for="time">운영시간</label>
-            <textarea class="time" id="time" name="time">${TourDTO.time }</textarea>
-        </div>
-        <div>
-            <label for="holiday">휴일</label>
-            <textarea class="holiday" id="holiday" name="holiday">${TourDTO.holiday }</textarea>
-        </div>
-        <div>
-            <label for="fee">입장료</label>
-            <textarea class="fee" id="fee" name="fee">${TourDTO.fee }</textarea>
-        </div>
+    <!-- 이미지 리스트 -->
+    <div class="image-wrapper">
+        <c:choose>
+            <c:when test="${imageList.size() > 0}">
+                <c:forEach var="imageDTO" items="${imageList}">
+                    <img alt="이미지" src="${pageContext.request.contextPath}/resources/images/tour/${imageDTO.saveName}">
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <p>이미지 없음</p>
+            </c:otherwise>
+        </c:choose>
     </div>
 
-	
-	
-	<!-- 댓글 입력 영역 -->
-	<textarea id="commentContents" name="contents" placeholder="댓글을 입력하세요."></textarea>
-	<input type="button" id="commentSubmit" value="등록" />
-	
-	<!-- 댓글 목록 영역 -->
-	<div id="commentContainer">
-	    <jsp:include page="/WEB-INF/views/comment/comment_list.jsp" />
-	</div>
+        <!-- 관광지 정보 -->
+        <!-- 관광지 번호 -->
+        <input type="hidden" id="tourNo" name="tourNo" value="<c:out value='${TourDTO.tourNo }'/>">
+        <div class="info-group">
+            <h3>관광지명</h3>
+            <p>${TourDTO.name}</p>           
+        </div>
+        <div class="info-group">
+	        <h3>소제목</h3>
+	        <p>${TourDTO.subtitle}</p>
+	    </div>
+<!--         <div> -->
+<%--             <c:url var="imgUrl" value="${TourDTO.image.imageUrl}" />    --%>
+<%--             <img src="${imgUrl}" alt="${TourDTO.name}" width="800" /> --%>
+<!--         </div> -->
+        <div class="info-group">
+	        <h3>내용</h3>
+	        <p>${TourDTO.contents}</p>
+	    </div>
+        
+        <div class="info-group">
+	        <h3>조회수</h3>
+	        <p>${TourDTO.views}</p>
+	    </div>
+        <div class="info-group">
+	        <h3>주소</h3>
+	        <p>${TourDTO.address}</p>
+	    </div>
+	        <div class="info-group">
+	        <h3>연락처</h3>
+	        <p>${TourDTO.tel}</p>
+	    </div>
+        <div class="info-group">
+	        <h3>운영시간</h3>
+	        <p>${TourDTO.time }</p>
+	    </div>
+	    <div class="info-group">
+            <h3>휴무일</h3>
+            <p>${TourDTO.holiday }</p>
+        </div>
+        <div class="info-group">
+            <h3>요금</h3>
+            <p>${TourDTO.fee }</p>
+        </div>
+
+
+    
+    <!-- 댓글 입력 영역 -->
+    <div class="comment-input-box">
+        <div class="comment-input-wrapper">
+            <textarea id="commentContents" name="contents" placeholder="댓글을 입력하세요."></textarea>
+            <div class="comment-submit-wrapper">
+                <input type="button" id="commentSubmit" value="등록" />
+            </div>
+        </div>
+    </div>
+    
+    <!-- 댓글 목록 영역 -->
+    <div id="commentContainer">
+        <jsp:include page="/WEB-INF/views/comment/comment_list.jsp" />
+    </div>
+    
     <c:if test="${empty sessionScope.loginUser.userId}">
         <p>※ 등록하려면 로그인이 필요합니다.</p>
     </c:if>
-
+</div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>
 </html>
