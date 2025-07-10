@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,11 +32,14 @@ document.addEventListener("DOMContentLoaded", function(){
 		  });
 	 
 	 fileInput.addEventListener('change', function(event) {
-		    const files = event.target.files;
-		    if (files.length > 0) {
-		      alert("선택한 파일: " + files[0].name);
-		      // 여기에 선택한 파일을 서버로 업로드하거나 처리하는 코드 작성 가능
-		    }
+		 const file = event.target.files[0];
+		    if (file) {
+	            const reader = new FileReader();
+	            reader.onload = function (e) {
+	                document.getElementById("previewImage").src = e.target.result;
+	            };
+	            reader.readAsDataURL(file);
+	        }
 		  });	
 	 
 	 //주소 합치기
@@ -55,23 +59,33 @@ document.addEventListener("DOMContentLoaded", function(){
 		 const mobile = tel1 + "-" + tel2 + "-" + tel3;
 	     console.log(mobile);
 	     
+	     const file = document.getElementById("fileInput").files[0];
 	     
+	     const formData = new FormData();
+	     formData.append("userNo", $("#userNo").val());
+         formData.append("userId", $("#userId").val());
+         formData.append("name", $("#name").val());
+         formData.append("nickname", $("#nickname").val());
+         formData.append("email", $("#email").val());
+         formData.append("mobile", mobile);
+         formData.append("address", fullAddress);
+	     
+         if (file) {
+             formData.append("imageFile", file);
+         }
+         
 		 $.ajax({
 		      type: "POST",
 		      url: "/ehr/user/doUpdate.do",
-		      data: {
-		    	"userNo": $("#userNo").val(),
-		    	"userId": $("#userId").val(),
-		      	"name": $("#name").val(),
-		      	"nickname": $("#nickname").val(),
-		      	"email": $("#email").val(),
-		      	"mobile": mobile,
-		      	"address": fullAddress
-		      },
+		      data: formData,
+		      processData: false,
+              contentType: false,
+              dataType: "html",
 		      success: function (response) {
 		        try {
 		          const result = JSON.parse(response);
 		          alert(result.message);
+		          location.href = "/ehr/user/myPage.do";
 		        } catch (e) {
 		          console.error("JSON 파싱 에러:", e);
 		          
@@ -240,19 +254,18 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	<div class="container">
 		<div class="profile-area">
-			<img src="/ehr/resources/images/user/짱구1.jpg" alt="프로필 이미지">
-			<h3>홍길동</h3>
-			<p>이메일@gmail.com</p>
-			<div class="interest">관심 지역: 인천</div>
+            <img src="${pageContext.request.contextPath}/resources/images/user/${user.profileImage.saveName}" alt="프로필 이미지">
+			<h3 id="user-name">${user.name}</h3><br>
+            <p id="user-email">${user.email}</p><br>
 		</div>
 
 		<div class="form-area">
 			<h2>정보 수정</h2>
-
+            <input type="hidden" id="userNo" name="userNo" value="${user.userNo}">
 			<div class="form-group">
 				<label>프로필 사진</label>
 				<div class="profile-picture-wrapper">
-				<img src="/ehr/resources/images/user/짱구1.jpg" alt="프로필 이미지">
+				<img id="previewImage" src="${pageContext.request.contextPath}/resources/images/user/${user.profileImage.saveName}" alt="프로필 이미지">
 				</div>
 				<button id="profileFindBtn">찾기</button>
 				<input type="file" id="fileInput" accept="image/*" style="display:none" />

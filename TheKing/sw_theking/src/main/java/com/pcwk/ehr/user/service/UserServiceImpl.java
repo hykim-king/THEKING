@@ -67,7 +67,14 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public UserDTO doSelectOne(UserDTO param) throws SQLException {
-		return mapper.doSelectOne(param);
+		UserDTO outVO = mapper.doSelectOne(param);
+
+	    if (outVO != null) {
+	        ImageDTO profileImage = imageMapper.doSelectOneByTarget("user_tk", outVO.getUserNo());
+	        outVO.setProfileImage(profileImage);
+	    }
+
+	    return outVO;
 	}
 	
 	@Override
@@ -106,19 +113,6 @@ public class UserServiceImpl implements UserService {
 	    // 3. 저장
 	    int result = mapper.doSave(param);
 	    
-	    // 4. profileImage가 있을 경우 저장
-	    if (param.getProfileImage() != null && !param.getProfileImage().isEmpty()) {
-	    	String safeRegDt = param.getRegDt().replaceAll("[/:\\s]", "_");	
-	        ImageDTO image = new ImageDTO();
-	        image.setTargetNo(param.getUserNo());     // 방금 생성된 user_no
-	        image.setTableName("user_tk");               // 고정값
-	        image.setImageName(param.getProfileImage().replaceAll(" ", "_"));
-	        image.setSaveName(safeRegDt + "_" + uuid8 +"_" + param.getProfileImage());
-	        image.setImageUrl("/resources/images/" + image.getImageName());        // 등록자 ID
-	        image.setRegDate(param.getRegDt());
-	        
-	        imageMapper.doSave(image);
-	    }
 	    return result;
 	}
 	
