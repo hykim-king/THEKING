@@ -116,7 +116,7 @@ public class TourController {
 		    
 		    
 		    int pageNo = PcwkString.nvlZero(search.getPageNo(),1);
-		    int pageSize = PcwkString.nvlZero(search.getPageSize(),10);
+		    int pageSize = PcwkString.nvlZero(search.getPageSize(),12);
 
 		    String searchDiv = PcwkString.nullToEmpty(search.getSearchDiv());
 		    String searchWord = PcwkString.nullToEmpty(search.getSearchWord());

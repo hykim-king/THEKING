@@ -12,40 +12,7 @@
 <head>
 <meta charset="UTF-8">
 <title>관광지 수정</title>
-<style>
-#container{
-    width: 80%;
-    max-width: 600px;
-    margin: 30px auto;
-}
-#h4{
-   text-align:left; 
-   font-size: 24px;
-   margin-bottom: 10px;
-}
-#modBtn{
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        margin-top: 20px;    
-}
-#doUpdate,
-#moveToList{
-        padding: 10px 30px;
-        border: none;
-        border-radius: 20px;
-        background-color: #999;
-        color: #fff;
-        font-weight: bold;
-        cursor: pointer;
-}
-#doUpdate:hover,
-#moveToList:hover {
-       background-color: #666;
-    
-}
-</style>
-<link rel="stylesheet" href="/ehr/resources/css/festival_reg.css">
+<link rel="stylesheet" href="/ehr/resources/css/tour/tour_mod.css"/>
 </head>
 <!-- 카카오 우편번호 서비스 스크립트 -->
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -186,14 +153,14 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 <body>
     <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-<div id="container" class="container">
 	<div class="logo-container">
             
-            <a href="/ehr/festival/main.do">
+            <a href="/ehr/main.do">
                 <img alt="로고이미지" src="${pageContext.request.contextPath}/resources/images/logo2.png">
             </a>
     </div>
-	<h4 id="h4">관광지 상세 페이지 수정</h4>
+<div id="container" class="container">
+	<h4 id="h4">관광지 상세 정보 수정</h4>
 	<hr>
 	<form action="doUpdate.do" method="post">		
 		<!-- form area -->

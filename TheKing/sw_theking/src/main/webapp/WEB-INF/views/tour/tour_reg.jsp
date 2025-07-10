@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <title>tour_reg</title>
-<link rel="stylesheet" href="/ehr/resources/css/festival_reg.css">
+<link rel="stylesheet" href="/ehr/resources/css/tour/tour_reg.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <!-- 카카오 우편번호 서비스 스크립트 -->
@@ -147,13 +147,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <body>
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 
-    <div class="container">
          <div class="logo-container">
-            <a href="/ehr/festival/main.do">
+            <a href="/ehr/main.do">
                 <img alt="로고이미지" src="${pageContext.request.contextPath}/resources/images/logo2.png">
             </a>
         </div>
-    <h4>관광지 상세 등록</h4>
+ <div class="container">
+    <h4 id="h4">관광지 상세 정보 등록</h4>
     <hr>
     <!-- form area -->
     <form action="doSave.do" method="post" enctype="multipart/form-data">
