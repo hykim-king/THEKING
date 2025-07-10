@@ -2,6 +2,8 @@ package com.pcwk.ehr.board.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,90 +11,178 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.google.gson.Gson;
 import com.pcwk.ehr.board.domain.BoardDTO;
 import com.pcwk.ehr.board.service.BoardService;
+import com.pcwk.ehr.cmn.MessageDTO;
+import com.pcwk.ehr.cmn.PcwkString;
 import com.pcwk.ehr.cmn.SearchDTO;
 
 @Controller
 @RequestMapping("/board")
 public class BoardController {
+	Logger log = LogManager.getLogger(getClass());
 
-    final Logger log = LogManager.getLogger(getClass());
+	@Autowired
+	BoardService service;
 
-    @Autowired
-    BoardService boardService;
+	public BoardController() {
+		log.debug("┌───────────────────────────┐");
+		log.debug("│ *BoardController()*       │");
+		log.debug("└───────────────────────────┘");
+	}
+	
+	@GetMapping("/doSaveView.do")
+	public String doSaveView(HttpServletRequest request,Model model) {
+		String viewString = "board/board_reg";
+		log.debug("┌───────────────────────────┐");
+		log.debug("│ *doSaveView()*            │");
+		log.debug("└───────────────────────────┘");
+		log.debug("viewString:{}",viewString);
+		
+		model.addAttribute("divValue",request.getParameter("div") );
+		
+		return viewString;
+	}
 
-    public BoardController() {
-        log.debug("┌─────────────────────────────────┐");
-        log.debug("│ BoardController()               │");
-        log.debug("└─────────────────────────────────┘");
-    }
+	@GetMapping("/doRetrieve.do")
+	public String doRetrieve(SearchDTO param, Model model) {
+		String viewName = "board/board_list";
+		log.debug("┌───────────────────────────┐");
+		log.debug("│ *doRetrieve()*            │");
+		log.debug("└───────────────────────────┘");
 
-    // 목록 조회
-    @GetMapping("/list.do")
-    public String list(SearchDTO search, Model model) {
-        log.debug("board/list.do 호출: {}", search);
+		int pageNo = PcwkString.nvlZero(param.getPageNo(), 1);
+		int pageSize = PcwkString.nvlZero(param.getPageSize(), 10);
 
-        List<BoardDTO> list = boardService.doRetrieve(search);
-        model.addAttribute("list", list);
+		// 게시구분 : 공지사항(10)
+		String div = PcwkString.nvlString(param.getDiv(), "10");
 
-        return "board/board_list";
-    }
+		// 검색 구분
+		String searchDiv = PcwkString.nullToEmpty(param.getSearchDiv());
 
-    // 글 상세 보기 
-    @GetMapping("/view.do")
-    public String view(@RequestParam("boardNo") int boardNo, Model model) {
-        log.debug("board/view.do?boardNo={} 호출", boardNo);
+		// 검색어
+		String searchWord = PcwkString.nullToEmpty(param.getSearchWord());
+		
+		log.debug("pageNo:{}",pageNo);
+		log.debug("pageSize:{}",pageSize);
+		log.debug("div:{}",div);
+		log.debug("searchDiv:{}",searchDiv);
+		log.debug("searchWord:{}",searchWord);
+		
+		param.setPageNo(pageNo);
+		param.setPageSize(pageSize);
+		param.setDiv(div);
+		param.setSearchDiv(searchDiv);
+		param.setSearchWord(searchWord);
+		
+		log.debug("param:{}",param);
+		List<BoardDTO> list = service.doRetrieve(param);
+		
+		model.addAttribute("list",list);
+		
+		//총 글수
+		int totalCnt = 0;
+		
+		if(list != null && list.size()>0) {
+			BoardDTO totalVO = list.get(0);
+			totalCnt = totalVO.getTotalCnt();
+		}
+		log.debug("totalCnt:{}",totalCnt);
+		model.addAttribute("totalCnt",totalCnt);
+		model.addAttribute("divValue",div);
+		//Form Submit : 파라메터 값 유지
+		model.addAttribute("search", param);
 
-        BoardDTO param = new BoardDTO();
-        param.setBoardNo(boardNo);
+		return viewName;
+	}
 
-        boardService.increaseViews(param);
-        BoardDTO dto = boardService.doSelectOne(param);
+	@GetMapping(value = "/doSelectOne.do")
+	public String doSelectOne(BoardDTO param, Model model, HttpServletRequest req) {
+		log.debug("┌───────────────────────────┐");
+		log.debug("│ *doSelectOne()*           │");
+		log.debug("└───────────────────────────┘");
+		log.debug("1. param:{}", param);
+		String viewName = "board/board_mod";
+		
+		//게시구분 : 공지사항 (10)
+		String div = PcwkString.nvlString(param.getDiv(), "10");
 
-        model.addAttribute("board", dto);
-        return "board/board_view";
-    }
+		BoardDTO outVO = service.doSelectOne(param);
+		log.debug("2. outVO:{}", outVO);
+		
+		model.addAttribute("vo", outVO);
+		model.addAttribute("divValue",div);
 
-    // 글쓰기 폼
-    @GetMapping("/write.do")
-    public String writeForm() {
-        return "board/board_write";
-    }
+		return viewName;
+	}
 
-    // 글 등록 처리
-    @PostMapping("/write.do")
-    public String write(BoardDTO dto) {
-        log.debug("글쓰기 처리: {}", dto);
-        boardService.doSave(dto);
-        return "redirect:/board/list.do";
-    }
+	@PostMapping(value = "/doUpdate.do", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String doUpdate(BoardDTO param, HttpServletRequest req) {
+		log.debug("┌───────────────────────────┐");
+		log.debug("│ *doUpdate()*              │");
+		log.debug("└───────────────────────────┘");
+		log.debug("1. param:{}", param);
+		String jsonString = "";
 
-    // 수정 폼
-    @GetMapping("/edit.do")
-    public String editForm(@RequestParam("boardNo") int boardNo, Model model) {
-        BoardDTO param = new BoardDTO();
-        param.setBoardNo(boardNo);
+		int flag = service.doUpdate(param);
 
-        BoardDTO dto = boardService.doSelectOne(param);
-        model.addAttribute("board", dto);
-        return "board/board_edit";
-    }
+		String message = "";
+		if (1 == flag) {
+			message = "수정 되었습니다.";
+		} else {
+			message = "수정 실패!";
+		}
 
-    // 글 수정 처리
-    @PostMapping("/edit.do")
-    public String edit(BoardDTO dto) {
-        boardService.doUpdate(dto);
-        return "redirect:/board/view.do?boardNo=" + dto.getBoardNo();
-    }
+		return new Gson().toJson(new MessageDTO(flag, message));
+	}
 
-    // 글 삭제 처리
-    @PostMapping("/delete.do")
-    public String delete(@RequestParam("boardNo") int boardNo) {
-        BoardDTO param = new BoardDTO();
-        param.setBoardNo(boardNo);
+	@PostMapping(value = "/doDelete.do", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String doDelete(BoardDTO param, HttpServletRequest req) {
+		log.debug("┌───────────────────────────┐");
+		log.debug("│ *doDelete()*              │");
+		log.debug("└───────────────────────────┘");
+		log.debug("1. param:{}", param);
+		String jsonString = "";
+		int flag = service.doDelete(param);
 
-        boardService.doDelete(param);
-        return "redirect:/board/list.do";
-    }
+		String message = "";
+		if (1 == flag) {
+			message = "삭제 되었습니다.";
+		} else {
+			message = "삭제 실패!";
+		}
+
+		jsonString = new Gson().toJson(new MessageDTO(flag, message));
+		log.debug("2.jsonString:{}", jsonString);
+		return jsonString;
+	}
+
+	// 화면 목록 : /board/board_list
+	// 등록 : /board/board_reg
+	@PostMapping(value = "doSave.do", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String doSave(BoardDTO param) {
+		log.debug("┌───────────────────────────┐");
+		log.debug("│ *doSave()*                │");
+		log.debug("└───────────────────────────┘");
+		String jsonString = "";
+		log.debug("param:{}", param);
+
+		int flag = service.doSave(param);
+		String message = "";
+
+		if (1 == flag) {
+			message = param.getTitle() + "등록되었습니다.";
+		} else {
+			message = param.getTitle() + "등록 실패";
+		}
+
+		MessageDTO messageDTO = new MessageDTO(flag, message);
+		jsonString = new Gson().toJson(messageDTO);
+		log.debug("jsonString:{}", jsonString);
+		return jsonString;
+	}
 }

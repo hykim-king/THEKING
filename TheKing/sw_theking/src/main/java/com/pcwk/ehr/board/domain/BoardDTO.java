@@ -3,158 +3,111 @@ package com.pcwk.ehr.board.domain;
 import com.pcwk.ehr.cmn.DTO;
 
 public class BoardDTO extends DTO {
-	private int boardNo;     //게시판 번호
-	private String title;    //게시판 제목
-	private String contents; //게시판 내용
-	private int views;       //조회수
-	private int boardPart;   //게시판 구분
-	private String regId;    //작성자
-	private String regDate;  //등록일
-	private String modDate;  //수정일
+	private int seq;
+	private String title;
+	private String div;
+	private String contents;
+	private int readCnt;
+	private String regDt;
+	private String regId;
+	private String modDt;
+	private String modId;
 
 	public BoardDTO() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @return the boardNo
-	 */
-	public int getBoardNo() {
-		return boardNo;
+	public int getSeq() {
+		return seq;
 	}
 
-	/**
-	 * @param boardNo the boardNo to set
-	 */
-	public void setBoardNo(int boardNo) {
-		this.boardNo = boardNo;
+	public void setSeq(int seq) {
+		this.seq = seq;
 	}
 
-	/**
-	 * @return the title
-	 */
 	public String getTitle() {
 		return title;
 	}
 
-	/**
-	 * @param title the title to set
-	 */
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	/**
-	 * @return the contents
-	 */
+	public String getDiv() {
+		return div;
+	}
+
+	public void setDiv(String div) {
+		this.div = div;
+	}
+
 	public String getContents() {
 		return contents;
 	}
 
-	/**
-	 * @param contents the contents to set
-	 */
 	public void setContents(String contents) {
 		this.contents = contents;
 	}
 
-	/**
-	 * @return the views
-	 */
-	public int getViews() {
-		return views;
+	public int getReadCnt() {
+		return readCnt;
 	}
 
-	/**
-	 * @param views the views to set
-	 */
-	public void setViews(int views) {
-		this.views = views;
+	public void setReadCnt(int readCnt) {
+		this.readCnt = readCnt;
 	}
 
-	/**
-	 * @return the boardPart
-	 */
-	public int getBoardPart() {
-		return boardPart;
+	public String getRegDt() {
+		return regDt;
 	}
 
-	/**
-	 * @param boardPart the boardPart to set
-	 */
-	public void setBoardPart(int boardPart) {
-		this.boardPart = boardPart;
+	public void setRegDt(String regDt) {
+		this.regDt = regDt;
 	}
 
-	/**
-	 * @return the regId
-	 */
 	public String getRegId() {
 		return regId;
 	}
 
-	/**
-	 * @param regId the regId to set
-	 */
 	public void setRegId(String regId) {
 		this.regId = regId;
 	}
 
-	/**
-	 * @return the regDate
-	 */
-	public String getRegDate() {
-		return regDate;
+	public String getModDt() {
+		return modDt;
 	}
 
-	/**
-	 * @param regDate the regDate to set
-	 */
-	public void setRegDate(String regDate) {
-		this.regDate = regDate;
+	public void setModDt(String modDt) {
+		this.modDt = modDt;
 	}
 
-	/**
-	 * @return the modDate
-	 */
-	public String getModDate() {
-		return modDate;
+	public String getModId() {
+		return modId;
 	}
 
-	/**
-	 * @param modDate the modDate to set
-	 */
-	public void setModDate(String modDate) {
-		this.modDate = modDate;
+	public void setModId(String modId) {
+		this.modId = modId;
 	}
 
-	/**
-	 * @param boardNo
-	 * @param title
-	 * @param contents
-	 * @param views
-	 * @param boardPart
-	 * @param regId
-	 * @param regDate
-	 * @param modDate
-	 */
-	public BoardDTO(int boardNo, String title, String contents, int views, int boardPart, String regId, String regDate,
-			String modDate) {
+	public BoardDTO(int seq, String title, String div, String contents, int readCnt, String regDt, String regId,
+			String modDt, String modId) {
 		super();
-		this.boardNo = boardNo;
+		this.seq = seq;
 		this.title = title;
+		this.div = div;
 		this.contents = contents;
-		this.views = views;
-		this.boardPart = boardPart;
+		this.readCnt = readCnt;
+		this.regDt = regDt;
 		this.regId = regId;
-		this.regDate = regDate;
-		this.modDate = modDate;
+		this.modDt = modDt;
+		this.modId = modId;
 	}
 
 	@Override
 	public String toString() {
-		return "BoardDTO [boardNo=" + boardNo + ", title=" + title + ", contents=" + contents + ", views=" + views
-				+ ", boardPart=" + boardPart + ", regId=" + regId + ", regDate=" + regDate + ", modDate=" + modDate
-				+ "]";
+		return "BoardDTO [seq=" + seq + ", title=" + title + ", div=" + div + ", contents=" + contents + ", readCnt="
+				+ readCnt + ", regDt=" + regDt + ", regId=" + regId + ", modDt=" + modDt + ", modId=" + modId + "]";
 	}
 
 }

@@ -7,8 +7,19 @@ import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.cmn.WorkDiv;
 
 public interface BoardMapper extends WorkDiv<BoardDTO> {
-    int upViews(int boardNo);
-    int getCount();
-}
-	
+	int getBoardSeq();
 
+	int deleteAll();
+
+	int getCount();
+
+	int doSaveAll();
+
+	/**
+	 * 조회수 증가 (단, 본인글 이외 글만)
+	 * 
+	 * @param param
+	 * @return
+	 */
+	int updateReadCnt(BoardDTO param);
+}

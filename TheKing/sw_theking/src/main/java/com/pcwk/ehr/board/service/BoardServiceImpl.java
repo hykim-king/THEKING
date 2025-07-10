@@ -14,50 +14,39 @@ import com.pcwk.ehr.mapper.BoardMapper;
 @Service
 public class BoardServiceImpl implements BoardService {
 
-    final Logger log = LogManager.getLogger(getClass());
+	Logger log = LogManager.getLogger(getClass());
+	
+	@Autowired
+	BoardMapper mapper;
+	
+	
+	public BoardServiceImpl() {}
 
-    @Autowired
-    BoardMapper boardMapper;
+	@Override
+	public List<BoardDTO> doRetrieve(SearchDTO param) {
+		return mapper.doRetrieve(param);
+	}
 
-    @Override
-    public int doSave(BoardDTO param) {
-        log.debug("doSave 호출: {}", param);
-        return boardMapper.doSave(param);
-    }
+	@Override
+	public int doDelete(BoardDTO param) {
+		return mapper.doDelete(param);
+	}
 
-    @Override
-    public int doUpdate(BoardDTO param) {
-        log.debug("doUpdate 호출: {}", param);
-        return boardMapper.doUpdate(param);
-    }
+	@Override
+	public int doUpdate(BoardDTO param) {
+		return mapper.doUpdate(param);
+	}
 
-    @Override
-    public int doDelete(BoardDTO param) {
-        log.debug("doDelete 호출: {}", param);
-        return boardMapper.doDelete(param);
-    }
+	@Override
+	public int doSave(BoardDTO param) {
+		return mapper.doSave(param);
+	}
 
-    @Override
-    public BoardDTO doSelectOne(BoardDTO param) {
-        log.debug("doSelectOne 호출: {}", param);
-        return boardMapper.doSelectOne(param);
-    }
-
-    @Override
-    public List<BoardDTO> doRetrieve(SearchDTO param) {
-        log.debug("doRetrieve 호출: {}", param);
-        return boardMapper.doRetrieve(param);
-    }
-
-    @Override
-    public int increaseViews(BoardDTO param) {
-        log.debug("increaseViews 호출: {}", param);
-        return boardMapper.upViews(param.getBoardNo());
-    }
-
-    @Override
-    public int getCount() {
-        log.debug("getCount 호출");
-        return boardMapper.getCount();
-    }
+	@Override
+	public BoardDTO doSelectOne(BoardDTO param) {
+		//단건 조회 + 조회 count 증가
+		int flag = mapper.updateReadCnt(param);
+		log.debug("flag:{}",flag);
+		return mapper.doSelectOne(param);
+	}
 }

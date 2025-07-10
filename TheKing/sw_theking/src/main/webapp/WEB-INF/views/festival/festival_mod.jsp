@@ -96,7 +96,7 @@
             
            
 
-            if (confirm('등록 하시겠습니까?') === false)
+            if (confirm('수정 하시겠습니까?') === false)
                 return;
 
             //ajax 비동기 통신
@@ -154,7 +154,7 @@
             </a>
         </div>
         <hr>
-        <h4>상세 페이지 등록</h4>
+        <h4>상세 페이지 수정</h4>
 
         <form action="doUpdate.do" method="post">
         <input type="hidden" name="festaNo" id="festaNo" value="${dto.festaNo }">

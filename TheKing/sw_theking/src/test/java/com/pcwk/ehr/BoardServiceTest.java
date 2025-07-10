@@ -30,81 +30,65 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @ExtendWith(SpringExtension.class)
-@WebAppConfiguration
-@ContextConfiguration(locations = {
-    "file:src/main/webapp/WEB-INF/spring/root-context.xml",
-    "file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml"
-})
-public class BoardServiceTest {
+@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/spring/root-context.xml",
+		"file:src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml" })
+class BoardServiceTest {
+	Logger log = LogManager.getLogger(getClass());
+	
+	@Autowired
+	ApplicationContext context;
+	
+	@Autowired
+	BoardService service;
+	
+	@Autowired
+	BoardMapper mapper;
+	
+	BoardDTO dto01;
+	
+	@BeforeEach
+	void setUp() throws Exception {
+		dto01 = new BoardDTO(99, "제목1", "10", "내용1", 0, "사용안함", "admin", "사용안함", "admin");
+	}
 
-    final Logger log = LogManager.getLogger(getClass());
+	@AfterEach
+	void tearDown() throws Exception {
+	}
+	
+	@Test
+	void doSelectOne() {
+		log.debug("┌───────────────────────────┐");
+		log.debug("│ *doSelectOne()*           │");
+		log.debug("└───────────────────────────┘");
+		
+		mapper.deleteAll();
+		assertEquals(0,mapper.getCount());
+		
+		log.debug("before:{}", dto01);
+		int flag = mapper.doSave(dto01);
+		log.debug("after:{}", dto01);
+		assertEquals(1, flag);
+		dto01.setRegId("james");
+		BoardDTO outVO = service.doSelectOne(dto01);
+		assertNotNull(outVO);
+		assertEquals(1, outVO.getReadCnt());
+	}
 
-    @Autowired
-    WebApplicationContext webApplicationContext;
+	@Test
+	void beans() {
+		log.debug("┌───────────────────────────┐");
+		log.debug("│ *beans()*                 │");
+		log.debug("└───────────────────────────┘");
+		assertNotNull(mapper);
+		assertNotNull(context);
+		assertNotNull(service);
 
-    @Autowired
-    ApplicationContext context;
 
-    @Autowired
-    BoardService service;
+		log.debug("context:" + context);
+		log.debug("service:" + service);
+		log.debug("mapper:" + mapper);
 
-    @Autowired
-    BoardMapper boardMapper;
+	}
+	
 
-    BoardDTO board;
-    MockMvc mockMvc;
-
-    @BeforeEach
-    void setUp() throws Exception {
-        board = new BoardDTO();
-        board.setTitle("JUnit 게시글 제목");
-        board.setContents("JUnit 게시글 내용");
-        board.setRegId("pcwk_junit");
-        board.setBoardPart(10);
-
-        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-    }
-
-    @AfterEach
-    void tearDown() throws Exception {
-        boardMapper.doDelete(board);
-    }
-
-    @Disabled
-    @Test
-    public void doSaveAndSelect() {
-        service.doSave(board);
-        BoardDTO out = service.doSelectOne(board);
-        assertNotNull(out);
-        assertEquals(board.getTitle(), out.getTitle());
-        log.debug("저장 후 조회된 게시글: {}", out);
-    }
-
-    @Disabled
-    @Test
-    public void doRetrieveTest() {
-        SearchDTO search = new SearchDTO();
-        search.setPageNo(1);
-        search.setPageSize(10);
-        List<BoardDTO> list = service.doRetrieve(search);
-        assertNotNull(list);
-        log.debug("조회된 게시글 수: {}", list.size());
-    }
-
-    @Disabled
-    @Test
-    public void doDeleteTest() {
-        service.doSave(board);
-        int deleted = service.doDelete(board);
-        assertEquals(1, deleted);
-    }
-
-    @Disabled
-    @Test
-    void beans() {
-        assertNotNull(context);
-        assertNotNull(service);
-        log.debug("context: {}", context);
-        log.debug("service: {}", service);
-    }
 }

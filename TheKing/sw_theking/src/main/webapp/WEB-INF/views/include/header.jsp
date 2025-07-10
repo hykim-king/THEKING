@@ -13,8 +13,8 @@
       <a href="/ehr/main.do"><img src="/ehr/resources/images/logo2.png"></a>
       <a href="/ehr/tour/doRetrieve.do">관광지</a>
       <a href="/ehr/festival/main.do">축제</a>
-      <a href="/ehr/board/list.do">게시판</a>
-      <a href="#">공지사항</a>
+      <a href="/ehr/board/doRetrieve.do?div=10">게시판</a>
+      <a href="/ehr/board/doRetrieve.do?div=20">공지사항</a>
     <c:choose>
     	<c:when test="${empty sessionScope.loginUser}">
     		<a href="/ehr/user/loginPage.do">로그인</a>
