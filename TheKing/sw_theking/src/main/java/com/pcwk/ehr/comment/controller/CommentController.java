@@ -37,6 +37,25 @@ public class CommentController {
 	public CommentController() {
 	}
 	
+	@GetMapping("doDelete.do")
+	public String doDelete(int comNo, String tableName,int targetNo) {
+		CommentDTO commentDTO = new CommentDTO();
+		commentDTO.setComNo(comNo);
+
+		int flag = commentService.doDelete(commentDTO);
+		log.debug("tableName:{}",tableName);
+		if(flag == 1) {
+			if(tableName.equals("festival")) {
+				return "redirect:/festival/doSelectOne.do?festaNo="+targetNo;
+			}else {
+				return "redirect:/tour/doSelectOne.do?tourNo="+targetNo;
+			}
+		}else {
+			return null;
+		}
+		
+	}
+	
 	
 	@GetMapping("/allComment.do")
     public String getAllComments(HttpSession session, Model model) throws SQLException {
