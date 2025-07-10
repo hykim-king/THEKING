@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -47,7 +48,7 @@
 <div class="notice-wrapper">
   <h3>공지사항</h3>
   <div class="notice">
-
+    
   </div>
 </div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
