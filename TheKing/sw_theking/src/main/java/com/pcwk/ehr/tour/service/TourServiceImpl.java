@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,8 +111,7 @@ public class TourServiceImpl implements TourService {
 	@Override
 	public TourDTO doSelectOne(TourDTO param) throws SQLException {
 		//단건 조회 + 조회된 count 조회
-		int flag = tourMapper.viewsUpdate(param);
-		log.debug("flag: {}",flag);
+		
 		
 		return tourMapper.doSelectOne(param);
 	}
@@ -239,8 +239,12 @@ public class TourServiceImpl implements TourService {
 
 		return region;
 	}
-
-
+	@Override
+	public int viewsUpdate(int tourNo) {
+		TourDTO dto = new TourDTO();
+		dto.setTourNo(tourNo);
+		return tourMapper.viewsUpdate(dto);
+	}
 
 
 }

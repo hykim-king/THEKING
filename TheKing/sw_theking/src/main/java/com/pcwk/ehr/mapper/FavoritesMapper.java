@@ -26,4 +26,6 @@ public interface FavoritesMapper extends WorkDiv<FavoritesDTO>{
 	int getCount() throws SQLException;
 	
 	int getFestaFavoriteCount(int targetNo);
+	
+	int getTourFavoriteCount(int targetNo);
 } 

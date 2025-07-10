@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="container">
          <div class="logo-container">
             <a href="/ehr/festival/main.do">
-                <img alt="로고이미지" src="${pageContext.request.contextPath}/resources/images/logo.png">
+                <img alt="로고이미지" src="${pageContext.request.contextPath}/resources/images/logo2.png">
             </a>
         </div>
     <h4>관광지 상세 등록</h4>

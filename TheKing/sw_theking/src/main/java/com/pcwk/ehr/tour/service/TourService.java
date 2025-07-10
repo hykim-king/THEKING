@@ -21,5 +21,6 @@ public interface TourService {
 	
 	public List<TourDTO> doRetrieve(Map<String, Object> paramMap);
 	
+	int viewsUpdate(int tourNo);
 
 }

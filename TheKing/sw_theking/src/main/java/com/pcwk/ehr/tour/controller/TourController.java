@@ -27,7 +27,9 @@ import com.pcwk.ehr.cmn.PcwkString;
 import com.pcwk.ehr.cmn.SearchDTO;
 import com.pcwk.ehr.comment.domain.CommentDTO;
 import com.pcwk.ehr.comment.service.CommentService;
+import com.pcwk.ehr.favorites.domain.FavoritesDTO;
 import com.pcwk.ehr.image.domain.ImageDTO;
+import com.pcwk.ehr.mapper.FavoritesMapper;
 import com.pcwk.ehr.mapper.ImageMapper;
 import com.pcwk.ehr.region.domain.RegionDTO;
 import com.pcwk.ehr.tour.domain.TourDTO;
@@ -44,6 +46,9 @@ public class TourController {
 	
 	@Autowired
 	ImageMapper imageMapper;
+	
+	@Autowired
+	FavoritesMapper favoritesMapper;
 	
 	@Autowired
 	CommentService commentService;
@@ -65,6 +70,7 @@ public class TourController {
 		
 		String viewStirng = "tour/tour_mod";
 		log.debug("viewStirng: ",viewStirng);
+		
 		TourDTO param = new TourDTO();
 	    param.setTourNo(tourNo);
 		
@@ -217,6 +223,29 @@ public class TourController {
 		List<ImageDTO> imageList = imageMapper.getImages(tourNo, "TOUR");
 		log.debug("imageList:{}", imageList);
 	    
+		tourService.viewsUpdate(tourNo);
+		boolean flag = false;
+
+		UserDTO user = (UserDTO) session.getAttribute("loginUser");
+		if (user != null) {
+
+			FavoritesDTO vo = new FavoritesDTO();
+			vo.setTableName("TOUR");
+			vo.setTargetNo(tourNo);
+			vo.setUserId(user.getUserId());
+
+			FavoritesDTO isFav = favoritesMapper.doSelectOne(vo);
+
+			if (isFav != null) {
+				flag = true;
+			} else {
+				flag = false;
+			}
+		}else {
+			flag = false;
+		}
+		
+		
 		TourDTO inVO = new TourDTO();
 		inVO.setTourNo(tourNo);
 		
@@ -228,7 +257,8 @@ public class TourController {
 	    model.addAttribute("imageList", imageList);
 	    model.addAttribute("list", commentList);		
 		model.addAttribute("TourDTO",outVO);
-		
+		model.addAttribute("favoritesCount", favoritesMapper.getTourFavoriteCount(tourNo));
+		model.addAttribute("isFavorite", flag);
 
 		return viewName;
 	}
@@ -240,7 +270,8 @@ public class TourController {
 		log.debug("│ *doUpdate()*                 │");
 		log.debug("└──────────────────────────────┘");
 		String jsonString = "";
-
+		
+		
 		// 서비스 호출
 		int flag = tourService.doUpdate(param);
 		String massage = "";
