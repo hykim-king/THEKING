@@ -125,7 +125,9 @@
       <div class="cards">
     	<c:forEach var="festival" items="${favoriteFestivals}">
       	<div class="card">
-        	<img src="${festival.image.imageUrl}" alt="${festival.name} 축제 이미지" width="100" height="100" />
+        	<a href="${pageContext.request.contextPath}/festival/doSelectOne.do?festaNo=${festival.festaNo}">
+        	   <img src="${pageContext.request.contextPath}/resources/images/festival/${festival.image.saveName}" alt="${festival.name} 축제 이미지" width="100" height="100" />
+        	</a>
         	<div class="card-name">${festival.name}</div>
       	</div>
     	</c:forEach>

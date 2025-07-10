@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function(){
     	        const data = JSON.parse(response);
     	        if (data.messageId === 1) {
     	        	alert(data.message);
-    	            location.href = "/ehr/user/main.do";
+    	            location.href = "/ehr/main.do";
     	        } else {
     	            // 로그인 실패 메시지 출력
     	            alert(data.message);
