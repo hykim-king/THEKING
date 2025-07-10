@@ -18,11 +18,9 @@
 <head>
 <meta charset="UTF-8">
 <title>관광지 상세</title>
-<style>
+<link rel="stylesheet" href="/ehr/resources/css/tour/tour_mng.css"/>
 
-</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<link rel="stylesheet" href="/ehr/resources/css/festival_mng.css">
 <link rel="stylesheet" href="/ehr/resources/css/comment.css">
 
 <script>
@@ -122,10 +120,10 @@ document.addEventListener('DOMContentLoaded', function() {
 </head>
 
 <body>
-    <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <div class="container"> 
     <!-- 좋아요, 즐겨찾기 -->
-    <div style="float:right;">
+    <div class="top-meta">
         <img 
               id="likeBtn"
               src="${pageContext.request.contextPath}/resources/images/<%= isFavorite ? "heart-on.png" : "heart-off.png" %>"
@@ -138,52 +136,32 @@ document.addEventListener('DOMContentLoaded', function() {
     <span>${TourDTO.views}</span>
     </div>
      <!-- //좋아요, 즐겨찾기 -->
-    <h2>관광지 상세보기</h2>
-
-  
+     <div class="title-area">
+	    <h2>${TourDTO.name}</h2>
+	 </div>
 
     <!-- 지역 -->
-    <div>
-        <input type="text" maxlength="9" name="regionSido" id="regionSido" value="${TourDTO.region.regionSido }">
-        <input type="text" maxlength="9" name="regionGugun" id="regionGugun" value="${TourDTO.region.regionGugun }">
+    <div class="region-info">
+        <span>${TourDTO.region.regionSido }</span>
+        <span>${TourDTO.region.regionGugun }</span>   
     </div>
     <!-- 이미지 리스트 -->
-    <div class="image-wrapper">
-        <c:choose>
-            <c:when test="${imageList.size() > 0}">
-                <c:forEach var="imageDTO" items="${imageList}">
-                    <img alt="이미지" src="${pageContext.request.contextPath}/resources/images/tour/${imageDTO.saveName}">
-                </c:forEach>
-            </c:when>
-            <c:otherwise>
-                <p>이미지 없음</p>
-            </c:otherwise>
-        </c:choose>
-    </div>
+          <div class="img-wrapper">
+            <c:url var="imgUrl" value="${TourDTO.image.imageUrl}" />   
+            <img src="${imgUrl}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/images/defaultImage.jpg';">
+         </div>
 
         <!-- 관광지 정보 -->
         <!-- 관광지 번호 -->
         <input type="hidden" id="tourNo" name="tourNo" value="<c:out value='${TourDTO.tourNo }'/>">
-        <div class="info-group">
-            <h3>관광지명</h3>
-            <p>${TourDTO.name}</p>           
-        </div>
-        <div class="info-group">
-	        <h3>소제목</h3>
-	        <p>${TourDTO.subtitle}</p>
-	    </div>
-<!--         <div> -->
-<%--             <c:url var="imgUrl" value="${TourDTO.image.imageUrl}" />    --%>
-<%--             <img src="${imgUrl}" alt="${TourDTO.name}" width="800" /> --%>
-<!--         </div> -->
-        <div class="info-group">
-	        <h3>내용</h3>
-	        <p>${TourDTO.contents}</p>
-	    </div>
         
         <div class="info-group">
-	        <h3>조회수</h3>
-	        <p>${TourDTO.views}</p>
+	        <h3>소개</h3>
+	        <p>${TourDTO.subtitle}</p>
+	    </div>
+        <div class="info-group">
+	        <h3>상세 정보</h3>
+	        <p>${TourDTO.contents}</p>
 	    </div>
         <div class="info-group">
 	        <h3>주소</h3>
@@ -203,11 +181,11 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <div class="info-group">
             <h3>요금</h3>
-            <p>${TourDTO.fee }</p>
+            <p>${TourDTO.fee }원</p>
         </div>
       <!-- 버튼 영역 -->
     <c:if test="${sessionScope.loginUser.role =='admin'  }">
-	    <div class="btn-group">
+	    <div class="button-area">
 	        <input type="hidden" id="tourNo" value="${TourDTO.tourNo}">
 	        <input type="button" id="moveToList" value="목록">
 	        <input type="button" id="moveToUpdate" value="수정"> 
@@ -222,15 +200,15 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         </div>
     </div>
+    <c:if test="${empty sessionScope.loginUser.userId}">
+        <p align="left">※ 등록하려면 로그인이 필요합니다.</p>
+    </c:if>
     
     <!-- 댓글 목록 영역 -->
     <div id="commentContainer">
         <jsp:include page="/WEB-INF/views/comment/comment_list.jsp" />
     </div>
     
-    <c:if test="${empty sessionScope.loginUser.userId}">
-        <p>※ 등록하려면 로그인이 필요합니다.</p>
-    </c:if>
 </div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 </body>

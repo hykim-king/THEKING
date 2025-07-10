@@ -1,9 +1,7 @@
-<%-- <%@ page language="java" contentType="text/html; charset=UTF-8" --%>
-<%--     pageEncoding="UTF-8"%> --%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%> 
 <%@page import="com.pcwk.ehr.cmn.PcwkString"%>
 <%@page import="com.pcwk.ehr.cmn.SearchDTO"%>
 <%@ page import="java.util.Date" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="CP" value="${pageContext.request.contextPath}"></c:set>
@@ -44,7 +42,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Tour List</title>
-<link rel="stylesheet" href="/ehr/resources/css/tour_list.css">
+<link rel="stylesheet" href="/ehr/resources/css/tour/tour_list.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <script>
@@ -68,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function(){
     const moveToSaveButton=document.querySelector("#moveToSave");
     console.log(moveToSaveButton);
     
+    if(moveToSaveButton){
     //등록 버튼 이벤트 감지
     moveToSaveButton.addEventListener("click",function(event){
         console.log('moveToSaveButton click');
@@ -76,8 +75,8 @@ document.addEventListener('DOMContentLoaded', function(){
         
         window.location.href ="/ehr/tour/doSaveView.do";
         
-    });
-    
+           });
+    }
     doRetieveButton.addEventListener("click",function(event){
         event.stopPropagation();// 이벤트 버블링 중지
         console.log('doRetieveButton click');
@@ -181,21 +180,18 @@ function pagerDoRetrieve(url, pageNo){
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+    <form action="#" class="tourForm" name="tourForm" method="get" enctype="application/x-www-form-urlencoded">
 
     <!-- 00 검색 영역 -->
-    <form action="#" class="search-form" name="tourForm" method="get" enctype="application/x-www-form-urlencoded">
-        <div>
-            <input type="hidden" name="pageNo" id="pageNo">
-	        <input type="search" name="searchWord" id="searchWord" size="30" value="${search.searchWord}">
-	        <input type="button" value="검색" id="doRetrieve">
-	        <input type="button" value="등록" id="moveToSave">
-<%--             <c:if test="${sessionScope.loginUser != null and sessionScope.loginUser.userId == 'admin'}"> --%>
-<!-- 			    <input type="button" value="등록" id="moveToSave"> -->
-<%-- 			</c:if> --%>
-	
-        </div> 
-
-    </form>
+        <div class="search-form">
+            <input type="hidden" name="pageNo" id="pageNo"/>
+	        <input type="search" name="searchWord" id="searchWord" size="30" value="${search.searchWord}"/>
+	        <input type="button" value="검색" id="doRetrieve"/>	 
+	        <c:if test="${sessionScope.loginUser.role eq 'admin'}"> 
+	           <input type="button" value="등록" id="moveToSave"/>
+	        </c:if>  
+        </div>
+   </form>
     <!-- //검색 영역 -->
     <!-- 01 버튼 -->
     <div class="container">
@@ -996,7 +992,7 @@ function pagerDoRetrieve(url, pageNo){
                    <td>
 	                   <div class="img-wrapper">
 	                        <c:url var="imgUrl" value="${TourDTO.image.imageUrl}" />
-	                        <img src="${imgUrl}" alt="${TourDTO.name}" onerror="this.style.visibility='hidden';" />
+	                        <img src="${imgUrl}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/images/defaultImage.jpg';">
 	                   </div>
                    </td>
                    <td> <span class="tour-title"><a href="/ehr/tour/doSelectOne.do?tourNo=${TourDTO.tourNo }">${TourDTO.name}</a></span></td>
