@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function isEmpty(value) {
         return value == null || value.trim() === '';
     }
-    const isLoggedIn = "${not empty sessionScope.user}" === "true";
     //댓글용
     const tourNo = document.querySelector("#tourNo").value;
     const commentContentsInput = document.querySelector("#commentContents");
@@ -44,11 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const contents = commentContentsInput.value.trim();
         if (!contents) {
             alert('내용을 입력하세요.');
-            commentContentsInput.focus();
-            return;
-        }
-        if (!isLoggedIn) {
-            alert('로그인이 필요합니다.');
             commentContentsInput.focus();
             return;
         }
@@ -169,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	<div id="commentContainer">
 	    <jsp:include page="/WEB-INF/views/comment/comment_list.jsp" />
 	</div>
-    <c:if test="${empty sessionScope.user}">
+    <c:if test="${empty sessionScope.loginUser.userId}">
         <p>※ 등록하려면 로그인이 필요합니다.</p>
     </c:if>
 
