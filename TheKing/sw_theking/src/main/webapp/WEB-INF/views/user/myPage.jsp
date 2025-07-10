@@ -99,8 +99,8 @@
 	    <c:forEach var="comment" items="${comments}">
 	      <div class="comment">
 	      <c:choose>
-			  <c:when test="${comment.tableName == 'tour'}">
-			    <a href="${pageContext.request.contextPath}/${comment.tableName}/doSelectOne.do?tourNo=${comment.targetNo}">
+			  <c:when test="${comment.tableName == 'TOUR'}">
+			    <a href="${pageContext.request.contextPath}/tour/doSelectOne.do?tourNo=${comment.targetNo}">
 			        ${comment.contents}
 			    </a>
 			  </c:when>
