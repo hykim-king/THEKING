@@ -13,6 +13,8 @@
       padding-top: 30px;
     }
     .profile-area {
+      position: sticky;
+      top: 20px;
       width: 200px;
       height: 400px;
       padding: 20px;
@@ -119,9 +121,15 @@
     }
 
     .comment a {
+      color: rgb(47, 0, 68);
+      text-decoration: none;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .comment a:hover{
+      color: rgb(176, 54, 233);
     }
 
     .pagination {

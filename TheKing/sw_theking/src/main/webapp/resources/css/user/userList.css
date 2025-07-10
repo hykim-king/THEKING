@@ -18,23 +18,16 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-    outline-color: #4CAF50;
     transition: border-color 0.3s ease;
   }
 
   .searchClass select:hover,
   .searchClass input[type="search"]:hover {
-    border-color: #3a8d40;
-  }
-
-  .searchClass select:focus,
-  .searchClass input[type="search"]:focus {
-    border-color: #4CAF50;
-    box-shadow: 0 0 5px #4CAF50aa;
+    border-color: #ebfc8b;
   }
 
   .searchClass input[type="submit"] {
-    background-color: #4CAF50;
+    background-color: #95eef8;
     color: white;
     border: none;
     padding: 7px 16px;
@@ -45,7 +38,7 @@
   }
 
   .searchClass input[type="submit"]:hover {
-    background-color: #388e3c;
+    background-color: #82a7f7;
   }
 
   

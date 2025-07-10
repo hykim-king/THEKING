@@ -17,12 +17,14 @@
       <a href="#">공지사항</a>
     <c:choose>
     	<c:when test="${empty sessionScope.loginUser}">
-    		<a href="/ehr/user/loginPage.do">로그인</a>
-    		<a href="/ehr/user/signUpPage.do">회원가입</a>
+    	<div class="logIn">
+    	   <a href="/ehr/user/loginPage.do" class="logIn">로그인</a>
+           <a href="/ehr/user/signUpPage.do" class="logIn">회원가입</a>
+    	</div>
     	</c:when>
     	<c:otherwise>
     		<a href="/ehr/user/myPage.do">마이페이지</a>
-    		<a href="/ehr/user/logout.do">로그아웃</a>
+    		<a href="/ehr/user/logout.do" class="logIn">로그아웃</a>
     	</c:otherwise>
     </c:choose>
   </nav>

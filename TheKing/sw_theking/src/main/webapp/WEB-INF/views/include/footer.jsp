@@ -10,17 +10,10 @@
 </head>
 <body>
 	<footer>
-  		<c:choose>
-            <c:when test="${empty sessionScope.loginUser}">
-                <a href="/ehr/main.do"><img alt="footer_logo" src="/ehr/resources/images/logo2.png"></a>
-            </c:when>
-            <c:otherwise>
-            	<a href="/ehr/user/main.do"><img alt="footer_logo" src="/ehr/resources/images/logo2.png"></a>
-            </c:otherwise>
-        </c:choose>
+        <a href="/ehr/main.do"><img alt="footer_logo" src="/ehr/resources/images/logo2.png"></a>
         <div class="team">
         	<p>TheKing</p>
-        	<p>GGMAP</p>
+        	<p class="sub">GGMAP</p>
         </div>
 	</footer>
 </body>
