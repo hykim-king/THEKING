@@ -132,5 +132,44 @@ public class FavoritesController {
 
 		return result;
 	}
+	@PostMapping("/toggleTour.do")
+	@ResponseBody
+	public Map<String, Object> toggleTourFavorite(@RequestParam int targetNo, HttpSession session) {
+		Map<String, Object> result = new HashMap<>();
+		UserDTO user = (UserDTO) session.getAttribute("loginUser");
+		log.debug("loginUser:{}",user);
+		if (user == null) {
+			result.put("success", false);
+			result.put("message", "로그인이 필요합니다.");
+			return result;
+		}
+		log.debug("FavoritesDTO 생성");
+		FavoritesDTO vo = new FavoritesDTO();
+		vo.setTableName("TOUR");
+		log.debug("setTableName ");
+		vo.setTargetNo(targetNo);
+		log.debug("setTargetNo ");
+		vo.setUserId(user.getUserId());
+		log.debug("setUserId ");
+
+		FavoritesDTO isFav = mapper.doSelectOne(vo);
+		log.debug("doSelectOne ");
+		boolean flag = false;
+		
+		if (isFav != null) {
+			mapper.doDelete(isFav);
+			flag = false;
+		} else {
+			mapper.doSave(vo);
+			flag = true;
+		}
+
+		result.put("success", true);
+		result.put("liked", flag);
+		result.put("count", mapper.getTourFavoriteCount(targetNo));
+
+		return result;
+	}
+	
 
 }

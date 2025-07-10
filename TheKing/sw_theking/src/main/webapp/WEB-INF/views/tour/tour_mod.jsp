@@ -11,7 +11,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>관광지 수정</title>
+
+<link rel="stylesheet" href="/ehr/resources/css/festival_reg.css">
 </head>
 <!-- 카카오 우편번호 서비스 스크립트 -->
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -55,16 +57,16 @@ document.addEventListener('DOMContentLoaded', function(){
     const nameInput      = document.querySelector("#name");
     const subtitleInput  = document.querySelector("#subtitle");
     const contentsInput  = document.querySelector("#contents");
-    const addressInput   = document.querySelector("#address");
-    const imageInput     = document.querySelector("#image");
+    const roadAddressInput   = document.querySelector("#roadAddress");
+    const detailAddressInput   = document.querySelector("#detailAddress");
     const telInput       = document.querySelector("#tel");
     const timeInput      = document.querySelector("#time");
     const holidayInput   = document.querySelector("#holiday");
     const feeInput       = document.querySelector("#fee");
     const doSaveButton   = document.querySelector("#doSave");
 
-    console.log(tourNoInput, nameInput, subtitleInput, contentsInput, addressInput,
-                imageInput, telInput, timeInput, holidayInput, feeInput, doSaveButton);
+    console.log(tourNoInput, nameInput, subtitleInput, contentsInput, roadAddressInput,detailAddressInput,
+                 telInput, timeInput, holidayInput, feeInput, doSaveButton);
     
     //목록 이동 버튼
     const moveToListButton = document.querySelector('#moveToList');
@@ -75,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function(){
     console.log(doUpdateButton);
     
     //목록 이동 이벤트 감지
-    moveToListButton.addEventListener('click',function(){
+    moveToListButton.addEventListener('click',function(event){
         console.log('moveToListButton click');
         
         if(confirm('목록으로 이동하시겠습니까?')===false) return;
@@ -99,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function(){
             return;
         }
 
-        if (isEmpty(addressInput.value)) {
+        if (isEmpty(roadAddressInput.value)) {
             alert('주소를 입력 하세요');
             addressInput.focus();
             return;
@@ -116,11 +118,11 @@ document.addEventListener('DOMContentLoaded', function(){
             asyn:"true",    //비동기
             dataType:"html",//서버에서 받을 데이터 타입
             data:{          //파라메터
+            	"tourNo":tourNoInput.value,
             	"name" : nameInput.value,
                 "subtitle" : subtitleInput.value,
                 "contents" : contentsInput.value,
                 "address" : fullAddress,
-                "image" : imageInput.value,
                 "tel" : telInput.value,
                 "time" : timeInput.value,
                 "holiday" : holidayInput.value,
@@ -152,30 +154,18 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 <body>
     <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
-
-	<a href="/ehr/festival/main.do"><img alt="로고이미지" src="${pageContext.request.contextPath}/resources/images/logo.png"></a>
+<div class="container">
+	<div class="logo-container">
+            <h1>떠나볼지도</h1>
+            <p>Get going</p>
+            <a href="/ehr/festival/main.do">
+                <img alt="로고이미지" src="${pageContext.request.contextPath}/resources/images/logo2.png">
+            </a>
+    </div>
 	<h4>관광지 상세 페이지 수정</h4>
-	<form action="/ehr/tour/doSave.do" method="post">
-		<div class="button-group">
-		    <input type="hidden" id="tourNo" value="${TourDTO.tourNo}">
-			<input type="button" id="doUpdate" value="수정"> 
-			<input type="button" id="moveToList" value="취소">
-		</div>
-
-		<div>
-			<input type="text" maxlength="9" name="regionSido" id="regionSido"
-				value="${TourDTO.region.regionSido }"> <input type="text"
-				maxlength="9" name="regionGugun" id="regionGugun"
-				value="${TourDTO.region.regionGugun }">
-		</div>
-		<hr>
-	
-		<div>
-			<label>사진</label> <label>상세 설명</label> <label>댓글</label>
-		</div>
+	<form action="doUpdate.do" method="post">		
 		<!-- form area -->
-		<div class="container">
-		<input type="hidden" name="tourNo" id="tourNo" value="<c:out value='${TourDTO.tourNo }'/>">
+		        <input type="hidden" name="tourNo" id="tourNo" value="<c:out value='${TourDTO.tourNo }'/>">
 	            <div>
 	                <label for="name">제목</label>
 	                <input type="text" id="name" name="name" value="${TourDTO.name }">
@@ -184,12 +174,12 @@ document.addEventListener('DOMContentLoaded', function(){
 	                <label for="subtitle">소제목</label>
 	                <input type="text" id="subtitle" name="subtitle" value="${TourDTO.subtitle }">
 	            </div>
+<!-- 	            <div> -->
+<%-- 	                <c:url var="imgUrl" value="${TourDTO.image.imageUrl}" />    --%>
+<%-- 	                <img src="${imgUrl}" alt="${TourDTO.name}" width="800" /> --%>
+<!-- 	            </div> -->
 	            <div>
-	                <c:url var="imgUrl" value="${TourDTO.image.imageUrl}" />   
-	                <img src="${imgUrl}" alt="${TourDTO.name}" width="800" />
-	            </div>
-	            <div>
-	                <label for="contents">내용</label>
+	                <label for="contents">상세 정보</label>
 	                <textarea class="contents" id="contents" name="contents">${TourDTO.contents }</textarea>
 	            </div>
 	            <div class="form-group form-inline">
@@ -202,10 +192,15 @@ document.addEventListener('DOMContentLoaded', function(){
 				    <input type="text" id="roadAddress" placeholder="도로명 주소" readonly><br/>
 				    <input type="text" id="detailAddress" placeholder="상세 주소 입력">
 				</div>
+				<div>
+                    <label for="tel">연락처</label>
+                    <textarea class="tel" id="tel" name="tel">${TourDTO.tel }</textarea>
+                </div>
 	            <div>
 	                <label for="time">운영시간</label>
 	                <textarea class="time" id="time" name="time">${TourDTO.time }</textarea>
 	            </div>
+	            
 	            <div>
 	                <label for="holiday">휴일</label>
 	                <textarea class="holiday" id="holiday" name="holiday">${TourDTO.holiday }</textarea>
@@ -214,9 +209,14 @@ document.addEventListener('DOMContentLoaded', function(){
 	            <div>
 	                <label for="fee">입장료</label>
 	                <textarea class="fee" id="fee" name="fee">${TourDTO.fee }</textarea>
-	            </div>	   
-		</div>
-    </form>
+	            </div>	
+	       </form>
+	    <div class="button-group">
+            <input type="hidden" id="tourNo" value="${TourDTO.tourNo}">
+            <input type="button" id="doUpdate" value="수정"> 
+            <input type="button" id="moveToList" value="취소">
+        </div>   
+</div>
 
 
 	<%-- <p>TourDTO: ${TourDTO}</p> --%>

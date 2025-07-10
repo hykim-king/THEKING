@@ -9,14 +9,21 @@
     pageContext.setAttribute("now", now);
 %>
 <c:set var="sysDate"><fmt:formatDate value="${now}" pattern="yyyy-MM-dd_HH:mm:ss" /></c:set> 
-
+<%
+    boolean isFavorite = (boolean)request.getAttribute("isFavorite");
+    int favoriteCount = (Integer)request.getAttribute("favoritesCount");
+%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>관광지 상세</title>
+<style>
+
+</style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <link rel="stylesheet" href="/ehr/resources/css/festival_mng.css">
+<link rel="stylesheet" href="/ehr/resources/css/comment.css">
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -85,6 +92,31 @@ document.addEventListener('DOMContentLoaded', function() {
             window.location.href = '/ehr/tour/doRetrieve.do';
         }
     });
+  //좋아요 버튼 
+    $('#likeBtn').on('click', function () {
+        const $btn = $(this);
+        const liked = $btn.data('liked');
+        const targetNo = $btn.data('tour-id');
+
+        $.ajax({
+          url: '/ehr/favorites/toggleTour.do',
+          method: 'POST',
+          data: { targetNo: targetNo },
+          success: function (res) {
+            if (res.success) {
+              const imgSrc = res.liked ? '${pageContext.request.contextPath}/resources/images/heart-on.png' : '${pageContext.request.contextPath}/resources/images/heart-off.png';
+              $btn.attr('src', imgSrc);
+              $btn.data('liked', res.liked);
+              $('#likeCount').text(res.count);
+            } else {
+              alert(res.message || "에러가 발생했습니다.");
+            }
+          },
+          error: function () {
+            alert('서버 통신 오류');
+          }
+        });
+      });
 });
 </script>
 </head>
@@ -92,14 +124,23 @@ document.addEventListener('DOMContentLoaded', function() {
 <body>
     <jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
 <div class="container"> 
+    <!-- 좋아요, 즐겨찾기 -->
+    <div style="float:right;">
+        <img 
+              id="likeBtn"
+              src="${pageContext.request.contextPath}/resources/images/<%= isFavorite ? "heart-on.png" : "heart-off.png" %>"
+              data-liked="<%= isFavorite %>"
+              data-tour-id="${TourDTO.tourNo }"
+              style="width: 24px; cursor: pointer;"
+            />
+    <span id="likeCount"><%= favoriteCount %></span>
+        <img style="width: 24px;" alt="조회수" src="${pageContext.request.contextPath}/resources/images/views.png">
+    <span>${TourDTO.views}</span>
+    </div>
+     <!-- //좋아요, 즐겨찾기 -->
     <h2>관광지 상세보기</h2>
 
-    <!-- 버튼 영역 -->
-    <div class="button-area">
-        <input type="hidden" id="tourNo" value="${TourDTO.tourNo}">
-        <input type="button" id="moveToList" value="목록">
-        <input type="button" id="moveToUpdate" value="수정"> 
-    </div>
+  
 
     <!-- 지역 -->
     <div>
@@ -164,9 +205,14 @@ document.addEventListener('DOMContentLoaded', function() {
             <h3>요금</h3>
             <p>${TourDTO.fee }</p>
         </div>
-
-
-    
+      <!-- 버튼 영역 -->
+    <c:if test="${sessionScope.loginUser.role =='admin'  }">
+	    <div class="btn-group">
+	        <input type="hidden" id="tourNo" value="${TourDTO.tourNo}">
+	        <input type="button" id="moveToList" value="목록">
+	        <input type="button" id="moveToUpdate" value="수정"> 
+	    </div>
+    </c:if>
     <!-- 댓글 입력 영역 -->
     <div class="comment-input-box">
         <div class="comment-input-wrapper">
