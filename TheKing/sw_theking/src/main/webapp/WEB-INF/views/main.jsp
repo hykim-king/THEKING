@@ -33,7 +33,6 @@
    </div>
   </div>
 </div>
-</div>
 <div class="festival-wrapper">
   <div class="festival-column">
   <h3>인기 축제</h3>
@@ -48,7 +47,17 @@
 <div class="notice-wrapper">
   <h3>공지사항</h3>
   <div class="notice">
-    
+    <c:forEach var="post" items="${posts}">
+          <div class="post">
+          <c:choose>
+              <c:when test="${post['div'] eq '20'}">
+                <a href="${pageContext.request.contextPath}/board/doSelectOne.do?div=20&seq=${post.seq}&regId=">
+                    ${post.title}
+                </a>
+              </c:when>
+            </c:choose>
+          </div>
+        </c:forEach>
   </div>
 </div>
 <jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
