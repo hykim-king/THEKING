@@ -102,8 +102,8 @@ public class UserController {
 		       return "user/loginDenied";
 		   }
 		 
-		List<BoardDTO> noticePosts = boardMapper.getNoticeListAll();
-	    List<BoardDTO> boardPosts = boardMapper.getBoardListAll(); 
+		List<BoardDTO> noticePosts = boardMapper.getNoticeListAll(loginUser.getUserId());
+	    List<BoardDTO> boardPosts = boardMapper.getBoardListAll(loginUser.getUserId()); 
 		List<FestivalDTO> favoriteFestivals = favoritesService.getFavoriteFestivals(loginUser.getUserId());
 	 	List<CommentDTO> userComments = commentService.getAllComments(loginUser.getUserId());
 	 	List<TourDTO> favoriteTours = favoritesService.getFavoriteTours(loginUser.getUserId());
@@ -297,28 +297,34 @@ public class UserController {
 		UserDTO loginUserId = new UserDTO();
 		loginUserId.setUserId(userId);
 		log.debug("userId 전달값 확인: {}", loginUserId);
+		
 		UserDTO loginUser = userService.doLogin(loginUserId);
+		if (loginUser == null) {
+		    MessageDTO failMessage = new MessageDTO(0, "회원 정보가 존재하지 않습니다.");
+		    return new Gson().toJson(failMessage); 
+		} 
+		
 		log.debug("입력된 password: '{}'", password);
 		log.debug("DB에서 가져온 password: '{}'", loginUser.getPassword());
-		String message = "";
+		
 		// 2.로그인 실패 시
-		if (loginUser == null || password == null || !password.equals(loginUser.getPassword())) {
+		if (password == null || !password.equals(loginUser.getPassword())) {
 			MessageDTO failMessage = new MessageDTO(0, "아이디 또는 비밀번호가 올바르지 않습니다.");
 		    return new Gson().toJson(failMessage);
-	    } else {  // 3.로그인 성공 시
-	    	int flag = 1;
-	    	// 유저 프로필 이미지 조회
-	    	ImageDTO profileImage = imageMapper.doSelectOneByTarget("user_tk", loginUser.getUserNo());
-	    	if (profileImage != null) {
-	    		loginUser.setProfileImage(profileImage); // UserDTO에 이미지 DTO 추가
-	    	}
+	    }   
+		// 3.로그인 성공 시
+    	int flag = 1;
+    	String message = "로그인 되었습니다.";
+    	
+    	// 유저 프로필 이미지 조회
+    	ImageDTO profileImage = imageMapper.doSelectOneByTarget("user_tk", loginUser.getUserNo());
+    	if (profileImage != null) {
+    		loginUser.setProfileImage(profileImage); // UserDTO에 이미지 DTO 추가
+    	}
 
-	    	message = "로그인 되었습니다.";
-	    	MessageDTO messageDTO = new MessageDTO(flag, message);
-			session.setAttribute("loginUser", loginUser);
-		    return new Gson().toJson(messageDTO);
-	    }		
-		
+    	MessageDTO messageDTO = new MessageDTO(flag, message);
+		session.setAttribute("loginUser", loginUser);
+	    return new Gson().toJson(messageDTO);	    		
 	}
 
 	// doUpdate
