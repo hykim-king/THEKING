@@ -173,10 +173,10 @@ document.addEventListener('DOMContentLoaded', function(){
 	                <label for="subtitle">소제목</label>
 	                <input type="text" id="subtitle" name="subtitle" value="${TourDTO.subtitle }">
 	            </div>
-<!-- 	            <div> -->
-<%-- 	                <c:url var="imgUrl" value="${TourDTO.image.imageUrl}" />    --%>
-<%-- 	                <img src="${imgUrl}" alt="${TourDTO.name}" width="800" /> --%>
-<!-- 	            </div> -->
+	            <div>
+	                <c:url var="imgUrl" value="${TourDTO.image.imageUrl}" />   
+	                <img src="${imgUrl}" alt="${TourDTO.name}" width="800" />
+	            </div>
 	            <div>
 	                <label for="contents">상세 정보*</label>
 	                <textarea class="contents" id="contents" name="contents">${TourDTO.contents }</textarea>
