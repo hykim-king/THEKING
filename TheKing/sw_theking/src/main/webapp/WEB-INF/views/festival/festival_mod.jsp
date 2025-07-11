@@ -160,11 +160,11 @@
         <input type="hidden" name="festaNo" id="festaNo" value="${dto.festaNo }">
             <div>
                 <label for="name">제목</label>
-                <input type="text" name="name" id="name" value="${dto.name }">
+                <input type="text" name="name" id="name" value="${dto.name }" maxlength="20">
             </div>
             <div>
                 <label for="subtitle">소제목</label>
-                <input type="text" name="subtitle" id="subtitle" value="${dto.subtitle }">
+                <input type="text" name="subtitle" id="subtitle" value="${dto.subtitle }" maxlength="50">
             </div>          
             <div>
                 <label>상세정보</label>
@@ -172,15 +172,15 @@
             </div>
             <div>
                 <label for="address">주소</label>
-                <input type="text" name="address" id="address" value="${dto.address }">
+                <input type="text" name="address" id="address" value="${dto.address }" maxlength="50">
             </div>
             <div>
                 <label for="tel">연락처</label>
-                <input type="text" name="tel" id="tel" value="${dto.tel }">
+                <input type="text" name="tel" id="tel" value="${dto.tel }" maxlength="15">
             </div>
             <div>
                 <label for="fee">입장료</label>
-                <input type="text" name="fee" id="fee" value="${dto.fee }">
+                <input type="text" name="fee" id="fee" value="${dto.fee }" maxlength="6">
             </div>
             <div>
                 <label for="regionNo">지역코드</label>
