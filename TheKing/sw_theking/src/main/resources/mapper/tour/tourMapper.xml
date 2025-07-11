@@ -156,7 +156,7 @@
     <!-- 조회 수 업데이트 -->
     <update id="viewsUpdate" parameterType="TourDTO">
 	UPDATE tour
-	SET views = #{views}+1
+	SET views = views+1
 	WHERE tour_no = #{tourNo}
     </update>
 

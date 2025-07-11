@@ -210,22 +210,23 @@ public class TourController {
 	public String doSelectOne(Model model, @RequestParam("tourNo") Integer tourNo,HttpSession session) throws SQLException {
 		// 동기 통신, GET
 		// 단 건 조회
-		String viewName = "tour/tour_mng";
 		log.debug("┌──────────────────────────────┐");
 		log.debug("│ *doSelectOne()*              │");
 		log.debug("└──────────────────────────────┘");
+		String viewName = "tour/tour_mng";
+		tourService.viewsUpdate(tourNo);
 		log.debug("tourNo:{}", tourNo);
 		
-		//로그인 확인
-		UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
-	    model.addAttribute("loginUser", loginUser);
 	    //이미지
 		List<ImageDTO> imageList = imageMapper.getImages(tourNo, "TOUR");
 		log.debug("imageList:{}", imageList);
 	    
-		tourService.viewsUpdate(tourNo);
 		boolean flag = false;
 
+//		//로그인 확인
+//		UserDTO loginUser = (UserDTO) session.getAttribute("loginUser");
+//		model.addAttribute("loginUser", loginUser);
+		
 		UserDTO user = (UserDTO) session.getAttribute("loginUser");
 		if (user != null) {
 
@@ -254,8 +255,8 @@ public class TourController {
 	    // 댓글 목록 조회
 	    List<CommentDTO> commentList = commentService.getCommentsByTarget(tourNo, "TOUR");
 	    
-	    model.addAttribute("imageList", imageList);
 	    model.addAttribute("list", commentList);		
+	    model.addAttribute("imageList", imageList);
 		model.addAttribute("TourDTO",outVO);
 		model.addAttribute("favoritesCount", favoritesMapper.getTourFavoriteCount(tourNo));
 		model.addAttribute("isFavorite", flag);
