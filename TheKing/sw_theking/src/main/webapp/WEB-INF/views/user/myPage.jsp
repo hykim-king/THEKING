@@ -84,25 +84,36 @@
     	<button onclick="document.getElementById('festival').scrollIntoView({ behavior: 'smooth' })">축제</button>
  	</div>
 
-    <div class="section" id="posts">
-      <h3>작성한 게시글</h3>
-      <div class="post">
-<%--         <c:forEach var="post" items="${posts}"> --%>
-<!--           <div class="post"> -->
-<%--           <c:choose> --%>
-<%--               <c:when test="${post.div == 10}"> --%>
-<%--                 <a href="${pageContext.request.contextPath}/tour/doSelectOne.do?div=10&seq=${post.seq}"> --%>
-<%--                     ${post.title} --%>
-<!--                 </a> -->
-<%--               </c:when> --%>
-<%--               <c:when test="${post.div == 20}"> --%>
-<%--                 <a href="${pageContext.request.contextPath}/tour/doSelectOne.do?div=20&seq=${post.seq}"> --%>
-<%--                     ${post.title} --%>
-<!--                 </a> -->
-<%--               </c:when> --%>
-<%--             </c:choose> --%>
-<!--           </div> -->
-<%--         </c:forEach> --%>
+    <c:choose>
+        <c:when test="${sessionScope.loginUser.role eq 'admin'}">
+            <div class="section" id="notices">
+			    <h3>공지사항</h3>
+			    <div class="post-list">
+			    <c:forEach var="post" items="${noticePosts}">
+			      <div class="post">
+			          <a href="${pageContext.request.contextPath}/board/doSelectOne.do?div=20&seq=${post.seq}">
+			              ${post.title}
+			          </a>
+			      </div>
+			    </c:forEach>
+			    </div>
+		    </div>
+          </c:when>
+      <c:otherwise>
+      </c:otherwise>
+    </c:choose>
+	
+	<div class="section" id="posts">
+		<h3>게시판 글</h3>
+		<div class="post-list">
+		<c:forEach var="post" items="${boardPosts}">
+		    <div class="post">
+		        <a href="${pageContext.request.contextPath}/board/doSelectOne.do?div=10&seq=${post.seq}">
+		            ${post.title}
+		        </a>
+		    </div>
+		</c:forEach>
+		</div>
     </div>
 
     <div class="section" id="comments">
@@ -137,8 +148,10 @@
       <div class="cards">
     	<c:forEach var="tour" items="${favoriteTours}">
       	<div class="card">
-        	<img src="${pageContext.request.contextPath}/resources/images/tour/${tour.image.saveName}" alt="${tour.name} 관광지 이미지" width="100" height="100" />
-        	<div class="card-name">${tour.name}</div>
+      	<a href="${pageContext.request.contextPath}/tour/doSelectOne.do?tourNo=${tour.tourNo}">
+        	<img src="${pageContext.request.contextPath}/${tour.image.imageUrl}" alt="${tour.name} 관광지 이미지" width="100" height="100" />
+        </a>
+        <div class="card-name">${tour.name}</div>
       	</div>
     	</c:forEach>
     	<c:if test="${empty favoriteTours}">

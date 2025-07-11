@@ -8,10 +8,84 @@
             read_cnt = NVL(read_cnt,0)+1
     WHERE seq = #{seq}
     AND reg_id != #{regId}
-</update>
+    </update>
 
+    <select id="getNoticeListAll" resultType="BoardDTO">
+        SELECT
+	        seq,
+	        title,
+	        div,
+	        contents,
+	        read_cnt,
+	        TO_CHAR(reg_dt, 'YYYY/MM/DD') AS regDt,
+	        reg_id AS regId,
+	        DECODE(TO_CHAR(SYSDATE, 'YYYYMMDD'), TO_CHAR(mod_dt, 'YYYYMMDD'),
+	               TO_CHAR(mod_dt, 'HH24:MI'), TO_CHAR(mod_dt, 'YYYY/MM/DD')) AS modDt,
+	        mod_id AS modId
+	    FROM board
+	    WHERE div = '20'
+	    ORDER BY mod_dt DESC
+    </select>
 
+    <select id="getBoardListAll" resultType="BoardDTO">
+        SELECT
+	        seq,
+	        title,
+	        div,
+	        contents,
+	        read_cnt,
+	        TO_CHAR(reg_dt, 'YYYY/MM/DD') AS regDt,
+	        reg_id AS regId,
+	        DECODE(TO_CHAR(SYSDATE, 'YYYYMMDD'), TO_CHAR(mod_dt, 'YYYYMMDD'),
+	               TO_CHAR(mod_dt, 'HH24:MI'), TO_CHAR(mod_dt, 'YYYY/MM/DD')) AS modDt,
+	        mod_id AS modId
+	    FROM board
+	    WHERE div = '10'
+	    ORDER BY mod_dt DESC
+    </select>
+    
+    <select id="getNoticeList" resultType="BoardDTO">
+	    SELECT *
+	    FROM (
+	        SELECT
+	            seq,
+	            title,
+	            div,
+	            contents,
+	            read_cnt,
+	            TO_CHAR(reg_dt, 'YYYY/MM/DD') AS regDt,
+	            reg_id AS regId,
+	            DECODE(TO_CHAR(SYSDATE, 'YYYYMMDD'), TO_CHAR(mod_dt, 'YYYYMMDD'),
+	                   TO_CHAR(mod_dt, 'HH24:MI'), TO_CHAR(mod_dt, 'YYYY/MM/DD')) AS modDt,
+	            mod_id AS modId
+	        FROM board
+	        WHERE div = '20'
+	        ORDER BY mod_dt DESC
+	    )
+	    <![CDATA[WHERE ROWNUM <= 5]]>
+	</select>
 
+    <select id="getBoardList" resultType="BoardDTO">
+        SELECT *
+        FROM (
+            SELECT
+                seq,
+                title,
+                div,
+                contents,
+                read_cnt,
+                TO_CHAR(reg_dt, 'YYYY/MM/DD') AS regDt,
+                reg_id AS regId,
+                DECODE(TO_CHAR(SYSDATE, 'YYYYMMDD'), TO_CHAR(mod_dt, 'YYYYMMDD'),
+                       TO_CHAR(mod_dt, 'HH24:MI'), TO_CHAR(mod_dt, 'YYYY/MM/DD')) AS modDt,
+                mod_id AS modId
+            FROM board
+            WHERE div = '10'
+            ORDER BY mod_dt DESC
+        )
+        <![CDATA[WHERE ROWNUM <= 5]]>
+    </select>
+    
     <insert id="doSaveAll">
         INSERT INTO BOARD
             SELECT BOARD_SEQ.NEXTVAL seq,

@@ -19,15 +19,33 @@ and target_no = #{targetNo}
 </select>
 
 <!-- 즐겨찾기한 관광지 목록 조회 -->
-<select id="getFavoriteTour" parameterType="string" resultType="TourDTO">
-    SELECT
-        t.*
-        i.image_url
+<select id="getFavoriteTour" parameterType="string" resultMap="tourWithImageMap">
+     SELECT
+        t.tour_no,
+        t.name,
+        t.subtitle,
+        t.contents,
+        t.views,
+        t.address,
+        t.holiday,
+        t.time,
+        t.tel,
+        t.fee,
+        t.region_no,
+
+        i.image_id       AS image_image_id,
+        i.save_name      AS image_save_name,
+        i.image_url      AS image_image_url,
+        i.table_name     AS image_table_name,
+        i.target_no      AS image_target_no,
+        i.image_name     AS image_image_name,
+        i.reg_date       AS image_reg_date
+
     FROM favorites f
     JOIN tour t ON f.target_no = t.tour_no
-    LEFT JOIN image i ON t.tour_no = i.target_no AND i.table_name = 'tour'
+    LEFT JOIN image i ON t.tour_no = i.target_no AND i.table_name = 'TOUR'
     WHERE f.user_id = #{userId}
-      AND f.table_name = 'tour'
+      AND f.table_name = 'TOUR'
 </select>
 
 <!-- 즐겨찾기한 축제 목록 조회 -->
@@ -123,7 +141,6 @@ and target_no = #{targetNo}
     <result property="regionNo" column="region_no"/>
     <result property="startDate" column="start_date"/>
     <result property="endDate" column="end_date"/>
-
     <association property="image" javaType="ImageDTO">
         <result property="imageId" column="image_image_id"/>
         <result property="targetNo" column="image_target_no"/>
@@ -134,4 +151,29 @@ and target_no = #{targetNo}
         <result property="regDate" column="image_reg_date"/>
     </association>
 </resultMap>
+
+<resultMap id="tourWithImageMap" type="TourDTO">
+    <id property="tourNo" column="tour_no" />
+    <result property="name" column="name" />
+    <result property="subtitle" column="subtitle" />
+    <result property="contents" column="contents" />
+    <result property="views" column="views" />
+    <result property="address" column="address" />
+    <result property="holiday" column="holiday" />
+    <result property="time" column="time" />
+    <result property="tel" column="tel" />
+    <result property="fee" column="fee" />
+    <result property="regionNo" column="region_no" />
+    <association property="image" javaType="ImageDTO">
+        <id property="imageId" column="image_image_id" />
+        <result property="imageId" column="image_image_id"/>
+        <result property="targetNo" column="image_target_no"/>
+        <result property="tableName" column="image_table_name"/>
+        <result property="imageName" column="image_image_name"/>
+        <result property="imageUrl" column="image_image_url"/>
+        <result property="saveName" column="image_save_name"/>
+        <result property="regDate" column="image_reg_date"/>
+    </association>
+</resultMap>
+
 </mapper>

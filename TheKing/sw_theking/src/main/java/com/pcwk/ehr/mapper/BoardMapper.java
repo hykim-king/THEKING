@@ -22,4 +22,12 @@ public interface BoardMapper extends WorkDiv<BoardDTO> {
 	 * @return
 	 */
 	int updateReadCnt(BoardDTO param);
+	
+	List<BoardDTO> getNoticeList();
+	
+	List<BoardDTO> getBoardList();
+	
+	List<BoardDTO> getNoticeListAll();
+	
+	List<BoardDTO> getBoardListAll();
 }

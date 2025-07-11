@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.pcwk.ehr.board.domain.BoardDTO;
+import com.pcwk.ehr.board.service.BoardService;
 import com.pcwk.ehr.cmn.FileUtil;
 import com.pcwk.ehr.cmn.MessageDTO;
 import com.pcwk.ehr.cmn.PcwkString;
@@ -31,9 +32,11 @@ import com.pcwk.ehr.comment.service.CommentService;
 import com.pcwk.ehr.favorites.service.FavoritesService;
 import com.pcwk.ehr.festival.domain.FestivalDTO;
 import com.pcwk.ehr.image.domain.ImageDTO;
+import com.pcwk.ehr.mapper.BoardMapper;
 import com.pcwk.ehr.mapper.ImageMapper;
 import com.pcwk.ehr.mapper.UserMapper;
 import com.pcwk.ehr.tour.domain.TourDTO;
+import com.pcwk.ehr.tour.service.TourService;
 import com.pcwk.ehr.user.domain.UserDTO;
 import com.pcwk.ehr.user.service.UserService;
 
@@ -56,6 +59,9 @@ public class UserController {
 	
 	@Autowired
 	private ImageMapper imageMapper;
+	
+	@Autowired
+	private BoardMapper boardMapper;
 	
 	public UserController() {
 		log.debug("┌─────────────────────────────────┐");
@@ -96,14 +102,21 @@ public class UserController {
 		       return "user/loginDenied";
 		   }
 		 
-			List<FestivalDTO> favoriteFestivals = favoritesService.getFavoriteFestivals(loginUser.getUserId());
-		 	List<CommentDTO> userComments = commentService.getAllComments(loginUser.getUserId());
-		    model.addAttribute("comments", userComments);
-		    model.addAttribute("favoriteFestivals", favoriteFestivals);
-		    // 사용자 정보 등도 모델에 넣기
-		    model.addAttribute("user", loginUser);
-		    
-		    return "user/myPage"; // JSP 경로
+		List<BoardDTO> noticePosts = boardMapper.getNoticeListAll();
+	    List<BoardDTO> boardPosts = boardMapper.getBoardListAll(); 
+		List<FestivalDTO> favoriteFestivals = favoritesService.getFavoriteFestivals(loginUser.getUserId());
+	 	List<CommentDTO> userComments = commentService.getAllComments(loginUser.getUserId());
+	 	List<TourDTO> favoriteTours = favoritesService.getFavoriteTours(loginUser.getUserId());
+	 	
+	 	model.addAttribute("noticePosts", noticePosts);
+	    model.addAttribute("boardPosts", boardPosts);
+	    model.addAttribute("comments", userComments);
+	    model.addAttribute("favoriteFestivals", favoriteFestivals);
+	    model.addAttribute("favoriteTours", favoriteTours);
+	    // 사용자 정보 등도 모델에 넣기
+	    model.addAttribute("user", loginUser);
+	    
+	    return "user/myPage"; // JSP 경로
 	}
 	
 	@PostMapping(value = "/updatePassword.do", produces = "application/json;charset=UTF-8")
