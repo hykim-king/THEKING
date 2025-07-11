@@ -27,7 +27,7 @@
 	    ORDER BY mod_dt DESC
     </select>
 
-    <select id="getBoardListAll" resultType="BoardDTO">
+    <select id="getBoardListAll" parameterType="string" resultType="BoardDTO">
         SELECT
 	        seq,
 	        title,
@@ -41,6 +41,7 @@
 	        mod_id AS modId
 	    FROM board
 	    WHERE div = '10'
+	      AND reg_id = #{userId}
 	    ORDER BY mod_dt DESC
     </select>
     

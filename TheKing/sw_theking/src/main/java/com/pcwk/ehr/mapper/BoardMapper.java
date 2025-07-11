@@ -27,7 +27,7 @@ public interface BoardMapper extends WorkDiv<BoardDTO> {
 	
 	List<BoardDTO> getBoardList();
 	
-	List<BoardDTO> getNoticeListAll();
+	List<BoardDTO> getNoticeListAll(String userId);
 	
-	List<BoardDTO> getBoardListAll();
+	List<BoardDTO> getBoardListAll(String userId);
 }
