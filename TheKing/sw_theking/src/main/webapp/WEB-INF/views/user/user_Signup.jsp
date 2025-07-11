@@ -24,19 +24,35 @@ function execDaumPostcode() {
         console.log("DOMContentLoaded");
         
         const profileFindBtn = document.getElementById('profileFindBtn');
-         const fileInput = document.getElementById('fileInput');
-         
+        const fileInput = document.getElementById('fileInput');
+        const previewContainer = document.getElementById('previewContainer');
+        
          profileFindBtn.addEventListener('click', function(event) {
                 fileInput.click();  // 숨겨진 input[type=file] 클릭 이벤트 발생
               });
          
-         fileInput.addEventListener('change', function(event) {
-                const files = event.target.files;
-                if (files.length > 0) {
-                  alert("선택한 파일: " + files[0].name);
-                  // 여기에 선택한 파일을 서버로 업로드하거나 처리하는 코드 작성 가능
-                }
-              });   
+         fileInput.addEventListener('change', function (event) {
+        	    const file = event.target.files[0];
+        	    if (file) {
+        	        const reader = new FileReader();
+        	        reader.onload = function (e) {
+        	            // 미리보기 이미지가 없으면 새로 생성
+        	            let previewImg = document.getElementById('previewImage');
+        	            if (!previewImg) {
+        	                previewImg = document.createElement('img');
+        	                previewImg.id = 'previewImage';
+        	                previewImg.style.width = '100px';
+        	                previewImg.style.height = '100px';
+        	                previewImg.style.objectFit = 'cover';
+        	                previewImg.style.borderRadius = '50%';
+        	                previewImg.style.marginTop = '10px';
+        	                previewContainer.appendChild(previewImg);
+        	            }
+        	            previewImg.src = e.target.result;
+        	        };
+        	        reader.readAsDataURL(file);
+        	    }
+        	});
          
         const userIdInput = document.querySelector("#userId");
         console.log(userIdInput);
@@ -241,13 +257,7 @@ function execDaumPostcode() {
         <div class="form-group">
             <div class="picture-wrapper">
                 <p>프로필 사진</p>
-                <c:choose>
-                  <c:when test="${not empty user.profileImage.saveName}">
-                    <img src="${pageContext.request.contextPath}/resources/images/user/${user.profileImage.saveName}" alt="프로필 이미지">
-                  </c:when>
-                  <c:otherwise>
-                  </c:otherwise>
-                </c:choose>
+                <div id="previewContainer"></div>
                 <button type="button" id="profileFindBtn">찾기</button><br>
             </div>
             <input type="file" id="fileInput" accept="image/*" name="imageFile" style="display:none" />
