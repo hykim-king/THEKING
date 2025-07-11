@@ -31,6 +31,48 @@ document.addEventListener('DOMContentLoaded', function() {
     function isEmpty(value) {
         return value == null || value.trim() === '';
     }
+    if('${sessionScope.loginUser.role  }'==='admin'){
+        const doDeleteButton = document.getElementById('doDelete');
+        
+        
+        //삭제 버튼
+        doDeleteButton.addEventListener('click',function(){
+                       
+            if (confirm('삭제 하시겠습니까?') === false)
+                return;
+        
+            //ajax 비동기 통신
+            $.ajax({
+                type : "POST", //GET/POST
+                url : "/ehr/tour/doDelete.do", //서버측 URL
+                asyn : "true", //비동기
+                dataType : "html",//서버에서 받을 데이터 타입
+                data : { //파라메터
+                    "tourNo" : '${TourDTO.tourNo}'
+                },
+                success : function(response) {//요청 성공
+                    console.log("success:" + response)
+                    //문자열 : javascript 객체
+                    const message = JSON.parse(response);
+                    //{"messageId":1,"message":"제목등록되었습니다.","no":0,"totalCnt":0,"pageSize":0,"pageNo":0}
+                    if (message.messageId === 1) { //등록 성공
+                        alert(message.message);
+        
+                        //목록 화면으로 이동
+                        window.location.href = '/ehr/tour/doRetrieve.do';
+                    } else {
+                        alert(message.message);
+                    }
+                },
+                error : function(response) {//요청 실패
+                    console.log("error:" + response)
+                }
+        
+            });
+        });
+        
+        }
+    
     //댓글용
     const tourNo = document.querySelector("#tourNo").value;
     const commentContentsInput = document.querySelector("#commentContents");
@@ -84,12 +126,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    const moveToListBtn = document.querySelector("#moveToList");
-    moveToListBtn.addEventListener('click', function() {
-        if (confirm('목록으로 이동합니다.')) {
-            window.location.href = '/ehr/tour/doRetrieve.do';
-        }
-    });
   //좋아요 버튼 
     $('#likeBtn').on('click', function () {
         const $btn = $(this);
@@ -148,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- 이미지 리스트 -->
           <div class="img-wrapper">
             <c:url var="imgUrl" value="${TourDTO.image.imageUrl}" />   
-            <img src="${imgUrl}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/images/defaultImage.jpg';">
+            <img src="${imgUrl}" onerror="this.onerror=null; this.src='${pageContext.request.contextPath}/resources/images/defaultImage.jpg';">         
          </div>
 
         <!-- 관광지 정보 -->
@@ -187,8 +223,8 @@ document.addEventListener('DOMContentLoaded', function() {
     <c:if test="${sessionScope.loginUser.role =='admin'  }">
 	    <div class="button-area">
 	        <input type="hidden" id="tourNo" value="${TourDTO.tourNo}">
-	        <input type="button" id="moveToList" value="목록">
 	        <input type="button" id="moveToUpdate" value="수정"> 
+	        <input type="button" id="doDelete" value="삭제"> 
 	    </div>
     </c:if>
     <!-- 댓글 입력 영역 -->

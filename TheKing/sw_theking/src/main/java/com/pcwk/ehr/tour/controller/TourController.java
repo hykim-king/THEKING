@@ -327,15 +327,25 @@ public class TourController {
 	        System.out.println("holiday = " + holiday);
 	        System.out.println("fee = " + fee);
 
-	        // 2. 이미지 파일 처리 (있는 경우)
+	        // 3. 이미지 파일 처리
 	        if (imageFile != null && !imageFile.isEmpty()) {
-	            System.out.println("이미지 파일명: " + imageFile.getOriginalFilename());
-	            // 예: 서버 경로에 저장 또는 DB 저장 로직 구현
-	            // String savePath = "/upload/images/";
-	            // File dest = new File(savePath + imageFile.getOriginalFilename());
-	            // imageFile.transferTo(dest);
-	        }
+	            log.debug("이미지 업로드 처리 시작");
 
+	            // 실제 저장 경로 (운영 시에는 외부 경로로 분리 권장)
+	            String uploadDir = "C:/Users/user/THEKING/TheKing/sw_theking/src/main/webapp/resources/images/tour";
+
+	            // 저장 및 UUID 파일명 생성
+	            String savedFilename = FileUtil.saveFileWithUUID(imageFile, uploadDir);
+
+	            ImageDTO imageDTO = new ImageDTO();
+	            imageDTO.setImageName(imageFile.getOriginalFilename());
+	            imageDTO.setImageUrl("/resources/images/tour/"+savedFilename); // 웹에서 접근 가능한 경로
+	            imageDTO.setSaveName(savedFilename);
+	            imageDTO.setTableName("TOUR"); // 연동 테이블명 지정
+	            imageDTO.setTargetNo(tour.getTourNo()); // 등록된 관광지 번호
+
+	            imageMapper.doSave(imageDTO);
+	        }
 	        // 3. DB 저장 로직 구현 (service 호출 등)
 
 	        result.put("messageId", 1);
