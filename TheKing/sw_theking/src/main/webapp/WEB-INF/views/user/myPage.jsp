@@ -91,7 +91,7 @@
 			    <div class="post-list">
 			    <c:forEach var="post" items="${noticePosts}">
 			      <div class="post">
-			          <a href="${pageContext.request.contextPath}/board/doSelectOne.do?div=20&seq=${post.seq}">
+			          <a href="${pageContext.request.contextPath}/board/doSelectOne.do?div=20&seq=${post.seq}&regId=">
 			              ${post.title}
 			          </a>
 			      </div>
@@ -108,7 +108,7 @@
 		<div class="post-list">
 		<c:forEach var="post" items="${boardPosts}">
 		    <div class="post">
-		        <a href="${pageContext.request.contextPath}/board/doSelectOne.do?div=10&seq=${post.seq}">
+		        <a href="${pageContext.request.contextPath}/board/doSelectOne.do?div=10&seq=${post.seq}&regId=">
 		            ${post.title}
 		        </a>
 		    </div>
