@@ -14,8 +14,8 @@
 <div class="carousel-wrapper">
 	<div class="carousel-track">
 	  <a href="/ehr/tour/doSelectOne.do?tourNo=602"><img src="/ehr/resources/images/tour/계양산_1_공공3유형.jpg" alt="이미지1"></a>
-	  <a href="/ehr/tour/doSelectOne.do?tourNo=204"><img src="/ehr/resources/images/tour/강화 전등사_1_공공1유형.jpg" alt="이미지2"></a>
-	  <a href="/ehr/tour/doSelectOne.do?tourNo=509"><img src="/ehr/resources/images/tour/고성 장산숲_1_공공3유형.JPG" alt="이미지3"></a>
+	  <a href="/ehr/tour/doSelectOne.do?tourNo=204"><img src="/ehr/resources/images/tour/강화_전등사_1_공공1유형.jpg" alt="이미지2"></a>
+	  <a href="/ehr/tour/doSelectOne.do?tourNo=509"><img src="/ehr/resources/images/tour/고성_장산숲_1_공공3유형.JPG" alt="이미지3"></a>
 	  <a href="/ehr/tour/doSelectOne.do?tourNo=650"><img src="/ehr/resources/images/tour/구름포해수욕장_1_공공3유형.jpg" alt="이미지4"></a>
 	  <a href="/ehr/tour/doSelectOne.do?tourNo=633"><img src="/ehr/resources/images/tour/국립수목원(광릉숲)_1_공공1유형.jpg" alt="이미지5"></a>
 	</div>
