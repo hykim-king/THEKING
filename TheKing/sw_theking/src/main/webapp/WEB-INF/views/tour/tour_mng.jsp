@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (res.messageId === 1) {
                     alert(res.message);
                     commentContentsInput.value = '';
-                    loadComments(tourNo);
+                    window.location.href='/ehr/tour/doSelectOne.do?tourNo='+tourNo;
                 } else {
                     alert(res.message);
                 }
@@ -119,12 +119,13 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+    if(moveToUpdateBtn){
     moveToUpdateBtn.addEventListener('click', function() {
         if (confirm('수정 페이지로 이동합니다.')) {
             window.location.href = '/ehr/tour/doUpdateView.do?tourNo=' + tourNo;
         }
     });
+    }
 
   //좋아요 버튼 
     $('#likeBtn').on('click', function () {
