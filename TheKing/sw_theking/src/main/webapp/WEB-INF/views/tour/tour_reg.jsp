@@ -162,11 +162,11 @@ document.addEventListener('DOMContentLoaded', function() {
 	    <input type="text" name="name" id="name" autocomplete="name" maxlength="200" required placeholder="제목" >
     </div>
     <div>
-        <label for="subtitle" >소제목</label>
+        <label for="subtitle" >소개</label>
         <input type="text" name="subtitle" id="subtitle" maxlength="20" required  placeholder="소제목">
     </div>
     <div>
-        <label for="contents" >내용*</label>
+        <label for="contents" >상세 정보*</label>
         <textarea id="contents" name="contents"  placeholder="내용" class="contents"></textarea>
     </div>
 	<div class="form-group form-inline">

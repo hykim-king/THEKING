@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		<!-- form area -->
 		        <input type="hidden" name="tourNo" id="tourNo" value="<c:out value='${TourDTO.tourNo }'/>">
 	            <div>
-	                <label for="name">제목</label>
+	                <label for="name">제목*</label>
 	                <input type="text" id="name" name="name" value="${TourDTO.name }">
 	            </div>
 	            <div>
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function(){
 <%-- 	                <img src="${imgUrl}" alt="${TourDTO.name}" width="800" /> --%>
 <!-- 	            </div> -->
 	            <div>
-	                <label for="contents">상세 정보</label>
+	                <label for="contents">상세 정보*</label>
 	                <textarea class="contents" id="contents" name="contents">${TourDTO.contents }</textarea>
 	            </div>
 	            <div class="form-group form-inline">
