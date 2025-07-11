@@ -28,4 +28,8 @@ public interface FavoritesMapper extends WorkDiv<FavoritesDTO>{
 	int getFestaFavoriteCount(int targetNo);
 	
 	int getTourFavoriteCount(int targetNo);
+	
+	List<TourDTO> getPopularTours();
+	
+	List<FestivalDTO> getPopularFestival();
 } 

@@ -85,7 +85,6 @@
 
 .t-sub-img {
   display: flex;
-  border-radius: 10px;
   width: 350px; 
   height: 230px;
   margin-top: 10px;
@@ -96,6 +95,12 @@
   display: flex;              /* 가로 정렬 */
   gap: 20px;                  /* 이미지 간 간격 */
   margin-top: 10px;
+}
+
+.t-sub-img img {
+  width: 350px; 
+  height: 230px;
+  border-radius: 10px;
 }
 
 .festival-wrapper {
@@ -122,14 +127,11 @@
 }
 
 .f-sub-img {
-  display: flex;
-  border-radius: 10px;
-  width: 300px; 
+  width: 300px;
   height: 420px;
-  margin-top: 10px;
   object-fit: cover;
+  border-radius: 10px;
 }
-
 .f-sub-img-row {
   display: flex;              /* 가로 정렬 */
   gap: 20px;                  /* 이미지 간 간격 */
