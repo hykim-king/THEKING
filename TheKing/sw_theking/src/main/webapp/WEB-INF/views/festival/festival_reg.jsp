@@ -27,11 +27,11 @@
         <form action="doSave.do" method="post" enctype="multipart/form-data">
             <div>
                 <label for="name">제목</label>
-                <input type="text" name="name" id="name">
+                <input type="text" name="name" id="name" maxlength="20">
             </div>
             <div>
                 <label for="subtitle">소제목</label>
-                <input type="text" name="subtitle" id="subtitle">
+                <input type="text" name="subtitle" id="subtitle" maxlength="50">
             </div>          
             <div>
                 <label>상세정보</label>
@@ -45,15 +45,15 @@
 
             <div>
                 <label for="address">주소</label>
-                <input type="text" name="address" id="address">
+                <input type="text" name="address" id="address" maxlength="50">
             </div>
             <div>
                 <label for="tel">연락처</label>
-                <input type="text" name="tel" id="tel">
+                <input type="text" name="tel" id="tel" maxlength="15">
             </div>
             <div>
                 <label for="fee">입장료</label>
-                <input type="text" name="fee" id="fee">
+                <input type="text" name="fee" id="fee" maxlength="6">
             </div>
             <div>
                 <label for="regionNo">지역코드</label>
