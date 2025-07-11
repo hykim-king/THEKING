@@ -90,7 +90,7 @@
         margin-top: 20px; 
         margin-bottom: 40px;  
 }
-#moveToList,
+#doDelete,
 #moveToUpdate{
         padding: 10px 30px;
         border: none;
@@ -100,7 +100,7 @@
         font-weight: bold;
         cursor: pointer;
 }
-#moveToList:hover,
+#doDelete:hover,
 #moveToUpdate:hover {
        background-color: #666;
     

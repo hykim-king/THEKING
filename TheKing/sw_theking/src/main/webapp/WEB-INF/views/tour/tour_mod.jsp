@@ -213,6 +213,7 @@ document.addEventListener('DOMContentLoaded', function(){
 	    <div id="modBtn" class="button-group">
             <input type="hidden" id="tourNo" value="${TourDTO.tourNo}">
             <input type="button" id="doUpdate" value="수정"> 
+            <button type="button" onclick="history.back()">취소</button>
             <input type="button" id="moveToList" value="취소">
         </div>   
 </div>
