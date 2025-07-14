@@ -16,8 +16,39 @@ THEKING
 |개발 |6/16~7/9 |DB 구축,Source Coding,단위/최종 테스트|
 |발표 |7/8~7/11 |7/11 일 최종 발표|
 
+## 📌 프로젝트 기능
++ 메인 페이지
+  - 인기 광광지 및 축제 정보 제공
+    
++ 회원기능
+  - 회원 가입, 로그인/로그아웃
+  - 마이 페이지 (회원정보 수정, 탈퇴, 비밀번호 변경)
+  - 즐겨찾기한 목록 조회
+  - 작성 게시글, 댓글 조회
+    
++ 관리자 기능
+  - 회원 정보 조회 및 삭제
+  - 축제/관광지 관리
+    
++ 축제/관광지 관리
+  - 축제/관광지 (등록, 수정, 삭제)
+  - 기간별 / 지역별 축제 조회
+    
++ 게시판 기능
+  - 사용자 게시판(작성/수정/삭제)
+  - 관리자 게시판(작성/수정/삭제)
+    
++ 댓글 및 즐겨찾기
+  - 댓글 작성/삭제
+  - 즐겨찾기 기능
+
 ✔️ WBS
 <img src = "https://github.com/hykim-king/THEKING/blob/main/doc/WBS.png">
 
 ## ✒️ ERD
 <img src = "https://github.com/hykim-king/THEKING/blob/main/doc/ERD.png">
+
+
+
+## 참고 사이트
+[대한민국 구석구석](https://korean.visitkorea.or.kr/main/main.do)
