@@ -1,5 +1,9 @@
-# THEKING
-THEKING
+# GGMAP (떠나볼지도)
+<div align="center">
+  <p><관광 정보 웹 사이트 제작 프로젝트></p>
+  <img src = "TheKing/sw_theking/src/main/webapp/resources/images/logo2.png">
+</div>
+
 
 ## 📚 프로젝트 개요 
 🫅팀구성 및 역할
@@ -15,6 +19,8 @@ THEKING
 |설계|6/2~6/18 |파일 및 화면서 작성,테이블 설계|
 |개발 |6/16~7/9 |DB 구축,Source Coding,단위/최종 테스트|
 |발표 |7/8~7/11 |7/11 일 최종 발표|
+✔️ WBS
+<img src = "https://github.com/hykim-king/THEKING/blob/main/doc/WBS.png">
 
 ## 📌 프로젝트 기능
 + 메인 페이지
@@ -42,8 +48,6 @@ THEKING
   - 댓글 작성/삭제
   - 즐겨찾기 기능
 
-✔️ WBS
-<img src = "https://github.com/hykim-king/THEKING/blob/main/doc/WBS.png">
 
 ## ✒️ ERD
 <img src = "https://github.com/hykim-king/THEKING/blob/main/doc/ERD.png">
