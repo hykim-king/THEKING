@@ -49,9 +49,71 @@
   - 댓글 작성/삭제
   - 즐겨찾기 기능
 
+## 기술 스택
+- FrontEnd  
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+- BackEnd
+![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+- DATABASE
+![Oracle](https://img.shields.io/badge/Oracle-F80000?style=for-the-badge&logo=oracle&logoColor=white)
+- TOOLS
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+![Slack](https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=slack&logoColor=white)
+![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white)
+- Browser  
+![Google Chrome](https://img.shields.io/badge/Google%20Chrome-4285F4?style=for-the-badge&logo=GoogleChrome&logoColor=white)
 
 ## ✒️ ERD
 <img src = "https://github.com/hykim-king/THEKING/blob/main/doc/ERD.png">
+
+## 결과 화면
+### 메인페이지
+![메인페이지](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/Main1.png)
+![메인페이지](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/Main2.png)
+![메인페이지](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/Main3.png)
+
+### 회원 가입
+![회원가입](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/SignUpPage.png)
+
+### 로그인
+![로그인](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/LoginPage.png)
+
+### 관광지 메인
+![관광지메인](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/TourMain.png)
+
+### 관광지 지도
+![관광지지도](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/TourMap.png)
+
+### 관광지 상세페이지
+![관광지 상세페이지](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/TourDetail1.png)
+![관광지 상세페이지](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/TourDetail2.png)
+
+### 관광지 등록
+![관광지 등록](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/TourSave.png)
+
+### 축제 메인
+![축제 메인](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/FestivalMain.png)
+
+### 축제 상세페이지
+![축제 상세페이지](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/FestivalDetail.png)
+
+### 축제 등록
+![축제 등록](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/FestivalSave.png)
+
+### 마이페이지
+![마이페이지](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/MyPage1.png)
+![마이페이지](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/MyPage2.png)
+
+### 정보 수정
+![정보 수정](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/UserUpdate.png)
+![비밀번호 변경](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/PasswordChange.png)
+
+### 회원 조회및 강퇴
+![회원 조회](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/UserSelect.png)
 
 
 
