@@ -112,7 +112,7 @@
 ![정보 수정](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/UserUpdate.png)
 ![비밀번호 변경](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/PasswordChange.png)
 
-### 회원 조회및 강퇴
+### 회원 조회 및 강퇴
 ![회원 조회](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/UserSelect.png)
 
 
