@@ -49,7 +49,7 @@
   - 댓글 작성/삭제
   - 즐겨찾기 기능
 
-## 기술 스택
+## 🛠️ 기술 스택
 - FrontEnd  
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
@@ -70,7 +70,7 @@
 ## ✒️ ERD
 <img src = "https://github.com/hykim-king/THEKING/blob/main/doc/ERD.png">
 
-## 결과 화면
+## 🖼️ 결과 화면
 ### 메인페이지
 ![메인페이지](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/Main1.png)
 ![메인페이지](https://github.com/hykim-king/THEKING/blob/main/doc/ScreenShot/Main2.png)
